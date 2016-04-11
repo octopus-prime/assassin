@@ -6,7 +6,6 @@
  */
 
 #include "hash.hpp"
-#include "piece.hpp"
 #include <random>
 #include <algorithm>
 

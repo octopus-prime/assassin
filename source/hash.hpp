@@ -7,7 +7,9 @@
 
 #pragma once
 
-#include <cstdint>
+#include "piece.hpp"
+#include "square.hpp"
+#include "castle.hpp"
 #include <array>
 
 namespace chess {
