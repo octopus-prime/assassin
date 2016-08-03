@@ -15,7 +15,7 @@ struct attacker<bishop_tag, color_tag>
 	static constexpr board_t
 	attack(const node_t& node, const board_t board) noexcept
 	{
-		const board4_t empty = make_board4(~node.board_occupy());
+		const board4_t empty = make_board4(~node.occupy());
 		const board4_t in = make_board4(board);
 		const board4_t out = left(in, empty) | right(in, empty);
 		return out[0] | out[1];

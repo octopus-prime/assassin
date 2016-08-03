@@ -8,39 +8,104 @@
 #include "node.hpp"
 #include <boost/test/unit_test.hpp>
 
-namespace test {
+namespace chess {
 
-BOOST_AUTO_TEST_SUITE(test_node)
+BOOST_AUTO_TEST_SUITE(test_node_occupy)
 
-using namespace chess;
+constexpr auto white = E1 | E4 | C2 | D4 | E6;
+constexpr auto black = E8 | F5 | C7;
+constexpr node_t node {white, black};
 
-BOOST_AUTO_TEST_CASE(occupy)
+BOOST_AUTO_TEST_CASE(test_white)
 {
-	const node_t node {E1 | E4 | C2 | D4 | E6, E8 | F5 | C7};
-
-	BOOST_CHECK_EQUAL(node.board_occupy(), E1 | E4 | C2 | D4 | E6 | E8 | F5 | C7);
-	BOOST_CHECK_EQUAL(node.board_occupy<white_tag>(), E1 | E4 | C2 | D4 | E6);
-	BOOST_CHECK_EQUAL(node.board_occupy<black_tag>(), E8 | F5 | C7);
+	BOOST_CHECK_EQUAL(node.occupy<white_tag>(), white);
 }
 
-BOOST_AUTO_TEST_CASE(king)
+BOOST_AUTO_TEST_CASE(test_black)
 {
-	const node_t node {E1, E8, 0, 0, 0, 0, {}, e1, e8};
-
-	BOOST_CHECK_EQUAL(node.square_king<white_tag>(), e1);
-	BOOST_CHECK_EQUAL(node.square_king<black_tag>(), e8);
-	BOOST_CHECK_EQUAL(node.board_piece<king_tag>(), E1 | E8);
-	BOOST_CHECK_EQUAL(node.board_piece<king_tag>() & node.board_occupy<white_tag>(), E1);
-	BOOST_CHECK_EQUAL(node.board_piece<king_tag>() & node.board_occupy<black_tag>(), E8);
+	BOOST_CHECK_EQUAL(node.occupy<black_tag>(), black);
 }
 
-BOOST_AUTO_TEST_CASE(rook)
+BOOST_AUTO_TEST_CASE(test_both)
 {
-	const node_t node {A1 | H1, A8 | H8, A1 | H1 | A8 | H8};
+	BOOST_CHECK_EQUAL(node.occupy(), white | black);
+}
 
-	BOOST_CHECK_EQUAL(node.board_piece<rook_tag>(), A1 | H1 | A8 | H8);
-	BOOST_CHECK_EQUAL(node.board_piece<rook_tag>() & node.board_occupy<white_tag>(), A1 | H1);
-	BOOST_CHECK_EQUAL(node.board_piece<rook_tag>() & node.board_occupy<black_tag>(), A8 | H8);
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_node_king)
+
+constexpr auto white = E1;
+constexpr auto black = E8;
+constexpr node_t node {white, black, 0, 0, 0, 0, {}, e1, e8};
+
+BOOST_AUTO_TEST_CASE(test_white)
+{
+	BOOST_CHECK_EQUAL(node.king<white_tag>(), e1);
+	const board_t occupy = node.occupy<white_tag, king_tag>();
+	BOOST_CHECK_EQUAL(occupy, white);
+}
+
+BOOST_AUTO_TEST_CASE(test_black)
+{
+	BOOST_CHECK_EQUAL(node.king<black_tag>(), e8);
+	const board_t occupy = node.occupy<black_tag, king_tag>();
+	BOOST_CHECK_EQUAL(occupy, black);
+}
+
+BOOST_AUTO_TEST_CASE(test_both)
+{
+	BOOST_CHECK_EQUAL(node.occupy<king_tag>(), white | black);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_node_rook)
+
+constexpr auto white = A1 | H1;
+constexpr auto black = A8 | H8;
+constexpr node_t node {white, black, white | black};
+
+BOOST_AUTO_TEST_CASE(test_white)
+{
+	const board_t occupy = node.occupy<white_tag, rook_tag>();
+	BOOST_CHECK_EQUAL(occupy, white);
+}
+
+BOOST_AUTO_TEST_CASE(test_black)
+{
+	const board_t occupy = node.occupy<black_tag, rook_tag>();
+	BOOST_CHECK_EQUAL(occupy, black);
+}
+
+BOOST_AUTO_TEST_CASE(test_both)
+{
+	BOOST_CHECK_EQUAL(node.occupy<rook_tag>(), white | black);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_node_bishop)
+
+constexpr auto white = C1 | F1;
+constexpr auto black = C8 | F8;
+constexpr node_t node {white, black, 0, white | black};
+
+BOOST_AUTO_TEST_CASE(test_white)
+{
+	const board_t occupy = node.occupy<white_tag, bishop_tag>();
+	BOOST_CHECK_EQUAL(occupy, white);
+}
+
+BOOST_AUTO_TEST_CASE(test_black)
+{
+	const board_t occupy = node.occupy<black_tag, bishop_tag>();
+	BOOST_CHECK_EQUAL(occupy, black);
+}
+
+BOOST_AUTO_TEST_CASE(test_both)
+{
+	BOOST_CHECK_EQUAL(node.occupy<bishop_tag>(), white | black);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

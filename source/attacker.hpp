@@ -20,7 +20,7 @@ struct masker<all_tag, color_tag>
 	static constexpr board_t
 	mask(const node_t& node) noexcept
 	{
-		return ~node.board_occupy<color_tag>();
+		return ~node.occupy<color_tag>();
 	}
 };
 
@@ -30,7 +30,7 @@ struct masker<passive_tag, color_tag>
 	static constexpr board_t
 	mask(const node_t& node) noexcept
 	{
-		return ~node.board_occupy();
+		return ~node.occupy();
 	}
 };
 
@@ -40,7 +40,7 @@ struct masker<active_tag, white_tag>
 	static constexpr board_t
 	mask(const node_t& node) noexcept
 	{
-		return node.board_occupy<black_tag>();
+		return node.occupy<black_tag>();
 	}
 };
 
@@ -50,7 +50,7 @@ struct masker<active_tag, black_tag>
 	static constexpr board_t
 	mask(const node_t& node) noexcept
 	{
-		return node.board_occupy<white_tag>();
+		return node.occupy<white_tag>();
 	}
 };
 

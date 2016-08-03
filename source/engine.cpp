@@ -127,7 +127,7 @@ private:
 	static board_t
 	occupy(const node_t& node)
 	{
-		return node.board_piece<piece_tag>() & node.board_occupy<color_tag>();
+		return node.occupy<piece_tag, color_tag>();
 	}
 
 	static board_t
@@ -143,7 +143,7 @@ struct generator<moves_tag, king_tag, color_tag>
 	static moves_t::iterator
 	generate(const node_t& node, moves_t::iterator moves)
 	{
-		const square_t from = node.square_king<color_tag>();
+		const square_t from = node.king<color_tag>();
 		for (const auto to : bsf(attack(node, from) & mask(node)))
 			*moves++ = move_t {from, to};
 		return moves;
@@ -165,7 +165,7 @@ private:
 	static constexpr board_t
 	occupy(const node_t& node) noexcept
 	{
-		return board_of(node.square_king<color_tag>());
+		return board_of(node.king<color_tag>());
 	}
 
 	static constexpr board_t
@@ -278,7 +278,7 @@ struct evaluator<attack_tag, color_tag...>
 	evaluate(const node_t& node) noexcept
 	{
 		typedef typename color_traits<color_tag...>::other other_tag;
-		return popcnt(node.board_attack<color_tag...>() & node.board_occupy<other_tag>());
+		return popcnt(node.attack<color_tag...>() & node.occupy<other_tag>());
 	}
 };
 
@@ -290,7 +290,7 @@ struct evaluator<defend_tag, color_tag...>
 	static constexpr int
 	evaluate(const node_t& node) noexcept
 	{
-		return popcnt(node.board_attack<color_tag...>() & node.board_occupy<color_tag...>());
+		return popcnt(node.attack<color_tag...>() & node.occupy<color_tag...>());
 	}
 };
 
@@ -303,7 +303,7 @@ struct evaluator<center_tag, color_tag...>
 	evaluate(const node_t& node) noexcept
 	{
 		constexpr board_t center = D4 | E4 | D5 | E5;
-		return popcnt(node.board_occupy<color_tag...>() & center);
+		return popcnt(node.occupy<color_tag...>() & center);
 	}
 };
 
@@ -334,8 +334,8 @@ int main()
 	using namespace chess;
 
 	node_t node {E1 | E4 | C2 | D4 | E6, E8 | F5 | C7, E6, D4, E4 | C7, C2 | F5, {}, e1, e8, black};
-	node.attack_w = attack_generator<active_tag>::generate<white_tag>(node);
-	node.attack_b = attack_generator<active_tag>::generate<black_tag>(node);
+	node.attack_white = attack_generator<active_tag>::generate<white_tag>(node);
+	node.attack_black = attack_generator<active_tag>::generate<black_tag>(node);
 //	const node_t node {E1 | E4 | C2 | D4 | E6, E8 | G6 | C7, E6, D4, E4 | C7, C2 | G6, {}, e1, e8, white};
 
 	const move_generator<all_tag> moves(node);
