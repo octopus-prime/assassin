@@ -4,21 +4,26 @@ project assassin
 	:
 		requirements
 		<include>source
-		<cxxflags>-std=c++14
-#		<cxxflags>-mavx2
-		<cxxflags>-msse4.1
 		<define>BOOST_ALL_DYN_LINK
 	;
 
+obj hash : source/hash.cpp ;
+obj move : source/move.cpp ;
+
 exe assassin
 	:
-		[ glob source/*.cpp ]
+		hash
+		move
+		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
 	;
 
 unit-test assassin-test
 	:
+		hash
+		move
 		[ glob test/*.cpp ]
+		[ glob test/attacker/*.cpp ]
 		/site-config//boost_unit_test_framework
 	;

@@ -9,11 +9,9 @@
 #include <boost/test/unit_test.hpp>
 #include <unordered_set>
 
-namespace test {
+namespace chess {
 
 BOOST_AUTO_TEST_SUITE(test_hash)
-
-using namespace chess;
 
 BOOST_AUTO_TEST_CASE(test_hash_disjoined)
 {

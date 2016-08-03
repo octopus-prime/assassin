@@ -8,7 +8,6 @@
 #include "square.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
-#include <array>
 
 namespace data = boost::unit_test::data;
 
@@ -16,7 +15,7 @@ namespace chess {
 
 BOOST_AUTO_TEST_SUITE(test_square)
 
-constexpr std::array<square_rank_t, 64> ranks
+constexpr std::initializer_list<square_rank_t> ranks
 {
 	0, 0, 0, 0, 0, 0, 0, 0,
 	1, 1, 1, 1, 1, 1, 1, 1,
@@ -28,7 +27,7 @@ constexpr std::array<square_rank_t, 64> ranks
 	7, 7, 7, 7, 7, 7, 7, 7
 };
 
-constexpr std::array<square_file_t, 64> files
+constexpr std::initializer_list<square_file_t> files
 {
 	0, 1, 2, 3, 4, 5, 6, 7,
 	0, 1, 2, 3, 4, 5, 6, 7,

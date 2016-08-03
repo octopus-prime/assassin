@@ -9,16 +9,24 @@
 
 #include "square.hpp"
 #include <cstdint>
+#include <bitset>
+#include <array>
+#include <iostream>
 #include <x86intrin.h>
+#include <boost/predef/hardware/simd.h>
+
+static_assert(BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX2_VERSION, "Minimum AVX2 required.");
+
+#include <immintrin.h>
 
 namespace chess {
 
 typedef std::uint64_t board_t;
 
 constexpr board_t
-board_of(const square_t square)
+board_of(const square_t square) noexcept
 {
-	return 1ULL << square;
+	return 1UL << square;
 }
 
 class bsf
@@ -27,22 +35,26 @@ public:
 	class iterator
 	{
 	public:
-		constexpr iterator(const board_t board)
+		constexpr
+		iterator(const board_t board) noexcept
 		:
 			_board(board)
 		{
 		}
 
-		constexpr void operator++() const
+		constexpr void
+		operator++() const noexcept
 		{
 		}
 
-		constexpr bool operator!=(const iterator) const
+		constexpr bool
+		operator!=(const iterator) const noexcept
 		{
-			return _board != 0ULL;
+			return _board != 0UL;
 		}
 
-		square_t operator*()
+		square_t
+		operator*() noexcept
 		{
 			const square_t square = __bsfq(_board);
 			_board ^= board_of(square);
@@ -53,20 +65,23 @@ public:
 		board_t _board;
 	};
 
-	constexpr bsf(const board_t board)
+	constexpr
+	bsf(const board_t board) noexcept
 	:
 		_board(board)
 	{
 	}
 
-	constexpr iterator begin() const
+	constexpr iterator
+	begin() const noexcept
 	{
 		return iterator(_board);
 	}
 
-	constexpr iterator end() const
+	constexpr iterator
+	end() const noexcept
 	{
-		return iterator(0ULL);
+		return iterator(0UL);
 	}
 
 private:
@@ -74,7 +89,7 @@ private:
 };
 
 inline size_t
-popcnt(const board_t board)
+popcnt(const board_t board) noexcept
 {
 	return __popcntq(board);
 }
@@ -106,7 +121,40 @@ enum board : board_t
 	R5 = R1 << 32,
 	R6 = R1 << 40,
 	R7 = R1 << 48,
-	R8 = R1 << 56
+	R8 = R1 << 56,
 };
+
+typedef __v4du board4_t;
+
+constexpr inline board4_t
+make_board4(const board_t board) noexcept
+{
+	return board4_t {board, board, board, board};
+}
+
+}
+
+namespace std {
+
+inline ostream&
+operator<<(ostream& stream, const bitset<64>& board)
+{
+	using namespace chess;
+	constexpr array<char, 2> pieces = {' ', '*'};
+	stream << endl << " abcdefgh" << endl;
+	for (square_t rank = 8; rank > 0; --rank)
+	{
+		stream << short(rank);
+		for (square_t file = 0; file < 8; ++file)
+		{
+			const square_t square = square_of(file, rank - 1);
+			const bool piece = board[square];
+			stream << pieces[piece];
+		}
+		stream << short(rank) << endl;
+	}
+	stream << " abcdefgh" << endl;
+	return stream;
+}
 
 }
