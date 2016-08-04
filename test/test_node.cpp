@@ -42,15 +42,19 @@ constexpr node_t node {white, black, 0, 0, 0, 0, {}, e1, e8};
 BOOST_AUTO_TEST_CASE(test_white)
 {
 	BOOST_CHECK_EQUAL(node.king<white_tag>(), e1);
-	const board_t occupy = node.occupy<white_tag, king_tag>();
-	BOOST_CHECK_EQUAL(occupy, white);
+	const board_t occupy1 = node.occupy<white_tag, king_tag>();
+	BOOST_CHECK_EQUAL(occupy1, white);
+	const board_t occupy2 = node.occupy<king_tag, white_tag>();
+	BOOST_CHECK_EQUAL(occupy2, white);
 }
 
 BOOST_AUTO_TEST_CASE(test_black)
 {
 	BOOST_CHECK_EQUAL(node.king<black_tag>(), e8);
-	const board_t occupy = node.occupy<black_tag, king_tag>();
-	BOOST_CHECK_EQUAL(occupy, black);
+	const board_t occupy1 = node.occupy<black_tag, king_tag>();
+	BOOST_CHECK_EQUAL(occupy1, black);
+	const board_t occupy2 = node.occupy<king_tag, black_tag>();
+	BOOST_CHECK_EQUAL(occupy2, black);
 }
 
 BOOST_AUTO_TEST_CASE(test_both)
@@ -68,14 +72,18 @@ constexpr node_t node {white, black, white | black};
 
 BOOST_AUTO_TEST_CASE(test_white)
 {
-	const board_t occupy = node.occupy<white_tag, rook_tag>();
-	BOOST_CHECK_EQUAL(occupy, white);
+	const board_t occupy1 = node.occupy<white_tag, rook_tag>();
+	BOOST_CHECK_EQUAL(occupy1, white);
+	const board_t occupy2 = node.occupy<rook_tag, white_tag>();
+	BOOST_CHECK_EQUAL(occupy2, white);
 }
 
 BOOST_AUTO_TEST_CASE(test_black)
 {
-	const board_t occupy = node.occupy<black_tag, rook_tag>();
-	BOOST_CHECK_EQUAL(occupy, black);
+	const board_t occupy1 = node.occupy<black_tag, rook_tag>();
+	BOOST_CHECK_EQUAL(occupy1, black);
+	const board_t occupy2 = node.occupy<rook_tag, black_tag>();
+	BOOST_CHECK_EQUAL(occupy2, black);
 }
 
 BOOST_AUTO_TEST_CASE(test_both)
@@ -93,19 +101,81 @@ constexpr node_t node {white, black, 0, white | black};
 
 BOOST_AUTO_TEST_CASE(test_white)
 {
-	const board_t occupy = node.occupy<white_tag, bishop_tag>();
-	BOOST_CHECK_EQUAL(occupy, white);
+	const board_t occupy1 = node.occupy<white_tag, bishop_tag>();
+	BOOST_CHECK_EQUAL(occupy1, white);
+	const board_t occupy2 = node.occupy<bishop_tag, white_tag>();
+	BOOST_CHECK_EQUAL(occupy2, white);
 }
 
 BOOST_AUTO_TEST_CASE(test_black)
 {
-	const board_t occupy = node.occupy<black_tag, bishop_tag>();
-	BOOST_CHECK_EQUAL(occupy, black);
+	const board_t occupy1 = node.occupy<black_tag, bishop_tag>();
+	BOOST_CHECK_EQUAL(occupy1, black);
+	const board_t occupy2 = node.occupy<bishop_tag, black_tag>();
+	BOOST_CHECK_EQUAL(occupy2, black);
 }
 
 BOOST_AUTO_TEST_CASE(test_both)
 {
 	BOOST_CHECK_EQUAL(node.occupy<bishop_tag>(), white | black);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_node_knight)
+
+constexpr auto white = B1 | G1;
+constexpr auto black = B8 | G8;
+constexpr node_t node {white, black, 0, 0, white | black};
+
+BOOST_AUTO_TEST_CASE(test_white)
+{
+	const board_t occupy1 = node.occupy<white_tag, knight_tag>();
+	BOOST_CHECK_EQUAL(occupy1, white);
+	const board_t occupy2 = node.occupy<knight_tag, white_tag>();
+	BOOST_CHECK_EQUAL(occupy2, white);
+}
+
+BOOST_AUTO_TEST_CASE(test_black)
+{
+	const board_t occupy1 = node.occupy<black_tag, knight_tag>();
+	BOOST_CHECK_EQUAL(occupy1, black);
+	const board_t occupy2 = node.occupy<knight_tag, black_tag>();
+	BOOST_CHECK_EQUAL(occupy2, black);
+}
+
+BOOST_AUTO_TEST_CASE(test_both)
+{
+	BOOST_CHECK_EQUAL(node.occupy<knight_tag>(), white | black);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_node_pawn)
+
+constexpr auto white = R2;
+constexpr auto black = R7;
+constexpr node_t node {white, black, 0, 0, 0, white | black};
+
+BOOST_AUTO_TEST_CASE(test_white)
+{
+	const board_t occupy1 = node.occupy<white_tag, pawn_tag>();
+	BOOST_CHECK_EQUAL(occupy1, white);
+	const board_t occupy2 = node.occupy<pawn_tag, white_tag>();
+	BOOST_CHECK_EQUAL(occupy2, white);
+}
+
+BOOST_AUTO_TEST_CASE(test_black)
+{
+	const board_t occupy1 = node.occupy<black_tag, pawn_tag>();
+	BOOST_CHECK_EQUAL(occupy1, black);
+	const board_t occupy2 = node.occupy<pawn_tag, black_tag>();
+	BOOST_CHECK_EQUAL(occupy2, black);
+}
+
+BOOST_AUTO_TEST_CASE(test_both)
+{
+	BOOST_CHECK_EQUAL(node.occupy<pawn_tag>(), white | black);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

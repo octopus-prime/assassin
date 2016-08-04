@@ -50,15 +50,9 @@ struct node_t
 	constexpr board_t occupy() const noexcept;
 
 	template <typename piece_or_color_tag1, typename piece_or_color_tag2>
-	constexpr board_t occupy() const noexcept
-	{
-		return occupy<piece_or_color_tag1>() & occupy<piece_or_color_tag2>();
-	}
+	constexpr board_t occupy() const noexcept;
 
-	constexpr board_t occupy() const noexcept
-	{
-		return occupy_white | occupy_black;
-	}
+	constexpr board_t occupy() const noexcept;
 
 	template <typename color_tag>
 	constexpr square_t king() const noexcept;
@@ -66,6 +60,40 @@ struct node_t
 	template <typename color_tag>
 	constexpr board_t attack() const noexcept;
 };
+
+template <>
+constexpr square_t
+node_t::king<white_tag>() const noexcept
+{
+	return king_white;
+}
+
+template <>
+constexpr square_t
+node_t::king<black_tag>() const noexcept
+{
+	return king_black;
+}
+
+template <>
+constexpr board_t
+node_t::attack<white_tag>() const noexcept
+{
+	return attack_white;
+}
+
+template <>
+constexpr board_t
+node_t::attack<black_tag>() const noexcept
+{
+	return attack_white;
+}
+
+constexpr board_t
+node_t::occupy() const noexcept
+{
+	return occupy_white | occupy_black;
+}
 
 template <>
 constexpr board_t
@@ -116,32 +144,39 @@ node_t::occupy<pawn_tag>() const noexcept
 	return occupy_pawn;
 }
 
-template <>
-constexpr square_t
-node_t::king<white_tag>() const noexcept
+template <typename piece_or_color_tag1, typename piece_or_color_tag2>
+constexpr board_t
+node_t::occupy() const noexcept
 {
-	return king_white;
-}
-
-template <>
-constexpr square_t
-node_t::king<black_tag>() const noexcept
-{
-	return king_black;
+	return occupy<piece_or_color_tag1>() & occupy<piece_or_color_tag2>();
 }
 
 template <>
 constexpr board_t
-node_t::attack<white_tag>() const noexcept
+node_t::occupy<white_tag, king_tag>() const noexcept
 {
-	return attack_white;
+	return board_of(king<white_tag>());
 }
 
 template <>
 constexpr board_t
-node_t::attack<black_tag>() const noexcept
+node_t::occupy<black_tag, king_tag>() const noexcept
 {
-	return attack_white;
+	return board_of(king<black_tag>());
+}
+
+template <>
+constexpr board_t
+node_t::occupy<king_tag, white_tag>() const noexcept
+{
+	return board_of(king<white_tag>());
+}
+
+template <>
+constexpr board_t
+node_t::occupy<king_tag, black_tag>() const noexcept
+{
+	return board_of(king<black_tag>());
 }
 
 }
