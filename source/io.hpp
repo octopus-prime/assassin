@@ -9,6 +9,7 @@
 
 #include "board.hpp"
 #include "move.hpp"
+#include "node.hpp"
 #include <bitset>
 #include <iostream>
 
@@ -23,5 +24,8 @@ operator<<(ostream& stream, const bitset<64>& board);
 
 ostream&
 operator<<(ostream& stream, const chess::move_t& move);
+
+ostream&
+operator<<(ostream& stream, const chess::node_t& node);
 
 }
