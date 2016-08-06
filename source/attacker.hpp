@@ -63,6 +63,7 @@ struct masker<active_tag, black_tag>
 #include "attacker/attacker_bishop.hpp"
 #include "attacker/attacker_knight.hpp"
 #include "attacker/attacker_pawn.hpp"
+#include "attacker/attacker_sliding.hpp"
 /*
 template <typename moves_tag, typename piece_tag, typename color_tag>
 struct attacker;
