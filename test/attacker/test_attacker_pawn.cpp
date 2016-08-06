@@ -6,6 +6,7 @@
  */
 
 #include "attacker.hpp"
+#include "io.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
 

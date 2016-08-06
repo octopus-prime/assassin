@@ -9,9 +9,6 @@
 
 #include "square.hpp"
 #include <cstdint>
-#include <bitset>
-#include <array>
-#include <iostream>
 #include <x86intrin.h>
 #include <boost/predef/hardware/simd.h>
 
@@ -130,31 +127,6 @@ constexpr inline board4_t
 make_board4(const board_t board) noexcept
 {
 	return board4_t {board, board, board, board};
-}
-
-}
-
-namespace std {
-
-inline ostream&
-operator<<(ostream& stream, const bitset<64>& board)
-{
-	using namespace chess;
-	constexpr array<char, 2> pieces = {' ', '*'};
-	stream << endl << " abcdefgh" << endl;
-	for (square_t rank = 8; rank > 0; --rank)
-	{
-		stream << short(rank);
-		for (square_t file = 0; file < 8; ++file)
-		{
-			const square_t square = square_of(file, rank - 1);
-			const bool piece = board[square];
-			stream << pieces[piece];
-		}
-		stream << short(rank) << endl;
-	}
-	stream << " abcdefgh" << endl;
-	return stream;
 }
 
 }

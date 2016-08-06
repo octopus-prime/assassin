@@ -9,7 +9,6 @@
 
 #include "square.hpp"
 #include <array>
-#include <iostream>
 
 namespace chess {
 
@@ -20,8 +19,5 @@ struct move_t
 };
 
 typedef std::array<move_t, 100> moves_t;
-
-std::ostream&
-operator<<(std::ostream& stream, const move_t& move);
 
 }

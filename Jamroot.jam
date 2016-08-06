@@ -8,12 +8,12 @@ project assassin
 	;
 
 obj hash : source/hash.cpp ;
-obj move : source/move.cpp ;
+obj io : source/io.cpp ;
 
 exe assassin
 	:
 		hash
-		move
+		io
 		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
@@ -22,7 +22,7 @@ exe assassin
 unit-test assassin-test
 	:
 		hash
-		move
+		io
 		[ glob test/*.cpp ]
 		[ glob test/attacker/*.cpp ]
 		/site-config//boost_unit_test_framework

@@ -7,12 +7,14 @@
 
 //#define __AVX2__ 1
 
+#include <io.hpp>
 #include "board.hpp"
 #include "color.hpp"
 #include "move.hpp"
 #include "node.hpp"
 #include "attacker.hpp"
 #include "generator.hpp"
+#include "io.hpp"
 #include <algorithm>
 
 namespace chess {
