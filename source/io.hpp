@@ -28,4 +28,7 @@ operator<<(ostream& stream, const chess::move_t& move);
 ostream&
 operator<<(ostream& stream, const chess::node_t& node);
 
+istream&
+operator>>(istream& stream, chess::node_t& node);
+
 }
