@@ -106,44 +106,47 @@ struct attack_tag;
 struct defend_tag;
 struct center_tag;
 
-template <typename feature_tag, typename... color_tag>
+template <typename feature_tag>
 struct evaluator;
 
-template <typename... color_tag>
-struct evaluator<attack_tag, color_tag...>
+template <>
+struct evaluator<attack_tag>
 {
 	static constexpr int weight = 5;
 
+	template <typename color_tag>
 	static constexpr int
 	evaluate(const node_t& node) noexcept
 	{
-		typedef typename color_traits<color_tag...>::other other_tag;
-		return popcnt(node.attack<color_tag...>() & node.occupy<other_tag>());
+		typedef typename color_traits<color_tag>::other other_tag;
+		return popcnt(node.attack<color_tag>() & node.occupy<other_tag>());
 	}
 };
 
-template <typename... color_tag>
-struct evaluator<defend_tag, color_tag...>
+template <>
+struct evaluator<defend_tag>
 {
 	static constexpr int weight = 4;
 
+	template <typename color_tag>
 	static constexpr int
 	evaluate(const node_t& node) noexcept
 	{
-		return popcnt(node.attack<color_tag...>() & node.occupy<color_tag...>());
+		return popcnt(node.attack<color_tag>() & node.occupy<color_tag>());
 	}
 };
 
-template <typename... color_tag>
-struct evaluator<center_tag, color_tag...>
+template <>
+struct evaluator<center_tag>
 {
 	static constexpr int weight = 10;
 
+	template <typename color_tag>
 	static constexpr int
 	evaluate(const node_t& node) noexcept
 	{
 		constexpr board_t center = D4 | E4 | D5 | E5;
-		return popcnt(node.occupy<color_tag...>() & center);
+		return popcnt(node.occupy<color_tag>() & center);
 	}
 };
 
@@ -151,8 +154,8 @@ template <typename feature_tag>
 constexpr int
 evaluate(const node_t& node) noexcept
 {
-	const int white = evaluator<feature_tag, white_tag>::evaluate(node);
-	const int black = evaluator<feature_tag, black_tag>::evaluate(node);
+	const int white = evaluator<feature_tag>::template evaluate<white_tag>(node);
+	const int black = evaluator<feature_tag>::template evaluate<black_tag>(node);
 	const int weight = evaluator<feature_tag>::weight;
 	return (white - black) * weight;
 }
@@ -178,7 +181,7 @@ int main()
 	node.attack_black = attack_generator::generate<black_tag>(node);
 //	const node_t node {E1 | E4 | C2 | D4 | E6, E8 | G6 | C7, E6, D4, E4 | C7, C2 | G6, {}, e1, e8, white};
 
-	const move_generator<all_tag> moves(node);
+	const move_generator<active_tag> moves(node);
 	std::cout << moves.size() << std::endl;
 	for (const auto move : moves)
 		std::cout << move << std::endl;
