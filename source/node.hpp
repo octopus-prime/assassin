@@ -23,6 +23,7 @@ struct rook_tag;
 struct bishop_tag;
 struct knight_tag;
 struct pawn_tag;
+struct sliding_tag;
 
 struct all_tag;
 struct active_tag;
