@@ -11,6 +11,7 @@
 #include "color.hpp"
 #include "board.hpp"
 #include "hash.hpp"
+#include "score.hpp"
 #include <array>
 
 namespace chess {
@@ -43,6 +44,8 @@ struct node_t
 	color_t color;
 	board_t attack_white;
 	board_t attack_black;
+	hash_t hash;
+	score_t score;
 
 //	template <typename piece_tag>
 //	constexpr board_t board_piece() const noexcept;
