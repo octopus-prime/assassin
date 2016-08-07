@@ -9,6 +9,7 @@
 #include "io.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
+#include <boost/format.hpp>
 #include <memory>
 
 namespace data = boost::unit_test::data;
@@ -47,110 +48,106 @@ BOOST_DATA_TEST_CASE(test, fens, fen)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(test_legal)
+BOOST_AUTO_TEST_SUITE(test_color)
+
+const std::initializer_list<std::string> fens {"w", "b"};
+const std::initializer_list<color_t> colors {white,	black};
+
+BOOST_DATA_TEST_CASE(test, fens ^ colors, fen, color)
+{
+	boost::format format("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR %s - - 0 1");
+	std::unique_ptr<node_t> node;
+	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>((format % fen).str()));
+	BOOST_CHECK_EQUAL(node->color(), color);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_castle)
 
 const std::initializer_list<std::string> fens
 {
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - e3 0 1",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - d6 0 1",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - - 17 53",
-	"rnbqkbn1/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 17 53",
-	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBN1 b - - 17 53",
-};
-
-const std::initializer_list<color_t> colors
-{
-	white,
-	black,
-	white,
-	black,
-	white,
-	black,
-	white,
-	black
+	"-",
+	"KQkq",
+	"KQk",
+	"KQq",
+	"KQ",
+	"Kkq",
+	"Kk",
+	"Kq",
+	"K",
+	"Qkq",
+	"Qk",
+	"Qq",
+	"Q",
+	"kq",
+	"k",
+	"q"
 };
 
 const std::initializer_list<castle_t> castles
 {
+	0,
 	white_castle | black_castle,
-	white_castle | black_castle,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0
+	white_castle | black_castle_king,
+	white_castle | black_castle_queen,
+	white_castle,
+	white_castle_king | black_castle,
+	white_castle_king | black_castle_king,
+	white_castle_king | black_castle_queen,
+	white_castle_king,
+	white_castle_queen | black_castle,
+	white_castle_queen | black_castle_king,
+	white_castle_queen | black_castle_queen,
+	white_castle_queen,
+	black_castle,
+	black_castle_king,
+	black_castle_queen
 };
 
-const std::initializer_list<square_t> squares
+BOOST_DATA_TEST_CASE(test, fens ^ castles, fen, castle)
 {
-	0,
-	0,
-	0,
-	e3,
-	d6,
-	0,
-	0,
-	0
-};
-
-const std::initializer_list<std::uint8_t> halfs
-{
-	0,
-	0,
-	0,
-	0,
-	0,
-	17,
-	17,
-	17
-};
-
-const std::initializer_list<std::uint8_t> fulls
-{
-	1,
-	1,
-	1,
-	1,
-	1,
-	53,
-	53,
-	53
-};
-
-const std::initializer_list<score_t> scores
-{
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	+500,
-	-500
-};
-
-/*
-const std::initializer_list<board_t> boards
-{
-	(R8 | R7 | R6) & ~(A8 | H8),
-	(R8 | R7 | R6) & ~(A8 | H8)
-};
-*/
-BOOST_DATA_TEST_CASE(test, fens ^ colors ^ castles ^ squares ^ halfs ^ fulls ^ scores, fen, color, castle, square, half, full, score)
-{
+	boost::format format("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w %s - 0 1");
 	std::unique_ptr<node_t> node;
-	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>(fen));
-	BOOST_CHECK(node->parent() == nullptr);
-	BOOST_CHECK_EQUAL(node->color(), color);
+	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>((format % fen).str()));
 	BOOST_CHECK_EQUAL(node->castle(), castle);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_en_passent)
+
+const std::initializer_list<std::string> fens
+{
+	"a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
+	"a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"
+};
+
+const std::initializer_list<color_t> squares
+{
+	a3, b3, c3, d3, e3, f3, g3, h3,
+	a6, b6, c6, d6, e6, f6, g6, h6
+};
+
+BOOST_DATA_TEST_CASE(test, fens ^ squares, fen, square)
+{
+	boost::format format("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - %s 0 1");
+	std::unique_ptr<node_t> node;
+	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>((format % fen).str()));
 	BOOST_CHECK_EQUAL(node->en_passant(), square);
-	BOOST_CHECK_EQUAL(node->half_moves(), half);
-	BOOST_CHECK_EQUAL(node->full_moves(), full);
-	BOOST_CHECK_EQUAL(node->score(), score);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_count)
+
+BOOST_DATA_TEST_CASE(test, data::xrange(1, 9), count)
+{
+	boost::format format("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - %u %u");
+	std::unique_ptr<node_t> node;
+	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>((format % count % count).str()));
+	BOOST_CHECK_EQUAL(node->half_moves(), count);
+	BOOST_CHECK_EQUAL(node->full_moves(), count);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
