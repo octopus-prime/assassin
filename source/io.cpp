@@ -65,10 +65,13 @@ operator<<(ostream& stream, const node_t& node)
 	}
 	stream << " abcdefgh" << endl;
 	stream << "Color = " << node.color() << endl;
-//	stream << "EnPassant = ";
-//	stream << char('a' + file_of(node.square_en_passant()));
-//	stream << char('1' + rank_of(node.square_en_passant()));
-//	stream << endl;
+	stream << "EnPassant = ";
+	if (node.en_passant())
+	{
+		stream << char('a' + file_of(node.en_passant()));
+		stream << char('1' + rank_of(node.en_passant()));
+	}
+	stream << endl;
 	return stream;
 }
 

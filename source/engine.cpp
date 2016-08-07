@@ -124,6 +124,8 @@ int main()
 {
 	using namespace chess;
 
+	std::cout << sizeof(node_t) << std::endl;
+
 	const node_t node("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w");
 	std::cout << node << std::endl;
 
