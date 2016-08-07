@@ -9,11 +9,13 @@ project assassin
 
 obj hash : source/hash.cpp ;
 obj io : source/io.cpp ;
+obj node_creator : source/node_creator.cpp ;
 
 exe assassin
 	:
 		hash
 		io
+		node_creator
 		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
@@ -23,6 +25,7 @@ unit-test assassin-test
 	:
 		hash
 		io
+		node_creator
 		[ glob test/*.cpp ]
 		[ glob test/attacker/*.cpp ]
 		/site-config//boost_unit_test_framework

@@ -54,7 +54,7 @@ protected:
 	static moves_t::iterator
 	generate(const node_t& node, moves_t::iterator moves)
 	{
-		return node.color == white
+		return node.color() == white
 			? generate<white_tag>(node, moves)
 			: generate<black_tag>(node, moves);
 	}
@@ -63,11 +63,11 @@ protected:
 	static moves_t::iterator
 	generate(const node_t& node, moves_t::iterator moves)
 	{
-		moves = generator<king_tag, color_tag>::template generate<moves_tag>(node, moves);
-		moves = generator<rook_tag, color_tag>::template generate<moves_tag>(node, moves);
-		moves = generator<bishop_tag, color_tag>::template generate<moves_tag>(node, moves);
-		moves = generator<knight_tag, color_tag>::template generate<moves_tag>(node, moves);
-		moves = generator<pawn_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<king_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<rook_queen_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<bishop_queen_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<knight_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<pawn_tag, color_tag>::template generate<moves_tag>(node, moves);
 		return moves;
 	}
 
@@ -91,12 +91,26 @@ struct color_traits<black_tag>
 	typedef white_tag other;
 };
 
+struct mobility_tag;
 struct attack_tag;
 struct defend_tag;
 struct center_tag;
 
 template <typename feature_tag>
 struct evaluator;
+
+template <>
+struct evaluator<mobility_tag>
+{
+	static constexpr score_t weight = 2;
+
+	template <typename color_tag>
+	static constexpr score_t
+	evaluate(const node_t& node) noexcept
+	{
+		return popcnt(node.attack<color_tag>());
+	}
+};
 
 template <>
 struct evaluator<attack_tag>
@@ -150,9 +164,10 @@ evaluate(const node_t& node) noexcept
 }
 
 constexpr score_t
-evaluate(const node_t& node) noexcept // todo: what's broken??
+evaluate(const node_t& node) noexcept
 {
-	score_t score = node.score;
+	score_t score = node.score();
+	score += evaluate<mobility_tag>(node);
 	score += evaluate<attack_tag>(node);
 	score += evaluate<defend_tag>(node);
 	score += evaluate<center_tag>(node);
@@ -165,17 +180,7 @@ int main()
 {
 	using namespace chess;
 
-//	node_t node {E1 | E4 | C2 | D4 | E6, E8 | F5 | C7, E6, D4, E4 | C7, C2 | F5, {}, e1, e8, black};
-//	node.attack_white = attack_generator::generate<white_tag>(node);
-//	node.attack_black = attack_generator::generate<black_tag>(node);
-////	const node_t node {E1 | E4 | C2 | D4 | E6, E8 | G6 | C7, E6, D4, E4 | C7, C2 | G6, {}, e1, e8, white};
-
-	node_t node;
-	memset(&node, 0, sizeof(node_t));
-	node.color = white;
-	std::istringstream fen("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR");
-	fen >> node;
-
+	const node_t node("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w");
 	std::cout << node << std::endl;
 
 	const move_generator<all_tag> moves(node);
@@ -183,8 +188,8 @@ int main()
 	for (const auto move : moves)
 		std::cout << move << std::endl;
 
-	std::cout << std::bitset<64>(node.attack_white) << std::endl;
-	std::cout << std::bitset<64>(node.attack_black) << std::endl;
+	std::cout << std::bitset<64>(node.attack<white_tag>()) << std::endl;
+	std::cout << std::bitset<64>(node.attack<black_tag>()) << std::endl;
 
 	std::cout << evaluate(node) << std::endl;
 

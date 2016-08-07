@@ -7,8 +7,10 @@
 
 #include "attacker.hpp"
 #include "io.hpp"
+#include "generator.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
+#include <sstream>
 
 namespace data = boost::unit_test::data;
 
@@ -57,18 +59,26 @@ constexpr std::initializer_list<board_t> expectations
 
 BOOST_DATA_TEST_CASE(test_white, boards ^ occupies ^ expectations, board, occupy, expectation)
 {
-	const node_t node {occupy, occupy};
-	const board_t attack = attacker<bishop_tag, white_tag>::attack(node, board);
+	const board_t attack = detail::attacker<bishop_queen_tag, white_tag>::attack(board, occupy);
 	BOOST_CHECK_EQUAL(std::bitset<64>(attack), std::bitset<64>(expectation));
 }
 
 BOOST_DATA_TEST_CASE(test_black, boards ^ occupies ^ expectations, board, occupy, expectation)
 {
-	const node_t node {occupy, occupy};
-	const board_t attack = attacker<bishop_tag, black_tag>::attack(node, board);
+	const board_t attack = detail::attacker<bishop_queen_tag, black_tag>::attack(board, occupy);
 	BOOST_CHECK_EQUAL(std::bitset<64>(attack), std::bitset<64>(expectation));
 }
+/*
+BOOST_AUTO_TEST_CASE(test_foo)
+{
+	node_t node;
+	std::istringstream("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR") >> node;
 
+	const board_t attack = generator<bishop_tag, white_tag>::generate(node);
+	const board_t expectation = B2 | C2 | D2 | E2 | G2 | A6 | B5 | C4 | D3 | F3 | G4 | H5;
+	BOOST_CHECK_EQUAL(std::bitset<64>(attack), std::bitset<64>(expectation));
+}
+*/
 BOOST_AUTO_TEST_SUITE_END()
 
 }

@@ -36,15 +36,13 @@ constexpr std::initializer_list<board_t> expectations
 
 BOOST_DATA_TEST_CASE(test_white, boards ^ expectations, board, expectation)
 {
-	constexpr node_t node {};
-	const board_t attack = attacker<king_tag, white_tag>::attack(node, board);
+	const board_t attack = detail::attacker<king_tag, white_tag>::attack(board);
 	BOOST_CHECK_EQUAL(std::bitset<64>(attack), std::bitset<64>(expectation));
 }
 
 BOOST_DATA_TEST_CASE(test_black, boards ^ expectations, board, expectation)
 {
-	constexpr node_t node {};
-	const board_t attack = attacker<king_tag, black_tag>::attack(node, board);
+	const board_t attack = detail::attacker<king_tag, black_tag>::attack(board);
 	BOOST_CHECK_EQUAL(std::bitset<64>(attack), std::bitset<64>(expectation));
 }
 

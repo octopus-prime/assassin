@@ -10,7 +10,7 @@
 namespace chess {
 
 template <typename color_tag>
-struct attacker<bishop_tag, color_tag>
+struct attacker<bishop_queen_tag, color_tag>
 {
 	static constexpr board_t
 	attack(const node_t& node, const board_t board) noexcept

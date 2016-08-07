@@ -9,6 +9,7 @@
 #include "hash.hpp"
 #include "generator.hpp"
 #include <array>
+/*
 #include <unordered_map>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
@@ -43,7 +44,6 @@ const auto row_action = [](auto& ctx)
 //	node_t& node = x3::get<node_tag>(ctx);
 ////	const char ch = x3::_attr(ctx);
 //
-//	std::cout << &node /*<< " : " << int(square) << " = " << '-'*/ << std::endl;
 
 	square -= 16;
 };
@@ -209,7 +209,9 @@ void parse(std::istream& stream, node_t& node)
 
 	stream.unsetf(std::ios::skipws);
 
+	memset(&node, 0, sizeof(node_t));
 	square_t square = a8;
+
 	auto rule = x3::with<node_tag>(std::ref(node)) [ x3::with<square_tag>(std::ref(square)) [x3::eps > fen_rule] ];
 	iterator_t iterator(stream);
 
@@ -222,7 +224,7 @@ void parse(std::istream& stream, node_t& node)
 }
 
 }
-
+*/
 namespace std {
 
 using namespace chess;
@@ -273,7 +275,7 @@ operator<<(ostream& stream, const node_t& node)
 		for (square_file_t file = 0; file < 8; ++file)
 		{
 			const square_t square = square_of(file, rank - 1);
-			const piece_t piece = node.pieces[square];
+			const piece_t piece = node[square];
 			stream << pieces[piece];
 		}
 		stream << short(rank) << endl;
@@ -292,7 +294,7 @@ operator<<(ostream& stream, const node_t& node)
 istream&
 operator>>(istream& stream, chess::node_t& node)
 {
-	parse(stream, node);
+//	parse(stream, node);
 	return stream;
 }
 
