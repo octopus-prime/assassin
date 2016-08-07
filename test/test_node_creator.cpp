@@ -57,10 +57,14 @@ const std::initializer_list<std::string> fens
 	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - e3 0 1",
 	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - d6 0 1",
 	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - - 17 53",
+	"rnbqkbn1/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 17 53",
+	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBN1 b - - 17 53",
 };
 
 const std::initializer_list<color_t> colors
 {
+	white,
+	black,
 	white,
 	black,
 	white,
@@ -76,6 +80,8 @@ const std::initializer_list<castle_t> castles
 	0,
 	0,
 	0,
+	0,
+	0,
 	0
 };
 
@@ -86,6 +92,8 @@ const std::initializer_list<square_t> squares
 	0,
 	e3,
 	d6,
+	0,
+	0,
 	0
 };
 
@@ -96,6 +104,8 @@ const std::initializer_list<std::uint8_t> halfs
 	0,
 	0,
 	0,
+	17,
+	17,
 	17
 };
 
@@ -106,7 +116,21 @@ const std::initializer_list<std::uint8_t> fulls
 	1,
 	1,
 	1,
+	53,
+	53,
 	53
+};
+
+const std::initializer_list<score_t> scores
+{
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	+500,
+	-500
 };
 
 /*
@@ -116,7 +140,7 @@ const std::initializer_list<board_t> boards
 	(R8 | R7 | R6) & ~(A8 | H8)
 };
 */
-BOOST_DATA_TEST_CASE(test, fens ^ colors ^ castles ^ squares ^ halfs ^ fulls, fen, color, castle, square, half, full)
+BOOST_DATA_TEST_CASE(test, fens ^ colors ^ castles ^ squares ^ halfs ^ fulls ^ scores, fen, color, castle, square, half, full, score)
 {
 	std::unique_ptr<node_t> node;
 	BOOST_REQUIRE_NO_THROW(node = std::make_unique<node_t>(fen));
@@ -126,6 +150,7 @@ BOOST_DATA_TEST_CASE(test, fens ^ colors ^ castles ^ squares ^ halfs ^ fulls, fe
 	BOOST_CHECK_EQUAL(node->en_passant(), square);
 	BOOST_CHECK_EQUAL(node->half_moves(), half);
 	BOOST_CHECK_EQUAL(node->full_moves(), full);
+	BOOST_CHECK_EQUAL(node->score(), score);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
