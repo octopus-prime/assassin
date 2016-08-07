@@ -7,53 +7,11 @@
 
 #pragma once
 
-#include "node.hpp" // todo: remove include
+#include "board.hpp"
+#include "tags.hpp"
 
 namespace chess {
 namespace detail {
-
-template <typename moves_tag, typename color_tag>
-struct masker;
-
-template <typename color_tag>
-struct masker<all_tag, color_tag>
-{
-	static constexpr board_t
-	mask(const node_t& node) noexcept
-	{
-		return ~node.occupy<color_tag>();
-	}
-};
-
-template <typename color_tag>
-struct masker<passive_tag, color_tag>
-{
-	static constexpr board_t
-	mask(const node_t& node) noexcept
-	{
-		return ~node.occupy();
-	}
-};
-
-template <>
-struct masker<active_tag, white_tag>
-{
-	static constexpr board_t
-	mask(const node_t& node) noexcept
-	{
-		return node.occupy<black_tag>();
-	}
-};
-
-template <>
-struct masker<active_tag, black_tag>
-{
-	static constexpr board_t
-	mask(const node_t& node) noexcept
-	{
-		return node.occupy<white_tag>();
-	}
-};
 
 struct filler
 {
@@ -264,10 +222,9 @@ private:
 	static constexpr board4_t
 	left(const board4_t board) noexcept
 	{
-		constexpr board4_t mask {~Fa, ~Fh};
+		constexpr board4_t mask {~Fh, ~Fa};
 		constexpr board4_t shift {7, 9};
-		return (board & mask) << shift;
-//		return filler::left(board, shift, mask);
+		return filler::left(board, shift, mask);
 	}
 };
 
@@ -286,10 +243,9 @@ private:
 	static constexpr board4_t
 	right(const board4_t board) noexcept
 	{
-		constexpr board4_t mask {~Fh, ~Fa};
+		constexpr board4_t mask {~Fa, ~Fh};
 		constexpr board4_t shift {7, 9};
-		return (board & mask) >> shift;
-//		return filler::right(board, shift, mask);
+		return filler::right(board, shift, mask);
 	}
 };
 

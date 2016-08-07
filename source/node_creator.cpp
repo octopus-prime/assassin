@@ -6,7 +6,7 @@
  */
 
 #include "node.hpp"
-#include "generator.hpp"
+#include "attack_generator.hpp"
 #include <unordered_map>
 #include <boost/spirit/home/x3.hpp>
 
