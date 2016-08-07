@@ -1,19 +1,62 @@
 /*
- * generator.hpp
+ * move_generator.hpp
  *
- *  Created on: 06.08.2016
+ *  Created on: 07.08.2016
  *      Author: mike
  */
 
 #pragma once
 
-#include "board.hpp"
-#include "move.hpp"
 #include "node.hpp"
+#include "move.hpp"
 #include "attacker.hpp"
+#include <algorithm>
 
 namespace chess {
 namespace detail {
+
+template <typename moves_tag, typename color_tag>
+struct masker;
+
+template <typename color_tag>
+struct masker<all_tag, color_tag>
+{
+	static constexpr board_t
+	mask(const node_t& node) noexcept
+	{
+		return ~node.occupy<color_tag>();
+	}
+};
+
+template <typename color_tag>
+struct masker<passive_tag, color_tag>
+{
+	static constexpr board_t
+	mask(const node_t& node) noexcept
+	{
+		return ~node.occupy();
+	}
+};
+
+template <>
+struct masker<active_tag, white_tag>
+{
+	static constexpr board_t
+	mask(const node_t& node) noexcept
+	{
+		return node.occupy<black_tag>();
+	}
+};
+
+template <>
+struct masker<active_tag, black_tag>
+{
+	static constexpr board_t
+	mask(const node_t& node) noexcept
+	{
+		return node.occupy<white_tag>();
+	}
+};
 
 template <typename piece_tag, typename color_tag>
 struct generator
@@ -87,41 +130,62 @@ generator<pawn_tag, black_tag>::generate<all_tag>(const node_t& node, moves_t::i
 	return moves;
 }
 
-template <typename piece_tag, typename color_tag>
-struct attack_generator
-{
-	constexpr static board_t
-	generate(const node_t& node) noexcept
-	{
-		return attacker<piece_tag, color_tag>::attack(node.occupy<piece_tag, color_tag>());
-	}
-};
-
-template <typename color_tag>
-struct attack_generator<sliding_tag, color_tag>
-{
-	constexpr static board_t
-	generate(const node_t& node) noexcept
-	{
-		return attacker<sliding_tag, color_tag>::attack(node.occupy<rook_queen_tag, color_tag>(), node.occupy<bishop_queen_tag, color_tag>(), node.occupy());
-	}
-};
-
 }
 
-struct attack_generator // todo: move to own file
+
+template <typename moves_tag>
+class move_generator
 {
-	template <typename color_tag>
-	constexpr static board_t
-	generate(const node_t& node) noexcept
+public:
+	move_generator(const node_t& node)
+	:
+		_end(generate(node, _moves.begin()))
 	{
-		board_t board = 0;
-		board |= detail::attack_generator<king_tag, color_tag>::generate(node);
-		board |= detail::attack_generator<sliding_tag, color_tag>::generate(node);
-		board |= detail::attack_generator<knight_tag, color_tag>::generate(node);
-		board |= detail::attack_generator<pawn_tag, color_tag>::generate(node);
-		return board;
+		std::stable_sort(_moves.begin(), _end, [](const move_t m1, const move_t m2){return false;});
 	}
+
+	constexpr moves_t::const_iterator
+	begin() const noexcept
+	{
+		return _moves.begin();
+	}
+
+	constexpr moves_t::const_iterator
+	end() const noexcept
+	{
+		return _end;
+	}
+
+	constexpr size_t
+	size() const noexcept
+	{
+		return std::distance(begin(), end());
+	}
+
+protected:
+	static moves_t::iterator
+	generate(const node_t& node, moves_t::iterator moves)
+	{
+		return node.color() == white
+			? generate<white_tag>(node, moves)
+			: generate<black_tag>(node, moves);
+	}
+
+	template <typename color_tag>
+	static moves_t::iterator
+	generate(const node_t& node, moves_t::iterator moves)
+	{
+		moves = detail::generator<king_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<rook_queen_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<bishop_queen_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<knight_tag, color_tag>::template generate<moves_tag>(node, moves);
+		moves = detail::generator<pawn_tag, color_tag>::template generate<moves_tag>(node, moves);
+		return moves;
+	}
+
+private:
+	moves_t _moves;
+	moves_t::iterator _end;
 };
 
 }
