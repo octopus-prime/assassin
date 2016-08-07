@@ -26,4 +26,19 @@ struct all_tag;
 struct active_tag;
 struct passive_tag;
 
+template <typename color_tag>
+struct color_traits;
+
+template <>
+struct color_traits<white_tag>
+{
+	typedef black_tag other;
+};
+
+template <>
+struct color_traits<black_tag>
+{
+	typedef white_tag other;
+};
+
 }

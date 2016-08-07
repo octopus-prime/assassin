@@ -38,23 +38,14 @@ struct masker<passive_tag, color_tag>
 	}
 };
 
-template <>
-struct masker<active_tag, white_tag>
+template <typename color_tag>
+struct masker<active_tag, color_tag>
 {
 	static constexpr board_t
 	mask(const node_t& node) noexcept
 	{
-		return node.occupy<black_tag>();
-	}
-};
-
-template <>
-struct masker<active_tag, black_tag>
-{
-	static constexpr board_t
-	mask(const node_t& node) noexcept
-	{
-		return node.occupy<white_tag>();
+		typedef typename color_traits<color_tag>::other other_tag;
+		return node.occupy<other_tag>();
 	}
 };
 
