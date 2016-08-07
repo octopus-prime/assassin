@@ -22,7 +22,7 @@ const std::initializer_list<node_t> nodes
 	node_t("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w")
 };
 
-BOOST_AUTO_TEST_SUITE(test_attack_generator_white)
+BOOST_AUTO_TEST_SUITE(test_white)
 
 const std::initializer_list<board_t> boards
 {
@@ -38,7 +38,7 @@ BOOST_DATA_TEST_CASE(test, nodes ^ boards, node, board)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE(test_attack_generator_black)
+BOOST_AUTO_TEST_SUITE(test_black)
 
 const std::initializer_list<board_t> boards
 {

@@ -27,6 +27,5 @@ unit-test assassin-test
 		io
 		node_creator
 		[ glob test/*.cpp ]
-		[ glob test/attacker/*.cpp ]
 		/site-config//boost_unit_test_framework
 	;
