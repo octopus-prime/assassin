@@ -10,11 +10,6 @@
 #include "square.hpp"
 #include <cstdint>
 #include <x86intrin.h>
-#include <boost/predef/hardware/simd.h>
-
-static_assert(BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX2_VERSION, "Minimum AVX2 required.");
-
-#include <immintrin.h>
 
 namespace chess {
 
@@ -120,13 +115,5 @@ enum board : board_t
 	R7 = R1 << 48,
 	R8 = R1 << 56,
 };
-
-typedef __v4du board4_t;
-
-constexpr inline board4_t
-make_board4(const board_t board) noexcept
-{
-	return board4_t {board, board, board, board};
-}
 
 }
