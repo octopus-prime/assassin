@@ -174,7 +174,13 @@ void node_t::creator::set_attack(node_t& node)
 
 void node_t::creator::set_hash(node_t& node)
 {
-	// todo
+	if (node.color() == black)
+		node._hash ^= color_hash;
+
+	node._hash ^= castle_hash[node._castle];
+
+	if (node.en_passant())
+		node._hash ^= en_passant_hash[node.en_passant()];
 }
 
 void node_t::creator::set_color(node_t& node, const color_t color)
@@ -202,15 +208,15 @@ template <piece_t piece>
 void
 node_t::creator::set_piece(node_t& node, const square_t square)
 {
-	node._pieces.at(square) = piece;
-	node._hash ^= piece_square_hash.at(piece).at(square);
+	node._pieces[square] = piece;
+	node._hash ^= piece_square_hash[piece][square];
 	set_mask<piece>(node, board_of(square));
 }
 
 template <>
 void node_t::creator::set_piece<no_piece>(node_t& node, const square_t square)
 {
-	node._pieces.at(square) = no_piece;
+	node._pieces[square] = no_piece;
 }
 
 template <>
@@ -219,8 +225,8 @@ void node_t::creator::set_piece<K>(node_t& node, const square_t square)
 	const board_t mask = board_of(square);
 	node._occupy_white |= mask;
 	node._king_white = square;
-	node._pieces.at(square) = K;
-	node._hash ^= piece_square_hash.at(K).at(square);
+	node._pieces[square] = K;
+	node._hash ^= piece_square_hash[K][square];
 }
 
 template <>
@@ -229,8 +235,8 @@ void node_t::creator::set_piece<k>(node_t& node, const square_t square)
 	const board_t mask = board_of(square);
 	node._occupy_black |= mask;
 	node._king_black = square;
-	node._pieces.at(square) = k;
-	node._hash ^= piece_square_hash.at(k).at(square);
+	node._pieces[square] = k;
+	node._hash ^= piece_square_hash[k][square];
 }
 
 template <>
