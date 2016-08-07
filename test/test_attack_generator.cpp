@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE(test_attack_generator)
 const std::initializer_list<node_t> nodes
 {
 	node_t(node_t::INITIAL_POSITION),
-	node_t("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w")
+	node_t("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 1")
 };
 
 BOOST_AUTO_TEST_SUITE(test_white)

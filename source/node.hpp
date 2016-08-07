@@ -56,6 +56,9 @@ public:
 
 	constexpr castle_t castle() const noexcept;
 
+	constexpr std::uint8_t half_moves() const noexcept;
+	constexpr std::uint8_t full_moves() const noexcept;
+
 private:
 	const node_t* const _parent;
 	board_t _occupy_white;
@@ -103,6 +106,12 @@ node_t::node_t()
 {
 }
 
+constexpr const node_t* const
+node_t::parent() const noexcept
+{
+	return _parent;
+}
+
 constexpr piece_t
 node_t::operator[](const std::size_t index) const noexcept
 {
@@ -125,6 +134,24 @@ constexpr square_t
 node_t::en_passant() const noexcept
 {
 	return _en_passant;
+}
+
+constexpr castle_t
+node_t::castle() const noexcept
+{
+	return _castle;
+}
+
+constexpr std::uint8_t
+node_t::half_moves() const noexcept
+{
+	return _half_moves;
+}
+
+constexpr std::uint8_t
+node_t::full_moves() const noexcept
+{
+	return _full_moves;
 }
 
 template <>

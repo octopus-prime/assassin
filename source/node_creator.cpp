@@ -17,8 +17,15 @@ namespace chess {
 struct node_t::creator
 {
 	static void set_attack(node_t& node);
+	static void set_hash(node_t& node);
 
 	static void set_color(node_t& node, const color_t color);
+
+	static void set_castle(node_t& node, const castle_t castle);
+
+	static void set_en_passant(node_t& node, const square_t square);
+
+	static void set_counts(node_t& node, const std::int8_t half, const std::int8_t full);
 
 	template <piece_t piece>
 	static void set_piece(node_t& node, const square_t square);
@@ -36,14 +43,14 @@ struct file_tag;
 
 const auto fen_action = [](auto& ctx)
 {
+	node_t::creator::set_attack(x3::get<node_tag>(ctx));
+	node_t::creator::set_hash(x3::get<node_tag>(ctx));
 };
 
 const auto rows_action = [](auto& ctx)
 {
 	if (x3::get<rank_tag>(ctx) != square_rank_t(-1))
 		throw std::runtime_error("Need 8 ranks.");
-
-	node_t::creator::set_attack(x3::get<node_tag>(ctx));
 };
 
 const auto row_action = [](auto& ctx)
@@ -85,40 +92,78 @@ const auto color_action = [](auto& ctx)
 	node_t::creator::set_color(x3::get<node_tag>(ctx), x3::_attr(ctx));
 };
 
+const auto castle_action = [](auto& ctx)
+{
+	node_t::creator::set_castle(x3::get<node_tag>(ctx), x3::_attr(ctx));
+};
+
+const auto en_passant_action = [](auto& ctx)
+{
+	using boost::fusion::at_c;
+	auto& attr = x3::_attr(ctx);
+	const square_t square = square_of(at_c<0>(attr) - 'a', at_c<1>(attr) - '1');
+	node_t::creator::set_en_passant(x3::get<node_tag>(ctx), square);
+};
+
+const auto counts_action = [](auto& ctx)
+{
+	using boost::fusion::at_c;
+	auto& attr = x3::_attr(ctx);
+	node_t::creator::set_counts(x3::get<node_tag>(ctx), at_c<0>(attr), at_c<1>(attr));
+};
+
 const x3::rule<class fen_rule> fen_rule ="fen";
 const x3::rule<class rows_rule> rows_rule ="rows";
 const x3::rule<class row_rule> row_rule ="row";
 const x3::rule<class piece_rule> piece_rule ="piece";
 const x3::rule<class empty_rule> empty_rule ="empty";
 const x3::rule<class color_rule> color_rule ="color";
+const x3::rule<class castles_rule> castles_rule ="castles";
+const x3::rule<class castle_rule> castle_rule ="castle";
+const x3::rule<class en_passant_rule> en_passant_rule ="en_passant";
+const x3::rule<class square_rule> square_rule ="square";
+const x3::rule<class counts_rule> counts_rule ="counts";
 
-const auto fen_rule_def = (rows_rule >> x3::lit(' ') >> color_rule) [fen_action];
+const auto fen_rule_def = (rows_rule >> x3::lit(' ') >> color_rule >> x3::lit(' ') >> castles_rule >> x3::lit(' ') >> en_passant_rule >> x3::lit(' ') >> counts_rule) [fen_action];
 const auto rows_rule_def = (row_rule % x3::lit('/')) [rows_action];
 const auto row_rule_def = (+(piece_rule | empty_rule)) [row_action];
 const auto piece_rule_def = x3::char_("KQRBNPkqrbnp") [piece_action];
 const auto empty_rule_def = x3::char_("1-8") [empty_action];
 const auto color_rule_def = x3::symbols<color_t> {{"w", white}, {"b", black}} [color_action];
+const auto castles_rule_def = x3::lit('-') | +castle_rule;
+const auto castle_rule_def = x3::symbols<castle_t> {{"K", white_castle_king}, {"k", black_castle_king}, {"Q", white_castle_queen}, {"q", black_castle_queen}} [castle_action];
+const auto en_passant_rule_def = x3::lit('-') | square_rule;
+const auto square_rule_def = (x3::char_("a-h") >> x3::char_("36")) [en_passant_action];
+const auto counts_rule_def = (x3::uint8 >> x3::lit(' ') >> x3::uint8) [counts_action];
 
-BOOST_SPIRIT_DEFINE(fen_rule, rows_rule, row_rule, piece_rule, empty_rule, color_rule);
+BOOST_SPIRIT_DEFINE(fen_rule, rows_rule, row_rule, piece_rule, empty_rule, color_rule, castles_rule, castle_rule, en_passant_rule, square_rule, counts_rule);
 
 }
 
 const std::string
-node_t::INITIAL_POSITION("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w");// KQkq - 0 1");
+node_t::INITIAL_POSITION("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
 node_t::node_t(const std::string& fen)
 :
 	node_t()
 {
-	square_rank_t rank = 7;
-	square_file_t file = 0;
-	auto rule = x3::with<parser::node_tag>(std::ref(*this)) [ x3::with<parser::rank_tag>(std::ref(rank)) [ x3::with<parser::file_tag>(std::ref(file)) [x3::eps > parser::fen_rule] ] ];
 	auto iterator = fen.begin();
 
-	const bool ok = x3::parse(iterator, fen.end(), rule);
+//	try
+//	{
+		square_rank_t rank = 7;
+		square_file_t file = 0;
+		const auto rule = x3::with<parser::node_tag>(std::ref(*this)) [ x3::with<parser::rank_tag>(std::ref(rank)) [ x3::with<parser::file_tag>(std::ref(file)) [x3::eps > parser::fen_rule] ] ];
 
-	if (!ok || iterator != fen.end())
-		throw std::runtime_error("Parsing failed.");
+		const bool ok = x3::parse(iterator, fen.end(), rule);
+
+		if (!ok || iterator != fen.end())
+			throw std::runtime_error("Parsing failed.");
+//	}
+//	catch(const x3::expectation_failure<char>& e)
+//	{
+//		throw std::runtime_error(e.what());
+//	}
 }
 
 void node_t::creator::set_attack(node_t& node)
@@ -127,9 +172,30 @@ void node_t::creator::set_attack(node_t& node)
 	node._attack_black = attack_generator::generate<black_tag>(node);
 }
 
+void node_t::creator::set_hash(node_t& node)
+{
+	// todo
+}
+
 void node_t::creator::set_color(node_t& node, const color_t color)
 {
 	node._color = color;
+}
+
+void node_t::creator::set_castle(node_t& node, const castle_t castle)
+{
+	node._castle |= castle;
+}
+
+void node_t::creator::set_en_passant(node_t& node, const square_t square)
+{
+	node._en_passant = square;
+}
+
+void node_t::creator::set_counts(node_t& node, const std::int8_t half, const std::int8_t full)
+{
+	node._half_moves = half;
+	node._full_moves = full;
 }
 
 template <piece_t piece>
