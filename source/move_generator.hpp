@@ -87,22 +87,54 @@ struct generator<king_tag, color_tag>
 		const square_t from = node.king<color_tag>();
 		for (const auto to : bsf(attacker<king_tag, color_tag>::attack(board_of(from)) & masker<moves_tag, color_tag>::mask(node)))
 			*moves++ = move_t {from, to};
+		return castle<moves_tag>(node, moves);
+	}
+
+private:
+	template <typename moves_tag>
+	static moves_t::iterator
+	castle(const node_t& node, moves_t::iterator moves) noexcept
+	{
 		return moves;
 	}
 };
+
+template <>
+template <>
+inline moves_t::iterator
+generator<king_tag, white_tag>::castle<all_tag>(const node_t& node, moves_t::iterator moves) noexcept
+{
+	if ((node.castle() & white_castle_king) && !(node.occupy() & (F1 | G1)) && !(node.attack<black_tag>() & (E1 | F1 | G1)))
+		*moves++ = move_t {e1, g1};
+	if ((node.castle() & white_castle_queen) && !(node.occupy() & (B1 | C1 | D1)) && !(node.attack<black_tag>() & (C1 | D1 | E1)))
+		*moves++ = move_t {e1, c1};
+	return moves;
+}
+
+template <>
+template <>
+inline moves_t::iterator
+generator<king_tag, black_tag>::castle<all_tag>(const node_t& node, moves_t::iterator moves) noexcept
+{
+	if ((node.castle() & black_castle_king) && !(node.occupy() & (F8 | G8)) && !(node.attack<white_tag>() & (E8 | F8 | G8)))
+		*moves++ = move_t {e8, g8};
+	if ((node.castle() & black_castle_queen) && !(node.occupy() & (B8 | C8 | D8)) && !(node.attack<white_tag>() & (C8 | D8 | E8)))
+		*moves++ = move_t {e8, c8};
+	return moves;
+}
 
 template <typename color_tag>
 struct generator<pawn_tag, color_tag>
 {
 	template <typename moves_tag>
 	static moves_t::iterator
-	generate(const node_t& node, moves_t::iterator moves) noexcept;
-//	{
-//		const square_t from = node.king<color_tag>();
-//		for (const auto to : bsf(attacker<king_tag, color_tag>::attack(node, board_of(from)) & masker<moves_tag, color_tag>::mask(node)))
-//			*moves++ = move_t {from, to};
-//		return moves;
-//	}
+	generate(const node_t& node, moves_t::iterator moves) noexcept
+	{
+		for (const auto from : bsf(node.occupy<pawn_tag, color_tag>()))
+			for (const auto to : bsf(attacker<pawn_tag, color_tag>::attack(board_of(from)) & masker<moves_tag, color_tag>::mask(node)))
+				*moves++ = move_t {from, to};
+		return moves;
+	}
 };
 
 template <>
