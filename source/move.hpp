@@ -18,6 +18,18 @@ struct move_t
 	square_t to;
 };
 
+constexpr bool
+operator==(const move_t move1, const move_t move2) noexcept
+{
+	return move1.from == move2.from && move1.to == move2.to;
+}
+
+constexpr bool
+operator!=(const move_t move1, const move_t move2) noexcept
+{
+	return !(move1 == move2);
+}
+
 typedef std::array<move_t, 100> moves_t;
 
 }
