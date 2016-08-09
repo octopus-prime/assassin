@@ -8,6 +8,7 @@
 #pragma once
 
 #include "square.hpp"
+#include "piece.hpp"
 #include <array>
 
 namespace chess {
@@ -16,12 +17,13 @@ struct move_t
 {
 	square_t from;
 	square_t to;
+	piece_t promotion;
 };
 
 constexpr bool
 operator==(const move_t move1, const move_t move2) noexcept
 {
-	return move1.from == move2.from && move1.to == move2.to;
+	return move1.from == move2.from && move1.to == move2.to && move1.promotion == move2.promotion;
 }
 
 constexpr bool
