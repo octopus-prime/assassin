@@ -129,13 +129,13 @@ struct generator<pawn_tag, color_tag>
 {
 	template <typename moves_tag>
 	static moves_t::iterator
-	generate(const node_t& node, moves_t::iterator moves) noexcept
-	{
-		for (const auto from : bsf(node.occupy<pawn_tag, color_tag>()))
-			for (const auto to : bsf(attacker<pawn_tag, color_tag>::attack(board_of(from)) & (masker<moves_tag, color_tag>::mask(node) | board_of(node.en_passant()))))
-				*moves++ = move_t {from, to};
-		return moves;
-	}
+	generate(const node_t& node, moves_t::iterator moves) noexcept;
+//	{
+//		for (const auto from : bsf(node.occupy<pawn_tag, color_tag>()))
+//			for (const auto to : bsf(attacker<pawn_tag, color_tag>::attack(board_of(from)) & (masker<moves_tag, color_tag>::mask(node) | board_of(node.en_passant()))))
+//				*moves++ = move_t {from, to};
+//		return moves;
+//	}
 
 private:
 	static moves_t::iterator
@@ -144,8 +144,7 @@ private:
 	static moves_t::iterator
 	generate_promotions(const square_t from, const square_t to, moves_t::iterator moves) noexcept
 	{
-		constexpr std::array<piece_t, 4> promotions {Q, R, B, N}; // todo: white/black ...
-		for (const piece_t promotion : promotions)
+		for (std::uint8_t promotion = 4; promotion > 0; --promotion)
 			*moves++ = move_t {from, to, promotion};
 		return moves;
 	}
@@ -219,8 +218,35 @@ generator<pawn_tag, white_tag>::generate<all_tag>(const node_t& node, moves_t::i
 template <>
 template <>
 inline moves_t::iterator
+generator<pawn_tag, black_tag>::generate<active_tag>(const node_t& node, moves_t::iterator moves) noexcept
+{
+	constexpr __v4du mask {~Fh, ~Fa, R2};
+	constexpr __v4du shift {7, 9, 8};
+	const board_t empty = ~node.occupy();
+	const board_t attack = node.occupy<white_tag>() | (board_of(node.en_passant()) & R3);
+	const __v4du mask2 {attack, attack, empty};
+	const __v4du board = ((node.occupy<pawn_tag, black_tag>() & mask) >> shift) & mask2;
+	moves = generate_moves(board[0], 7, moves);
+	moves = generate_moves(board[1], 9, moves);
+	moves = generate_moves(board[2], 8, moves);
+	return moves;
+}
+
+template <>
+template <>
+inline moves_t::iterator
 generator<pawn_tag, black_tag>::generate<all_tag>(const node_t& node, moves_t::iterator moves) noexcept
 {
+	constexpr __v4du mask {~Fh, ~Fa, ~0UL, R7};
+	constexpr __v4du shift {7, 9, 8, 8};
+	const board_t empty = ~node.occupy();
+	const board_t attack = node.occupy<white_tag>() | (board_of(node.en_passant()) & R3);
+	const __v4du mask2 {attack, attack, empty, empty};
+	const __v4du board = ((node.occupy<pawn_tag, black_tag>() & mask) >> shift) & mask2;
+	moves = generate_moves(board[0], 7, moves);
+	moves = generate_moves(board[1], 9, moves);
+	moves = generate_moves(board[2], 8, moves);
+	moves = generate_moves((board[3] >> 8) & empty, 16, moves);
 	return moves;
 }
 

@@ -33,8 +33,17 @@ const std::initializer_list<node_t> nodes
 //	node_t("r3k2r/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 1 1"),
 //	node_t("rq2r1k1/5pp1/p7/4bNP1/1p2P2P/5Q2/PP4K1/5R1R w - - 0 1"),
 	node_t("8/8/8/8/8/3p1p2/4P3/8 w - - 0 1"),
+	node_t("8/8/8/8/8/3ppp2/4P3/8 w - - 0 1"),
+	node_t("8/8/8/8/4p3/3p1p2/4P3/8 w - - 0 1"),
 	node_t("8/8/5p2/3pP3/8/8/8/8 w - d6 0 1"),
+	node_t("8/8/4pp2/3pP3/8/8/8/8 w - d6 0 1"),
 	node_t("3p1p2/4P3/8/8/8/8/8/8 w - - 0 1"),
+	node_t("3ppp2/4P3/8/8/8/8/8/8 w - - 0 1"),
+
+	node_t("8/4p3/3P1P2/8/8/8/8/8 b - - 0 1"),
+	node_t("8/4p3/3PPP2/8/8/8/8/8 b - - 0 1"),
+	node_t("8/4p3/3P1P2/4P3/8/8/8/8 b - - 0 1"),
+	node_t("8/8/8/8/3Pp3/5P2/8/8 b - d3 0 1"),
 };
 
 BOOST_AUTO_TEST_SUITE(test_active)
@@ -46,8 +55,17 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 //	{},
 //	{{f5, g7}},
 	{{e2, d3}, {e2, f3}},
+	{{e2, d3}, {e2, f3}},
+	{{e2, d3}, {e2, f3}},
 	{{e5, d6}, {e5, f6}},
-	{{e7, d8, Q}, {e7, d8, R}, {e7, d8, B}, {e7, d8, N}, {e7, f8, Q}, {e7, f8, R}, {e7, f8, B}, {e7, f8, N}, {e7, e8, Q}, {e7, e8, R}, {e7, e8, B}, {e7, e8, N}}
+	{{e5, d6}, {e5, f6}},
+	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}, {e7, e8, 4}, {e7, e8, 3}, {e7, e8, 2}, {e7, e8, 1}},
+	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}},
+
+	{{e7, f6}, {e7, d6}},
+	{{e7, f6}, {e7, d6}},
+	{{e7, f6}, {e7, d6}},
+	{{e4, f3}, {e4, d3}},
 };
 
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
@@ -71,14 +89,24 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 //		{f3, d1}, {f3, e2}, {f3, g4}, {f3, h5}, {f5, e3}, {f5, g3}, {f5, d4}, {f5, d6}, {f5, h6}, {f5, e7}, {f5, g7}
 //	},
 	{{e2, d3}, {e2, f3}, {e2, e3}, {e2, e4}},
+	{{e2, d3}, {e2, f3}},
+	{{e2, d3}, {e2, f3}, {e2, e3}},
 	{{e5, d6}, {e5, f6}, {e5, e6}},
-	{{e7, d8, Q}, {e7, d8, R}, {e7, d8, B}, {e7, d8, N}, {e7, f8, Q}, {e7, f8, R}, {e7, f8, B}, {e7, f8, N}, {e7, e8, Q}, {e7, e8, R}, {e7, e8, B}, {e7, e8, N}}
+	{{e5, d6}, {e5, f6}},
+	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}, {e7, e8, 4}, {e7, e8, 3}, {e7, e8, 2}, {e7, e8, 1}},
+	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}},
+
+	{{e7, f6}, {e7, d6}, {e7, e6}, {e7, e5}},
+	{{e7, f6}, {e7, d6}},
+	{{e7, f6}, {e7, d6}, {e7, e6}},
+	{{e4, f3}, {e4, d3}, {e4, e3}},
 };
 
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
 {
 	const move_generator<all_tag> generator(node);
 	BOOST_CHECK_EQUAL_COLLECTIONS(generator.begin(), generator.end(), moves.begin(), moves.end());
+//	BOOST_CHECK(std::is_permutation(generator.begin(), generator.end(), moves.begin(), moves.end()));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

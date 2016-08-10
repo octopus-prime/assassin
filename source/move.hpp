@@ -8,7 +8,6 @@
 #pragma once
 
 #include "square.hpp"
-#include "piece.hpp"
 #include <array>
 
 namespace chess {
@@ -17,7 +16,7 @@ struct move_t
 {
 	square_t from;
 	square_t to;
-	piece_t promotion;
+	std::uint8_t promotion;
 };
 
 constexpr bool
