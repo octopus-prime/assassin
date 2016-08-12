@@ -31,6 +31,6 @@ operator!=(const move_t move1, const move_t move2) noexcept
 	return !(move1 == move2);
 }
 
-typedef std::array<move_t, 100> moves_t;
+typedef std::array<move_t, 256> moves_t;
 
 }
