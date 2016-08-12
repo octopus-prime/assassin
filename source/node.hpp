@@ -22,6 +22,7 @@ namespace chess {
 class node_t
 {
 	struct creator;
+	struct executor;
 
 public:
 	static const std::string INITIAL_POSITION;
@@ -60,7 +61,7 @@ public:
 	constexpr std::uint8_t full_moves() const noexcept;
 
 private:
-	const node_t* const _parent;
+	const node_t* _parent;
 	board_t _occupy_white;
 	board_t _occupy_black;
 	board_t _occupy_rook_queen;
@@ -80,31 +81,6 @@ private:
 	std::uint8_t _half_moves;
 	std::uint8_t _full_moves;
 };
-
-constexpr
-node_t::node_t()
-:
-	_parent {},
-	_occupy_white {},
-	_occupy_black {},
-	_occupy_rook_queen {},
-	_occupy_bishop_queen {},
-	_occupy_knight {},
-	_occupy_pawn {},
-	_attack_white {},
-	_attack_black {},
-	_hash {},
-	_pieces {},
-	_score {},
-	_king_white {},
-	_king_black {},
-	_en_passant {},
-	_color {},
-	_castle {},
-	_half_moves {},
-	_full_moves {}
-{
-}
 
 constexpr const node_t* const
 node_t::parent() const noexcept
