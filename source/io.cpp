@@ -75,4 +75,32 @@ operator<<(ostream& stream, const node_t& node)
 	return stream;
 }
 
+ostream&
+operator<<(ostream& stream, const std::pair<const chess::node_t&, const chess::move_t&>& pair)
+{
+	static constexpr std::array<const char* const, 13> piece
+	{{
+		"",
+		"K", "Q", "R", "B", "N", "P",
+		"k", "q", "r", "b", "n", "p"
+	}};
+	static constexpr std::array<const char* const, 5> promoted
+	{{
+		"", "N", "B", "R", "Q"
+	}};
+	static constexpr std::array<const char* const, 2> check
+	{{
+		"", "+"
+	}};
+	stream << piece[pair.first[pair.second.from]];
+	stream << char('a' + file_of(pair.second.from));
+	stream << char('1' + rank_of(pair.second.from));
+	stream << (pair.first[pair.second.to] ? 'x' : '-');
+	stream << char('a' + file_of(pair.second.to));
+	stream << char('1' + rank_of(pair.second.to));
+	stream << promoted[pair.second.promotion];
+//	stream << check[pair.second.check()];
+	return stream;
+}
+
 }
