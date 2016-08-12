@@ -143,6 +143,31 @@ BOOST_SPIRIT_DEFINE(fen_rule, rows_rule, row_rule, piece_rule, empty_rule, color
 const std::string
 node_t::INITIAL_POSITION("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
+constexpr
+node_t::node_t()
+:
+	_parent {},
+	_occupy_white {},
+	_occupy_black {},
+	_occupy_rook_queen {},
+	_occupy_bishop_queen {},
+	_occupy_knight {},
+	_occupy_pawn {},
+	_attack_white {},
+	_attack_black {},
+	_hash {},
+	_pieces {},
+	_score {},
+	_king_white {},
+	_king_black {},
+	_en_passant {},
+	_color {},
+	_castle {},
+	_half_moves {},
+	_full_moves {}
+{
+}
+
 node_t::node_t(const std::string& fen)
 :
 	node_t()
@@ -245,7 +270,7 @@ void node_t::creator::set_mask<Q>(node_t& node, const board_t mask)
 	node._occupy_white |= mask;
 	node._occupy_rook_queen |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score += 900;
+	node._score += score_of[Q];
 }
 
 template <>
@@ -254,7 +279,7 @@ void node_t::creator::set_mask<q>(node_t& node, const board_t mask)
 	node._occupy_black |= mask;
 	node._occupy_rook_queen |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score -= 900;
+	node._score -= score_of[q];
 }
 
 template <>
@@ -262,7 +287,7 @@ void node_t::creator::set_mask<R>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_rook_queen |= mask;
-	node._score += 500;
+	node._score += score_of[R];
 }
 
 template <>
@@ -270,7 +295,7 @@ void node_t::creator::set_mask<r>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_rook_queen |= mask;
-	node._score -= 500;
+	node._score -= score_of[r];
 }
 
 template <>
@@ -278,7 +303,7 @@ void node_t::creator::set_mask<B>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score += 300;
+	node._score += score_of[B];
 }
 
 template <>
@@ -286,7 +311,7 @@ void node_t::creator::set_mask<b>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score -= 300;
+	node._score -= score_of[b];
 }
 
 template <>
@@ -294,7 +319,7 @@ void node_t::creator::set_mask<N>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_knight |= mask;
-	node._score += 300;
+	node._score += score_of[N];
 }
 
 template <>
@@ -302,7 +327,7 @@ void node_t::creator::set_mask<n>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_knight |= mask;
-	node._score -= 300;
+	node._score -= score_of[n];
 }
 
 template <>
@@ -310,7 +335,7 @@ void node_t::creator::set_mask<P>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_pawn |= mask;
-	node._score += 100;
+	node._score += score_of[P];
 }
 
 template <>
@@ -318,7 +343,7 @@ void node_t::creator::set_mask<p>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_pawn |= mask;
-	node._score -= 100;
+	node._score -= score_of[p];
 }
 
 }
