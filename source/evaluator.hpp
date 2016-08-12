@@ -82,7 +82,7 @@ struct evaluator
 		score += evaluate<detail::attack_tag>(node);
 		score += evaluate<detail::defend_tag>(node);
 		score += evaluate<detail::center_tag>(node);
-		return score;
+		return score * node.color();
 	}
 
 private:
