@@ -59,6 +59,6 @@ create_castle_hash()
 const std::array<std::array<hash_t, 64>, 13> piece_square_hash = create_piece_square_hash();
 const std::array<hash_t, 64> en_passant_hash = create_en_passant_hash();
 const std::array<hash_t, 16> castle_hash = create_castle_hash();
-const hash_t color_hash = random();
+//const hash_t color_hash = random();
 
 }
