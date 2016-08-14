@@ -6,6 +6,8 @@
  */
 
 #include "move_generator.hpp"
+#include "history_table.hpp"
+#include "transposition_table.hpp"
 #include "evaluator.hpp"
 #include "io.hpp"
 #include <chrono>
@@ -14,124 +16,6 @@
 
 using namespace chess;
 
-class transposition_entry
-{
-public:
-	enum flag_t : std::uint8_t
-	{
-		UNKNOWN,	//!< UNKNOWN
-		UPPER,		//!< UPPER
-		LOWER,		//!< LOWER
-		EXACT		//!< EXACT
-//		EGTB		//!< EGTB
-	};
-
-private:
-	hash_t			_hash;
-	move_t			_move;
-	score_t			_score;
-	std::uint8_t	_depth;
-	flag_t			_flag;
-
-public:
-	constexpr transposition_entry() noexcept
-	:
-		_hash(),
-		_move(),
-		_score(),
-		_depth(),
-		_flag()
-	{
-	}
-
-	constexpr transposition_entry(const hash_t hash, const move_t move, const score_t score, const flag_t flag, const std::uint8_t depth) noexcept
-	:
-		_hash(hash),
-		_move(move),
-		_score(score),
-		_depth(depth),
-		_flag(flag)
-	{
-	}
-/*
-	constexpr transposition_entry& operator=(const transposition_entry& entry) noexcept
-	{
-		// Try to make operator=() an atomic instruction.
-		*reinterpret_cast<__m128*>(this) = *reinterpret_cast<const __m128* const>(&entry);
-		return *this;
-	}
-
-	constexpr transposition_entry& operator=(transposition_entry&& entry) noexcept
-	{
-		// Try to make operator=() an atomic instruction.
-		*reinterpret_cast<__m128*>(this) = *reinterpret_cast<__m128*>(&entry);
-		return *this;
-	}
-*/
-	constexpr hash_t hash() const noexcept
-	{
-		return _hash;
-	}
-
-	constexpr move_t move() const noexcept
-	{
-		return _move;
-	}
-
-	constexpr score_t score() const noexcept
-	{
-		return _score;
-	}
-
-	constexpr flag_t flag() const noexcept
-	{
-		return _flag;
-	}
-
-	constexpr std::uint8_t depth() const noexcept
-	{
-		return _depth;
-	}
-};
-
-class transposition_table_t
-{
-private:
-	std::array<std::vector<transposition_entry>, 2> _entries;
-
-public:
-	inline transposition_table_t(const std::size_t size)
-//	:
-//		_entries{}
-	{
-		_entries[0].resize(size / sizeof(transposition_entry) / 2 + 13, transposition_entry());
-		_entries[1].resize(size / sizeof(transposition_entry) / 2 + 13, transposition_entry());
-	}
-
-
-	inline void clear() noexcept
-	{
-		std::fill(_entries[0].begin(), _entries[0].end(), transposition_entry());
-		std::fill(_entries[1].begin(), _entries[1].end(), transposition_entry());
-	}
-
-	inline void put(const node_t& node, const move_t move, const score_t score, const transposition_entry::flag_t flag, const std::uint8_t depth) noexcept
-	{
-		transposition_entry& entry = operator[](node);
-		if (entry.depth() < depth)
-			entry = transposition_entry(node.hash(), move, score, flag, depth);
-	}
-
-	inline transposition_entry& operator[](const node_t& node) noexcept
-	{
-		return _entries[node.color() == white][node.hash() % _entries[node.color() == white].size()];
-	}
-
-	inline const transposition_entry& operator[](const node_t& node) const noexcept
-	{
-		return _entries[node.color() == white][node.hash() % _entries[node.color() == white].size()];
-	}
-};
 
 transposition_table_t t_table(1UL << 33);
 history_table_t h_table;
@@ -201,7 +85,7 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 	score_t search_alpha = alpha;
 	score_t search_beta = beta;
 
-	const transposition_entry& entry = t_table[node];
+	const transposition_entry_t& entry = t_table[node];
 	if (entry.hash() == node.hash())
 	{
 		if (entry.depth() >= depth)
@@ -209,13 +93,13 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 			const score_t score = entry.score();
 			switch (entry.flag())
 			{
-			case transposition_entry::EXACT:
+			case transposition_entry_t::EXACT:
 				return score;
-			case transposition_entry::LOWER:
+			case transposition_entry_t::LOWER:
 				if (score > search_alpha)
 					search_alpha = score; // todo
 				break;
-			case transposition_entry::UPPER:
+			case transposition_entry_t::UPPER:
 				if (score < search_beta)
 					search_beta = score; // todo
 				break;
@@ -244,7 +128,7 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 	if (best_move == move_t {} && depth > 2)
 	{
 		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-		const transposition_entry& entry = t_table[node];
+		const transposition_entry_t& entry = t_table[node];
 		if (entry.hash() == node.hash())
 			best_move = entry.move();
 	}
@@ -261,7 +145,7 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 			{
 				if (score >= search_beta)
 				{
-					t_table.put(node, best_move, search_beta, transposition_entry::LOWER, depth);
+					t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
 //					h_table.put(node, best_move);
 					return search_beta;
 				}
@@ -288,7 +172,7 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 		{
 			if (score >= search_beta)
 			{
-				t_table.put(node, move, search_beta, transposition_entry::LOWER, depth);
+				t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
 //				h_table.put(node, move);
 				return search_beta;
 			}
@@ -300,7 +184,7 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 	if (!legal)
 	{
 		const score_t score = check(node, node.color()) ? -30000 : 0;
-		t_table.put(node, move_t {}, score, transposition_entry::EXACT, depth);
+		t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
 //		const score_t score = check ? -30000 + height : 0;
 //		environment.transposition_table().put(node, move_t(), score, transposition_entry::EXACT, depth);
 //			environment.transposition_table2().put(node, move_t(), score, transposition_entry::EXACT, depth);
@@ -309,11 +193,11 @@ search(const node_t& node, const score_t alpha, const score_t beta, const int de
 
 	if (best_score > alpha)
 	{
-		t_table.put(node, best_move, best_score, transposition_entry::EXACT, depth);
+		t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
 		h_table.put(node, best_move);
 	}
 	else
-		t_table.put(node, best_move, best_score, transposition_entry::UPPER, depth);
+		t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
 
 	return best_score;
 }
