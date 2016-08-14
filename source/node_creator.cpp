@@ -199,8 +199,8 @@ void node_t::creator::set_attack(node_t& node)
 
 void node_t::creator::set_hash(node_t& node)
 {
-	if (node.color() == black)
-		node._hash ^= color_hash;
+//	if (node.color() == black)
+//		node._hash ^= color_hash;
 
 	node._hash ^= castle_hash[node._castle];
 
