@@ -10,9 +10,13 @@
 #include "node.hpp"
 #include "move.hpp"
 #include "attacker.hpp"
+#include "history_table.hpp"
 #include <algorithm>
 
 namespace chess {
+
+typedef std::array<move_t, 256> moves_t;
+
 namespace detail {
 
 template <typename moves_tag, typename color_tag>
@@ -130,12 +134,6 @@ struct generator<pawn_tag, color_tag>
 	template <typename moves_tag>
 	static moves_t::iterator
 	generate(const node_t& node, moves_t::iterator moves) noexcept;
-//	{
-//		for (const auto from : bsf(node.occupy<pawn_tag, color_tag>()))
-//			for (const auto to : bsf(attacker<pawn_tag, color_tag>::attack(board_of(from)) & (masker<moves_tag, color_tag>::mask(node) | board_of(node.en_passant()))))
-//				*moves++ = move_t {from, to};
-//		return moves;
-//	}
 
 private:
 	static moves_t::iterator
@@ -250,8 +248,23 @@ generator<pawn_tag, black_tag>::generate<all_tag>(const node_t& node, moves_t::i
 	return moves;
 }
 
+constexpr
+score_t
+evaluate(const node_t& node, const move_t move) noexcept
+{
+	constexpr std::array<score_t, 5> promotion
+	{
+		0,
+		score_of[N] - score_of[P],
+		score_of[B] - score_of[P],
+		score_of[R] - score_of[P],
+		score_of[Q] - score_of[P]
+	};
+	const score_t score = promotion[move.promotion] + score_of[node[move.to]];
+	return (score << 4) - bool(score) * score_of[node[move.from]];
 }
 
+}
 
 template <typename moves_tag>
 class move_generator
@@ -261,7 +274,57 @@ public:
 	:
 		_end(generate(node, _moves.begin()))
 	{
-		std::stable_sort(_moves.begin(), _end, [](const move_t m1, const move_t m2){return false;});
+		std::array<score_t, 256> evals;
+
+		for (std::uint8_t index = 0; index < size(); ++index)
+		{
+			move_t& move = _moves[index];
+			move.index = index;
+			evals[index] = detail::evaluate(node, move);
+		}
+
+		std::stable_sort
+		(
+			_moves.begin(), _end,
+			[&evals](const move_t& move1, const move_t& move2)
+			{
+				return evals[move1.index] > evals[move2.index];
+			}
+		);
+	}
+
+	move_generator(const node_t& node, const history_table_t& h_table, const history_table_t& b_table)
+	:
+		_end(generate(node, _moves.begin()))
+	{
+		struct eval_t
+		{
+			score_t score;
+			float good;
+		};
+		std::array<eval_t, 256> evals;
+
+		for (std::uint8_t index = 0; index < size(); ++index)
+		{
+			move_t& move = _moves[index];
+			eval_t& eval = evals[index];
+			move.index = index;
+			eval.score = detail::evaluate(node, move);
+			eval.good = float(h_table(node, move)) / float(b_table(node, move));
+		}
+
+		std::stable_sort
+		(
+			_moves.begin(), _end,
+			[&evals](const move_t& move1, const move_t& move2)
+			{
+				const score_t score1 = evals[move1.index].score;
+				const score_t score2 = evals[move2.index].score;
+				if (score1 != score2)
+					return score1 > score2;
+				return evals[move1.index].good > evals[move2.index].good;
+			}
+		);
 	}
 
 	constexpr moves_t::const_iterator
