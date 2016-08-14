@@ -29,9 +29,9 @@ BOOST_AUTO_TEST_CASE(test_hash_disjoined)
 	for (castle_t castle = 0; castle <= 15; ++castle)
 		hashes.emplace(castle_hash[castle]);
 
-	hashes.emplace(color_hash);
+//	hashes.emplace(color_hash);
 
-	BOOST_CHECK_EQUAL(hashes.size(), 12 * 64 + 2 * 8 + 16 + 1);
+	BOOST_CHECK_EQUAL(hashes.size(), 12 * 64 + 2 * 8 + 16);// + 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_hash_zeroed)
