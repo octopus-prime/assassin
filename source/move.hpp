@@ -8,7 +8,6 @@
 #pragma once
 
 #include "square.hpp"
-#include <array>
 
 namespace chess {
 
@@ -17,6 +16,7 @@ struct move_t
 	square_t from;
 	square_t to;
 	std::uint8_t promotion;
+	std::uint8_t index;
 };
 
 constexpr bool
@@ -30,7 +30,5 @@ operator!=(const move_t move1, const move_t move2) noexcept
 {
 	return !(move1 == move2);
 }
-
-typedef std::array<move_t, 256> moves_t;
 
 }
