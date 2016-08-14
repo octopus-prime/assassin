@@ -60,6 +60,10 @@ public:
 	constexpr std::uint8_t half_moves() const noexcept;
 	constexpr std::uint8_t full_moves() const noexcept;
 
+	constexpr hash_t hash() const noexcept {return _hash;}
+
+	square_t flip(const square_t en_passant) noexcept;
+
 private:
 	const node_t* _parent;
 	board_t _occupy_white;
@@ -267,6 +271,22 @@ constexpr board_t
 node_t::occupy<king_tag, black_tag>() const noexcept
 {
 	return board_of(king<black_tag>());
+}
+
+inline square_t
+node_t::flip(const square_t en_passant) noexcept
+{
+	const square_t result = _en_passant;
+	// Set enPassant
+	_hash ^= en_passant_hash[result];
+	_en_passant = en_passant;
+	_hash ^= en_passant_hash[en_passant];
+	// Set color
+//	_hash_node ^= color_hash()();
+	_color *= -1;
+	// Set counter
+//	_countMovesFull += (_color == Color::w);
+	return result;
 }
 
 }
