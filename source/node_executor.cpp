@@ -68,7 +68,7 @@ private:
 		successor._hash ^= en_passant_hash[result];
 		successor._en_passant = enPassant;
 		successor._hash ^= en_passant_hash[enPassant];
-		successor._hash ^= color_hash;
+//		successor._hash ^= color_hash;
 		successor._color *= -1;
 		return result;
 	}
