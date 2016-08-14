@@ -71,7 +71,8 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
 {
 	const move_generator<active_tag> generator(node);
-	BOOST_CHECK_EQUAL_COLLECTIONS(generator.begin(), generator.end(), moves.begin(), moves.end());
+//	BOOST_CHECK_EQUAL_COLLECTIONS(generator.begin(), generator.end(), moves.begin(), moves.end());
+	BOOST_CHECK(std::is_permutation(generator.begin(), generator.end(), moves.begin(), moves.end()));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -105,8 +106,8 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
 {
 	const move_generator<all_tag> generator(node);
-	BOOST_CHECK_EQUAL_COLLECTIONS(generator.begin(), generator.end(), moves.begin(), moves.end());
-//	BOOST_CHECK(std::is_permutation(generator.begin(), generator.end(), moves.begin(), moves.end()));
+//	BOOST_CHECK_EQUAL_COLLECTIONS(generator.begin(), generator.end(), moves.begin(), moves.end());
+	BOOST_CHECK(std::is_permutation(generator.begin(), generator.end(), moves.begin(), moves.end()));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
