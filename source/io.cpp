@@ -99,7 +99,7 @@ operator<<(ostream& stream, const std::pair<const chess::node_t&, const chess::m
 	stream << char('a' + file_of(pair.second.to));
 	stream << char('1' + rank_of(pair.second.to));
 	stream << promoted[pair.second.promotion];
-//	stream << check[pair.second.check()];
+	stream << check[pair.second.index];
 	return stream;
 }
 
