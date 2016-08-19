@@ -11,7 +11,10 @@
 #include "move.hpp"
 #include "attacker.hpp"
 #include "history_table.hpp"
+#include "killer_table.hpp"
+#include "exchanger.hpp"
 #include <algorithm>
+#include <queue>
 
 namespace chess {
 
@@ -248,22 +251,6 @@ generator<pawn_tag, black_tag>::generate<all_tag>(const node_t& node, moves_t::i
 	return moves;
 }
 
-constexpr
-score_t
-evaluate(const node_t& node, const move_t move) noexcept
-{
-	constexpr std::array<score_t, 5> promotion
-	{
-		0,
-		score_of[N] - score_of[P],
-		score_of[B] - score_of[P],
-		score_of[R] - score_of[P],
-		score_of[Q] - score_of[P]
-	};
-	const score_t score = promotion[move.promotion] + score_of[node[move.to]];
-	return (score << 4) - bool(score) * score_of[node[move.from]];
-}
-
 }
 
 template <typename moves_tag>
@@ -274,25 +261,23 @@ public:
 	:
 		_end(generate(node, _moves.begin()))
 	{
-		std::array<score_t, 256> evals;
-
 		for (std::uint8_t index = 0; index < size(); ++index)
 		{
 			move_t& move = _moves[index];
 			move.index = index;
-			evals[index] = detail::evaluate(node, move);
+			_evals[index].score = exchanger::evaluate(node, move);
 		}
 
 		std::stable_sort
 		(
 			_moves.begin(), _end,
-			[&evals](const move_t& move1, const move_t& move2)
+			[this](const move_t& move1, const move_t& move2)
 			{
-				return evals[move1.index] > evals[move2.index];
+				return _evals[move1.index].score > _evals[move2.index].score;
 			}
 		);
 	}
-
+/*
 	move_generator(const node_t& node, const history_table_t& h_table, const history_table_t& b_table)
 	:
 		_end(generate(node, _moves.begin()))
@@ -318,11 +303,41 @@ public:
 			_moves.begin(), _end,
 			[&evals](const move_t& move1, const move_t& move2)
 			{
-				const score_t score1 = evals[move1.index].score;
-				const score_t score2 = evals[move2.index].score;
-				if (score1 != score2)
-					return score1 > score2;
-				return evals[move1.index].good > evals[move2.index].good;
+				const eval_t& eval1 = evals[move1.index];
+				const eval_t& eval2 = evals[move2.index];
+				if (eval1.score != eval2.score)
+					return eval1.score > eval2.score;
+				return eval1.good > eval2.good;
+			}
+		);
+	}
+*/
+	move_generator(const node_t& node, const history_table_t& h_table, const history_table_t& b_table, const killer_table_t::entry_t& k_entry1, const killer_table_t::entry_t& k_entry2)
+	:
+		_end(generate(node, _moves.begin()))
+	{
+		for (std::uint8_t index = 0; index < size(); ++index)
+		{
+			move_t& move = _moves[index];
+			eval_t& eval = _evals[index];
+			move.index = index;
+			eval.score = exchanger::evaluate(node, move);
+			eval.good = float(h_table(node, move)) / float(b_table(node, move));
+			eval.killer = (k_entry1[0] == move || k_entry1[1] == move) + (k_entry2[0] == move || k_entry2[1] == move);
+		}
+
+		std::stable_sort
+		(
+			_moves.begin(), _end,
+			[this](const move_t& move1, const move_t& move2)
+			{
+				const eval_t& eval1 = _evals[move1.index];
+				const eval_t& eval2 = _evals[move2.index];
+				if (eval1.score != eval2.score)
+					return eval1.score > eval2.score;
+				if (eval1.killer != eval2.killer)
+					return eval1.killer > eval2.killer;
+				return eval1.good > eval2.good;
 			}
 		);
 	}
@@ -343,6 +358,12 @@ public:
 	size() const noexcept
 	{
 		return std::distance(begin(), end());
+	}
+
+	constexpr score_t
+	operator[](const move_t move) const noexcept
+	{
+		return _evals[move.index].score;
 	}
 
 protected:
@@ -369,6 +390,14 @@ protected:
 private:
 	moves_t _moves;
 	moves_t::iterator _end;
+
+	struct eval_t
+	{
+		float good;
+		score_t score;
+		std::uint8_t killer;
+	};
+	std::array<eval_t, 256> _evals;
 };
 
 }
