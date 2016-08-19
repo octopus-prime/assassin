@@ -11,6 +11,8 @@ obj hash : source/hash.cpp ;
 obj io : source/io.cpp ;
 obj node_creator : source/node_creator.cpp ;
 obj node_executor : source/node_executor.cpp ;
+obj exchanger : source/exchanger.cpp ;
+obj evaluator : source/evaluator.cpp ;
 
 exe assassin
 	:
@@ -18,6 +20,8 @@ exe assassin
 		io
 		node_creator
 		node_executor
+		exchanger
+		evaluator
 		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
@@ -29,6 +33,8 @@ unit-test assassin-test
 		io
 		node_creator
 		node_executor
+		exchanger
+		evaluator
 		[ glob test/*.cpp ]
 		/site-config//boost_unit_test_framework
 	;
