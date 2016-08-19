@@ -10,6 +10,7 @@
 #include "node.hpp"
 #include "move.hpp"
 #include <array>
+#include <atomic>
 
 namespace chess {
 
@@ -23,13 +24,15 @@ public:
 		clear();
 	}
 
-	constexpr size_t operator()(const node_t& node, const move_t move) const noexcept
+	inline size_t operator()(const node_t& node, const move_t move) const noexcept
 	{
 		return _entries[node.color() == white][move.from][move.to];
 	}
 
 	inline void put(const node_t& node, const move_t move) noexcept
 	{
+		if (node[move.to] || move.promotion)
+			return;
 		++_entries[node.color() == white][move.from][move.to];
 	}
 
@@ -41,7 +44,7 @@ public:
 	}
 
 private:
-	std::array<std::array<std::array<std::size_t, 64>, 64>, 2> _entries;
+	std::array<std::array<std::array<std::atomic_int_fast64_t, 64>, 64>, 2> _entries;
 };
 
 }
