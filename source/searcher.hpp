@@ -23,7 +23,7 @@ class searcher
 public:
 	searcher(transposition_table_t& t_table, const report_t& report) noexcept;
 
-	void
+	score_t
 	operator()(const node_t& node, const std::uint_fast8_t depth);
 
 	void

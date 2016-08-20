@@ -28,23 +28,26 @@ searcher::searcher(transposition_table_t& t_table, const report_t& report) noexc
 {
 }
 
-void
+score_t
 searcher::operator()(const node_t& node, const std::uint_fast8_t depth)
 {
+	score_t score = 0;
 	_start = clock::now();
 
 	for (std::uint_fast8_t iteration = 1; iteration <= depth; ++iteration)
 	{
-		const score_t score = search(node, -30000, +30000, iteration, 0, move_t {});
+		score = search(node, -30000, +30000, iteration, 0, move_t {});
 
 		if (_stop)
-			return;
+			break;
 
 		_report(iteration, _height, score, clock::now() - _start, _count, get_pv(node));
 
 		if (-30000 + 100 > score || score > +30000 - 100)
 			break;
 	}
+
+	return score;
 }
 
 void
