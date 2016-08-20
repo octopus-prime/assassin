@@ -14,11 +14,16 @@
 
 namespace chess {
 
-searcher::searcher(environment_t& environment, const report_t& report) noexcept
+searcher::searcher(transposition_table_t& t_table, const report_t& report) noexcept
 :
-	_environment(environment),
 	_report(report),
-	_stop(false),
+	_t_table(t_table),
+	_h_table(),
+	_b_table(),
+	_k_table(),
+	_count(),
+	_height(),
+	_stop(),
 	_start()
 {
 }
@@ -35,7 +40,7 @@ searcher::operator()(const node_t& node, const std::uint_fast8_t depth)
 		if (_stop)
 			return;
 
-		_report(iteration, _environment.height, score, clock::now() - _start, _environment.count, get_pv(node));
+		_report(iteration, _height, score, clock::now() - _start, _count, get_pv(node));
 
 		if (-30000 + 100 > score || score > +30000 - 100)
 			break;
@@ -54,8 +59,8 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 	if (_stop)
 		return 0;
 
-	if (height > _environment.height)
-		_environment.height = height;
+	if (height > _height)
+		_height = height;
 
 	if (count_repetition(node) >= 3 || node.half_moves() >= 50)
 		return 0;
@@ -66,13 +71,13 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 	if (depth == 0)
 		return search(node, alpha, beta);
 
-	++_environment.count;
+	++_count;
 
 	move_t best_move = {};
 	score_t search_alpha = alpha;
 	score_t search_beta = beta;
 
-	const transposition_entry_t& entry = _environment.t_table[node];
+	const transposition_entry_t& entry = _t_table[node];
 	if (entry.hash() == node.hash())
 	{
 		if (entry.depth() >= depth)
@@ -113,7 +118,7 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 	if (best_move == move_t {} && depth > 2)
 	{
 		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-		const transposition_entry_t& entry = _environment.t_table[node];
+		const transposition_entry_t& entry = _t_table[node];
 		if (entry.hash() == node.hash())
 			best_move = entry.move();
 	}
@@ -129,15 +134,15 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 			if (!test_check(succ, node.color()))
 			{
 				legal++;
-				_environment.b_table.put(node, best_move);
+				_b_table.put(node, best_move);
 				const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
 				if (score > best_score)
 				{
 					if (score >= search_beta)
 					{
-						_environment.t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
-						_environment.h_table.put(node, best_move);
-						_environment.k_table.put(node, best_move, height);
+						_t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
+						_h_table.put(node, best_move);
+						_k_table.put(node, best_move, height);
 						return search_beta;
 					}
 					best_score = score;
@@ -172,7 +177,7 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 		break;
 	}
 
-	const move_generator<all_tag> moves(node, _environment.h_table, _environment.b_table, _environment.k_table[height], _environment.k_table[height + 2]);
+	const move_generator<all_tag> moves(node, _h_table, _b_table, _k_table[height], _k_table[height + 2]);
 
 	if (!check && depth > 3 && moves.size() > 8)
 	{
@@ -196,9 +201,9 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 				if (score >= search_beta)
 				{
 					group.cancel();
-					_environment.t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-					_environment.h_table.put(node, move);
-					_environment.k_table.put(node, move, height);
+					_t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
+					_h_table.put(node, move);
+					_k_table.put(node, move, height);
 				}
 			}
 		};
@@ -223,7 +228,7 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 			if (test_check(succ, node.color()))
 				continue;
 			legal++;
-			_environment.b_table.put(node, move);
+			_b_table.put(node, move);
 
 			const score_t mscore = moves[move];
 			move.index = test_check(succ, succ.color());
@@ -255,7 +260,7 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 			if (test_check(succ, node.color()))
 				continue;
 			legal++;
-			_environment.b_table.put(node, move);
+			_b_table.put(node, move);
 
 			const score_t mscore = moves[move];
 			move.index = test_check(succ, succ.color());
@@ -277,9 +282,9 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 			{
 				if (score >= search_beta)
 				{
-					_environment.t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-					_environment.h_table.put(node, move);
-					_environment.k_table.put(node, move, height);
+					_t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
+					_h_table.put(node, move);
+					_k_table.put(node, move, height);
 					return search_beta;
 				}
 				best_score = score;
@@ -291,17 +296,17 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 	if (!legal)
 	{
 		const score_t score = check ? -30000 + height : 0;
-		_environment.t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
+		_t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
 		return score;
 	}
 
 	if (best_score > alpha)
 	{
-		_environment.t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
-		_environment.h_table.put(node, best_move);
+		_t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
+		_h_table.put(node, best_move);
 	}
 	else
-		_environment.t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
+		_t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
 
 	return best_score;
 }
@@ -312,7 +317,7 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta)
 	if (_stop)
 		return 0;
 
-	_environment.count++;
+	_count++;
 
 	score_t best_score = alpha;
 
@@ -384,9 +389,9 @@ std::string
 searcher::get_pv(node_t node) const
 {
 	std::ostringstream stream;
-	for (std::uint_fast8_t i = 0; i < _environment.height; ++i)
+	for (std::uint_fast8_t i = 0; i < _height; ++i)
 	{
-		const transposition_entry_t& entry = _environment.t_table[node];
+		const transposition_entry_t& entry = _t_table[node];
 		if (entry.hash() != node.hash())
 			break;
 		const move_t move = entry.move();

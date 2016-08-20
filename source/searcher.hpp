@@ -7,7 +7,9 @@
 
 #pragma once
 
-#include "environment.hpp"
+#include "transposition_table.hpp"
+#include "history_table.hpp"
+#include "killer_table.hpp"
 #include <chrono>
 #include <functional>
 
@@ -19,7 +21,7 @@ typedef std::function<void (const std::uint_fast8_t iteration, const std::uint_f
 class searcher
 {
 public:
-	searcher(environment_t& environment, const report_t& report) noexcept;
+	searcher(transposition_table_t& t_table, const report_t& report) noexcept;
 
 	void
 	operator()(const node_t& node, const std::uint_fast8_t depth);
@@ -51,8 +53,13 @@ protected:
 	get_pv(node_t node) const;
 
 private:
-	environment_t& _environment;
 	report_t _report;
+	transposition_table_t& _t_table;
+	history_table_t _h_table;
+	history_table_t _b_table;
+	killer_table_t _k_table;
+	std::atomic_uint_fast64_t _count;
+	std::atomic_uint_fast8_t _height;
 	std::atomic_bool _stop;
 	clock::time_point _start;
 };
