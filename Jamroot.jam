@@ -13,6 +13,7 @@ obj node_creator : source/node_creator.cpp ;
 obj node_executor : source/node_executor.cpp ;
 obj exchanger : source/exchanger.cpp ;
 obj evaluator : source/evaluator.cpp ;
+obj searcher : source/searcher.cpp ;
 
 exe assassin
 	:
@@ -22,6 +23,7 @@ exe assassin
 		node_executor
 		exchanger
 		evaluator
+		searcher
 		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
@@ -35,6 +37,9 @@ unit-test assassin-test
 		node_executor
 		exchanger
 		evaluator
+		searcher
 		[ glob test/*.cpp ]
+		/site-config//tbb
+		/site-config//pthread
 		/site-config//boost_unit_test_framework
 	;
