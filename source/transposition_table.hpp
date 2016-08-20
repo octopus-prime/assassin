@@ -9,6 +9,7 @@
 
 #include "node.hpp"
 #include "move.hpp"
+#include <vector>
 #include <array>
 
 namespace chess {
