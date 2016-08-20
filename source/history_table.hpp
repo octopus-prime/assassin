@@ -17,26 +17,29 @@ namespace chess {
 class history_table_t
 {
 public:
-	constexpr history_table_t() noexcept
+	constexpr
+	history_table_t() noexcept
 	:
 		_entries()
 	{
-		clear();
 	}
 
-	inline size_t operator()(const node_t& node, const move_t move) const noexcept
+	inline size_t
+	operator()(const node_t& node, const move_t move) const noexcept
 	{
 		return _entries[node.color() == white][move.from][move.to];
 	}
 
-	inline void put(const node_t& node, const move_t move) noexcept
+	inline void
+	put(const node_t& node, const move_t move) noexcept
 	{
 		if (node[move.to] || move.promotion)
 			return;
 		++_entries[node.color() == white][move.from][move.to];
 	}
 
-	inline void clear() noexcept
+	inline void
+	clear() noexcept
 	{
 		for (auto& temp1 : _entries)
 			for (auto& temp2 : temp1)
