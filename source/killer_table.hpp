@@ -19,7 +19,15 @@ class killer_table_t
 public:
 	typedef std::array<std::atomic<move_t>, 2> entry_t;
 
-	void put(const node_t& node, const move_t move, const std::uint8_t height) noexcept
+	constexpr
+	killer_table_t() noexcept
+	:
+		_entries()
+	{
+	}
+
+	void
+	put(const node_t& node, const move_t move, const std::uint8_t height) noexcept
 	{
 		if (node[move.to])
 			return;
@@ -32,9 +40,17 @@ public:
 		}
 	}
 
-	const entry_t& operator[](const std::uint8_t height) const noexcept
+	const entry_t&
+	operator[](const std::uint8_t height) const noexcept
 	{
 		return _entries[height];
+	}
+
+	void
+	clear() noexcept
+	{
+		for (auto& entry : _entries)
+			entry[0] = entry[1] = move_t {};
 	}
 
 private:
