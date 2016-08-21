@@ -112,14 +112,7 @@ exchanger_t::operator()(const move_t move) noexcept
 		_black ^= board_of(move.from);
 	color *= -1;
 
-	constexpr std::array<score_t, 5> promotion
-	{
-		0,
-		score_of[N] - score_of[P],
-		score_of[B] - score_of[P],
-		score_of[R] - score_of[P],
-		score_of[Q] - score_of[P]
-	};
+	constexpr std::array<score_t, 5> promotion {0, 1_N - 1_P, 1_B - 1_P, 1_R - 1_P, 1_Q - 1_P};
 
 	scores_t::iterator scores_end = scores.begin();
 	*scores_end++ = score_of[_node[move.to]] + promotion[move.promotion];

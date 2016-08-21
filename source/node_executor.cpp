@@ -327,7 +327,7 @@ node_t::executor::execute_capture<Q>(node_t& successor, const square_t to) noexc
 	successor._occupy_white			^= board_of(to);
 	successor._occupy_rook_queen	^= board_of(to);
 	successor._occupy_bishop_queen	^= board_of(to);
-	successor._score				-= score_of[Q];
+	successor._score				-= 1_Q;
 }
 
 template <>
@@ -337,7 +337,7 @@ node_t::executor::execute_capture<q>(node_t& successor, const square_t to) noexc
 	successor._occupy_black			^= board_of(to);
 	successor._occupy_rook_queen	^= board_of(to);
 	successor._occupy_bishop_queen	^= board_of(to);
-	successor._score				+= score_of[q];
+	successor._score				+= 1_Q;
 }
 
 template <>
@@ -346,7 +346,7 @@ node_t::executor::execute_capture<R>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_white			^= board_of(to);
 	successor._occupy_rook_queen	^= board_of(to);
-	successor._score				-= score_of[R];
+	successor._score				-= 1_R;
 	if (successor._castle & white_castle)
 	{
 		successor._hash ^= castle_hash[successor._castle];
@@ -371,7 +371,7 @@ node_t::executor::execute_capture<r>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_black			^= board_of(to);
 	successor._occupy_rook_queen	^= board_of(to);
-	successor._score				+= score_of[r];
+	successor._score				+= 1_R;
 	if (successor._castle & black_castle)
 	{
 		successor._hash ^= castle_hash[successor._castle];
@@ -396,7 +396,7 @@ node_t::executor::execute_capture<B>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_white			^= board_of(to);
 	successor._occupy_bishop_queen	^= board_of(to);
-	successor._score				-= score_of[B];
+	successor._score				-= 1_B;
 }
 
 template <>
@@ -405,7 +405,7 @@ node_t::executor::execute_capture<b>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_black			^= board_of(to);
 	successor._occupy_bishop_queen	^= board_of(to);
-	successor._score				+= score_of[b];
+	successor._score				+= 1_B;
 }
 
 template <>
@@ -414,7 +414,7 @@ node_t::executor::execute_capture<N>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_white			^= board_of(to);
 	successor._occupy_knight		^= board_of(to);
-	successor._score				-= score_of[N];
+	successor._score				-= 1_N;
 }
 
 template <>
@@ -423,7 +423,7 @@ node_t::executor::execute_capture<n>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_black			^= board_of(to);
 	successor._occupy_knight		^= board_of(to);
-	successor._score				+= score_of[n];
+	successor._score				+= 1_N;
 }
 
 template <>
@@ -432,7 +432,7 @@ node_t::executor::execute_capture<P>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_white			^= board_of(to);
 	successor._occupy_pawn			^= board_of(to);
-	successor._score				-= score_of[P];
+	successor._score				-= 1_P;
 }
 
 template <>
@@ -441,7 +441,7 @@ node_t::executor::execute_capture<p>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_black			^= board_of(to);
 	successor._occupy_pawn			^= board_of(to);
-	successor._score				+= score_of[p];
+	successor._score				+= 1_P;
 }
 
 template <>
@@ -450,7 +450,7 @@ node_t::executor::execute_promote<Q>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_rook_queen	|= board_of(to);
 	successor._occupy_bishop_queen	|= board_of(to);
-	successor._score				+= score_of[Q] - score_of[P];
+	successor._score				+= 1_Q - 1_P;
 }
 
 template <>
@@ -459,7 +459,7 @@ node_t::executor::execute_promote<q>(node_t& successor, const square_t to) noexc
 {
 	successor._occupy_rook_queen	|= board_of(to);
 	successor._occupy_bishop_queen	|= board_of(to);
-	successor._score				-= score_of[q] - score_of[p];
+	successor._score				-= 1_Q - 1_P;
 }
 
 template <>
@@ -467,7 +467,7 @@ void
 node_t::executor::execute_promote<R>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_rook_queen	|= board_of(to);
-	successor._score				+= score_of[R] - score_of[P];
+	successor._score				+= 1_R - 1_P;
 }
 
 template <>
@@ -475,7 +475,7 @@ void
 node_t::executor::execute_promote<r>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_rook_queen	|= board_of(to);
-	successor._score				-= score_of[r] - score_of[p];
+	successor._score				-= 1_R - 1_P;
 }
 
 template <>
@@ -483,7 +483,7 @@ void
 node_t::executor::execute_promote<B>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_bishop_queen	|= board_of(to);
-	successor._score				+= score_of[B] - score_of[P];
+	successor._score				+= 1_B - 1_P;
 }
 
 template <>
@@ -491,7 +491,7 @@ void
 node_t::executor::execute_promote<b>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_bishop_queen	|= board_of(to);
-	successor._score				-= score_of[b] - score_of[p];
+	successor._score				-= 1_B - 1_P;
 }
 
 template <>
@@ -499,7 +499,7 @@ void
 node_t::executor::execute_promote<N>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_knight		|= board_of(to);
-	successor._score				+= score_of[N] - score_of[P];
+	successor._score				+= 1_N - 1_P;
 }
 
 template <>
@@ -507,7 +507,7 @@ void
 node_t::executor::execute_promote<n>(node_t& successor, const square_t to) noexcept
 {
 	successor._occupy_knight		|= board_of(to);
-	successor._score				-= score_of[n] - score_of[p];
+	successor._score				-= 1_N - 1_P;
 }
 
 void

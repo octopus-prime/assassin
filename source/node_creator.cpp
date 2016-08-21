@@ -270,7 +270,7 @@ void node_t::creator::set_mask<Q>(node_t& node, const board_t mask)
 	node._occupy_white |= mask;
 	node._occupy_rook_queen |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score += score_of[Q];
+	node._score += 1_Q;
 }
 
 template <>
@@ -279,7 +279,7 @@ void node_t::creator::set_mask<q>(node_t& node, const board_t mask)
 	node._occupy_black |= mask;
 	node._occupy_rook_queen |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score -= score_of[q];
+	node._score -= 1_Q;
 }
 
 template <>
@@ -287,7 +287,7 @@ void node_t::creator::set_mask<R>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_rook_queen |= mask;
-	node._score += score_of[R];
+	node._score += 1_R;
 }
 
 template <>
@@ -295,7 +295,7 @@ void node_t::creator::set_mask<r>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_rook_queen |= mask;
-	node._score -= score_of[r];
+	node._score -= 1_R;
 }
 
 template <>
@@ -303,7 +303,7 @@ void node_t::creator::set_mask<B>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score += score_of[B];
+	node._score += 1_B;
 }
 
 template <>
@@ -311,7 +311,7 @@ void node_t::creator::set_mask<b>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_bishop_queen |= mask;
-	node._score -= score_of[b];
+	node._score -= 1_B;
 }
 
 template <>
@@ -319,7 +319,7 @@ void node_t::creator::set_mask<N>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_knight |= mask;
-	node._score += score_of[N];
+	node._score += 1_N;
 }
 
 template <>
@@ -327,7 +327,7 @@ void node_t::creator::set_mask<n>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_knight |= mask;
-	node._score -= score_of[n];
+	node._score -= 1_N;
 }
 
 template <>
@@ -335,7 +335,7 @@ void node_t::creator::set_mask<P>(node_t& node, const board_t mask)
 {
 	node._occupy_white |= mask;
 	node._occupy_pawn |= mask;
-	node._score += score_of[P];
+	node._score += 1_P;
 }
 
 template <>
@@ -343,7 +343,7 @@ void node_t::creator::set_mask<p>(node_t& node, const board_t mask)
 {
 	node._occupy_black |= mask;
 	node._occupy_pawn |= mask;
-	node._score -= score_of[p];
+	node._score -= 1_P;
 }
 
 }

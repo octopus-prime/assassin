@@ -60,23 +60,23 @@ const std::initializer_list<move_t> moves
 
 const std::initializer_list<score_t> scores
 {
-	score_of[P] - score_of[Q],
-	score_of[P] - score_of[Q] + score_of[P],
-	score_of[P],
-	score_of[P] - score_of[Q] + score_of[P],
+	1_P - 1_Q,
+	2_P - 1_Q,
+	1_P,
+	2_P - 1_Q,
 
-	1_P - 1_N + 1_N,
+	1_P,
 	1_P - 1_B + 1_N,
 
-	1_P - 1_R + 1_R - 1_R,
+	1_P - 1_R,
 	1_R,
 	1_R,
 	1_R,
 
 	1_Q - 1_P,
 	1_N - 1_P,
-	1_Q - 1_P - 1_Q,
-	1_R + 1_Q - 1_P - 1_Q,
+	-1_P,
+	1_R - 1_P,
 };
 
 BOOST_DATA_TEST_CASE(test, nodes ^ moves ^ scores, node, move, score)
