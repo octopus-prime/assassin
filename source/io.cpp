@@ -95,7 +95,7 @@ operator<<(ostream& stream, const std::pair<const chess::node_t&, const chess::m
 	stream << piece[pair.first[pair.second.from]];
 	stream << char('a' + file_of(pair.second.from));
 	stream << char('1' + rank_of(pair.second.from));
-	stream << (pair.first[pair.second.to] ? 'x' : '-');
+	stream << (pair.first[pair.second.to] != no_piece || (pair.first.en_passant() && pair.second.to == pair.first.en_passant()) ? 'x' : '-');
 	stream << char('a' + file_of(pair.second.to));
 	stream << char('1' + rank_of(pair.second.to));
 	stream << promoted[pair.second.promotion];
