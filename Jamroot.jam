@@ -11,6 +11,7 @@ obj hash : source/hash.cpp ;
 obj io : source/io.cpp ;
 obj node_creator : source/node_creator.cpp ;
 obj node_executor : source/node_executor.cpp ;
+obj move_generator : source/move_generator.cpp ;
 obj exchanger : source/exchanger.cpp ;
 obj evaluator : source/evaluator.cpp ;
 obj searcher : source/searcher.cpp ;
@@ -21,6 +22,7 @@ exe assassin
 		io
 		node_creator
 		node_executor
+		move_generator
 		exchanger
 		evaluator
 		searcher
@@ -35,6 +37,7 @@ unit-test assassin-test
 		io
 		node_creator
 		node_executor
+		move_generator
 		exchanger
 		evaluator
 		searcher
