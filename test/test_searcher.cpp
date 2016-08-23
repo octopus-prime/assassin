@@ -33,7 +33,7 @@ const std::initializer_list<node_t> nodes
 	node_t("k7/7R/8/8/8/8/8/1R5K w - - 0 1"), // mate+
 	node_t("k7/7R/8/8/8/8/8/2R4K b - - 0 1"), // mate-
 	node_t("k7/7R/8/8/8/8/8/2R4K b - - 49 1"), // 50 moves
-	n9 // 3 times
+	n9 // 3fold repetition
 };
 
 const std::initializer_list<score_t> scores
