@@ -8,6 +8,7 @@
 #include "searcher.hpp"
 #include "move_generator.hpp"
 #include "evaluator.hpp"
+#include "attacker.hpp"
 #include "io.hpp"
 #include <tbb/task_group.h>
 #include <sstream>
