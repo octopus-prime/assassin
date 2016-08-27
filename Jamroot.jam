@@ -15,6 +15,7 @@ obj move_generator : source/move_generator.cpp ;
 obj exchanger : source/exchanger.cpp ;
 obj evaluator : source/evaluator.cpp ;
 obj searcher : source/searcher.cpp ;
+obj analyzer : source/analyzer.cpp ;
 
 exe assassin
 	:
@@ -26,6 +27,7 @@ exe assassin
 		exchanger
 		evaluator
 		searcher
+		analyzer
 		source/engine.cpp
 		/site-config//tbb
 		/site-config//pthread
@@ -41,6 +43,7 @@ unit-test assassin-test
 		exchanger
 		evaluator
 		searcher
+		analyzer
 		[ glob test/*.cpp ]
 		/site-config//tbb
 		/site-config//pthread
