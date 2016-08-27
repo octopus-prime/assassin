@@ -54,19 +54,25 @@ struct pawn_analyser_t
 	static constexpr bool
 	is_isolated(const std::pair<properties_t,properties_t>& properties) noexcept
 	{
-		return !(properties.first & neighbour); // no own pawns in file +/- 1
+		return !(properties.first & (1 << neighbour)); // no own pawns in file +/- 1
 	}
 
 	static constexpr bool
 	is_doubled(const std::pair<properties_t,properties_t>& properties) noexcept
 	{
-		return properties.first & doubled; // more than 1 own pawn on file
+		return properties.first & (1 << doubled); // more than 1 own pawn on file
 	}
 
 	static constexpr bool
 	is_passed(const std::pair<properties_t,properties_t>& properties) noexcept
 	{
-		return !((properties.first | properties.second) & blocked); // not blocked by own or other pawns
+		return !((properties.first | properties.second) & (1 << blocked)); // not blocked by own or other pawns
+	}
+
+	static constexpr bool
+	is_supported(const std::pair<properties_t,properties_t>& properties) noexcept
+	{
+		return properties.first & (1 << supported); // ...
 	}
 
 private:
@@ -74,9 +80,10 @@ private:
 
 	enum property : std::uint8_t
 	{
-		neighbour = 1 << 0,
-		doubled = 1 << 1,
-		blocked = 1 << 2
+		neighbour,
+		doubled,
+		blocked,
+		supported
 	};
 
 	std::array<size_t, 8> indexes_color;

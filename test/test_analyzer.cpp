@@ -244,6 +244,72 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(test_supported)
+
+const std::initializer_list<node_t> nodes
+{
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+	node_t("4k3/pp1p2p1/2p5/5p2/5P2/2P5/PP1P2P1/4K3 w - - 0 1"),
+};
+
+const std::initializer_list<bool> supporteds
+{
+	true,
+	true,
+	true,
+	false,
+	false,
+	false,
+};
+
+BOOST_AUTO_TEST_SUITE(test_white)
+
+const std::initializer_list<square> squares
+{
+	a2,
+	b2,
+	c3,
+	d2,
+	f4,
+	g2,
+};
+
+BOOST_DATA_TEST_CASE(test, nodes ^ squares ^ supporteds, node, square, supported)
+{
+	typedef detail::pawn_analyser_t<white_tag> analyzer_t;
+	const analyzer_t analyze(node);
+	BOOST_CHECK_EQUAL(analyzer_t::is_supported(analyze(square)), supported);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_black)
+
+const std::initializer_list<square> squares
+{
+	a7,
+	b7,
+	c6,
+	d7,
+	f5,
+	g7,
+};
+
+BOOST_DATA_TEST_CASE(test, nodes ^ squares ^ supporteds, node, square, supported)
+{
+	typedef detail::pawn_analyser_t<black_tag> analyzer_t;
+	const analyzer_t analyze(node);
+	BOOST_CHECK_EQUAL(analyzer_t::is_supported(analyze(square)), supported);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }

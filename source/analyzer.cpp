@@ -53,7 +53,7 @@ pawn_analyser_t<white_tag>::make_color_0() noexcept
 		{
 			const bool is_doubled = popcnt(file) > 1;
 			const bool is_blocked = rank < __bsrq(file);
-			entries[rank][file] = (is_doubled ? doubled : 0) | (is_blocked ? blocked : 0);
+			entries[rank][file] = (is_doubled << doubled) | (is_blocked << blocked);
 		}
 	return std::move(entries);
 }
@@ -68,7 +68,7 @@ pawn_analyser_t<black_tag>::make_color_0() noexcept
 		{
 			const bool is_doubled = popcnt(file) > 1;
 			const bool is_blocked = rank > __bsfq(file);
-			entries[rank][file] = (is_doubled ? doubled : 0) | (is_blocked ? blocked : 0);
+			entries[rank][file] = (is_doubled << doubled) | (is_blocked << blocked);
 		}
 	return std::move(entries);
 }
@@ -82,7 +82,7 @@ pawn_analyser_t<white_tag>::make_other_0() noexcept
 		for (auto file = 0; file < 64; ++file)
 		{
 			const bool is_blocked = file ? rank < __bsrq(file) : false;
-			entries[rank][file] = is_blocked ? blocked : 0;
+			entries[rank][file] = is_blocked << blocked;
 		}
 	return std::move(entries);
 }
@@ -96,19 +96,38 @@ pawn_analyser_t<black_tag>::make_other_0() noexcept
 		for (auto file = 0; file < 64; ++file)
 		{
 			const bool is_blocked = file ? rank > __bsfq(file) : false;
-			entries[rank][file] = is_blocked ? blocked : 0;
+			entries[rank][file] = is_blocked << blocked;
 		}
 	return std::move(entries);
 }
 
-template <typename color_tag>
-typename pawn_analyser_t<color_tag>::entries_t
-pawn_analyser_t<color_tag>::make_color_1() noexcept
+template <>
+typename pawn_analyser_t<white_tag>::entries_t
+pawn_analyser_t<white_tag>::make_color_1() noexcept
 {
 	entries_t entries;
 	for (auto rank = 0; rank < 6; ++rank)
 		for (auto file = 0; file < 64; ++file)
-			entries[rank][file] = popcnt(file) > 0 ? neighbour : 0;
+		{
+			const bool is_neighbour = popcnt(file) > 0;
+			const bool is_supported = (file & (1 << rank)) | (file & (1 << (rank - 1)));
+			entries[rank][file] = (is_neighbour << neighbour) | (is_supported << supported);
+		}
+	return std::move(entries);
+}
+
+template <>
+typename pawn_analyser_t<black_tag>::entries_t
+pawn_analyser_t<black_tag>::make_color_1() noexcept
+{
+	entries_t entries;
+	for (auto rank = 0; rank < 6; ++rank)
+		for (auto file = 0; file < 64; ++file)
+		{
+			const bool is_neighbour = popcnt(file) > 0;
+			const bool is_supported = (file & (1 << rank)) | (file & (1 << (rank + 1)));
+			entries[rank][file] = (is_neighbour << neighbour) | (is_supported << supported);
+		}
 	return std::move(entries);
 }
 
@@ -121,7 +140,7 @@ pawn_analyser_t<white_tag>::make_other_1() noexcept
 		for (auto file = 0; file < 64; ++file)
 		{
 			const bool is_blocked = file ? rank < __bsrq(file) : false;
-			entries[rank][file] = is_blocked ? blocked : 0;
+			entries[rank][file] = is_blocked << blocked;
 		}
 	return std::move(entries);
 }
@@ -135,7 +154,7 @@ pawn_analyser_t<black_tag>::make_other_1() noexcept
 		for (auto file = 0; file < 64; ++file)
 		{
 			const bool is_blocked = file ? rank > __bsfq(file) : false;
-			entries[rank][file] = is_blocked ? blocked : 0;
+			entries[rank][file] = is_blocked << blocked;
 		}
 	return std::move(entries);
 }
