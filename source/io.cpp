@@ -33,12 +33,18 @@ operator<<(ostream& stream, const bitset<64>& board)
 }
 
 ostream&
+operator<<(ostream& stream, const chess::square square)
+{
+	stream << char('a' + chess::file_of(square));
+	stream << char('1' + chess::rank_of(square));
+	return stream;
+}
+
+ostream&
 operator<<(ostream& stream, const move_t& move)
 {
-	stream << char('a' + file_of(move.from));
-	stream << char('1' + rank_of(move.from));
-	stream << char('a' + file_of(move.to));
-	stream << char('1' + rank_of(move.to));
+	stream << square(move.from);
+	stream << square(move.to);
 	return stream;
 }
 
@@ -67,10 +73,7 @@ operator<<(ostream& stream, const node_t& node)
 	stream << "Color = " << node.color() << endl;
 	stream << "EnPassant = ";
 	if (node.en_passant())
-	{
-		stream << char('a' + file_of(node.en_passant()));
-		stream << char('1' + rank_of(node.en_passant()));
-	}
+		stream << square(node.en_passant());
 	stream << endl;
 	return stream;
 }
@@ -93,11 +96,9 @@ operator<<(ostream& stream, const std::pair<const chess::node_t&, const chess::m
 		"", "+"
 	}};
 	stream << piece[pair.first[pair.second.from]];
-	stream << char('a' + file_of(pair.second.from));
-	stream << char('1' + rank_of(pair.second.from));
+	stream << square(pair.second.from);
 	stream << (pair.first[pair.second.to] != no_piece || (pair.first.en_passant() && pair.second.to == pair.first.en_passant()) ? 'x' : '-');
-	stream << char('a' + file_of(pair.second.to));
-	stream << char('1' + rank_of(pair.second.to));
+	stream << square(pair.second.to);
 	stream << promoted[pair.second.promotion];
 	stream << check[pair.second.index];
 	return stream;
