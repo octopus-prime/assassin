@@ -82,39 +82,79 @@ private:
 
 class transposition_table_t
 {
+	typedef std::array<transposition_entry_t, 4> cluster_t;
+
+	static_assert(sizeof(cluster_t) == 64, "Bad cluster size");
+
 public:
 	inline transposition_table_t(const std::size_t size)
+	:
+		_entries(size)// / sizeof(cluster_t) + 13)
 	{
-		_entries[0].resize(size / sizeof(transposition_entry_t) / 2 + 13, transposition_entry_t());
-		_entries[1].resize(size / sizeof(transposition_entry_t) / 2 + 13, transposition_entry_t());
 	}
 
 
 	inline void clear() noexcept
 	{
-		std::fill(_entries[0].begin(), _entries[0].end(), transposition_entry_t());
-		std::fill(_entries[1].begin(), _entries[1].end(), transposition_entry_t());
+		std::fill(_entries.begin(), _entries.end(), cluster_t());
 	}
 
 	inline void put(const node_t& node, const move_t move, const score_t score, const transposition_entry_t::flag_t flag, const std::uint8_t depth) noexcept
 	{
-		transposition_entry_t& entry = operator[](node);
-		if (entry.depth() < depth)
-			entry = transposition_entry_t(node.hash(), move, score, flag, depth);
+//		transposition_entry_t& entry = operator[](node);
+//		if (entry.depth() < depth)
+//			entry = transposition_entry_t(node.hash(), move, score, flag, depth);
+
+		cluster_t& cluster = get(node);
+		transposition_entry_t* replace = &cluster.front();
+		for (transposition_entry_t& entry : cluster)
+		{
+			if (entry.hash() == node.hash())
+			{
+				if (move == move_t {})
+					entry = transposition_entry_t(node.hash(), entry.move(), score, flag, depth);
+				else
+					entry = transposition_entry_t(node.hash(), move, score, flag, depth);
+				return;
+			}
+
+			if (entry.depth() < replace->depth())
+				replace = &entry;
+		}
+
+		if (depth >= replace->depth())
+			*replace = transposition_entry_t(node.hash(), move, score, flag, depth);
 	}
 
-	inline transposition_entry_t& operator[](const node_t& node) noexcept
+//	inline transposition_entry_t& operator[](const node_t& node) noexcept
+//	{
+//		return _entries[node.hash() % _entries.size()];
+//	}
+
+	inline const transposition_entry_t* const operator[](const node_t& node) const noexcept
 	{
-		return _entries[node.color() == white][node.hash() % _entries[node.color() == white].size()];
+		const cluster_t& cluster = get(node);
+		for (const transposition_entry_t& entry : cluster)
+			if (entry.hash() == node.hash())
+				return &entry;
+		return nullptr;
 	}
 
-	inline const transposition_entry_t& operator[](const node_t& node) const noexcept
+protected:
+	cluster_t& get(const node_t& node) noexcept
 	{
-		return _entries[node.color() == white][node.hash() % _entries[node.color() == white].size()];
+//		return _entries[node.hash() % _entries.size()];
+		return _entries[node.hash() & (_entries.size() - 1)];
+	}
+
+	const cluster_t& get(const node_t& node) const noexcept
+	{
+//		return _entries[node.hash() % _entries.size()];
+		return _entries[node.hash() & (_entries.size() - 1)];
 	}
 
 private:
-	std::array<std::vector<transposition_entry_t>, 2> _entries;
+	std::vector<cluster_t> _entries;
 };
 
 }
