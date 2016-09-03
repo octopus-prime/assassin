@@ -14,8 +14,11 @@
 
 namespace chess {
 
-class transposition_entry_t
+class transposition_table_t
 {
+	static constexpr auto line = 64; // size of cache line
+	static constexpr auto bits = 64 - 16; // complete hash - hash part of entry
+
 public:
 	enum flag_t : std::uint8_t
 	{
@@ -26,135 +29,90 @@ public:
 //		EGTB
 	};
 
-public:
-	constexpr transposition_entry_t() noexcept
-	:
-		_hash(),
-		_move(),
-		_score(),
-		_depth(),
-		_flag()
+	struct entry_t
 	{
-	}
-
-	constexpr transposition_entry_t(const hash_t hash, const move_t move, const score_t score, const flag_t flag, const std::uint8_t depth) noexcept
-	:
-		_hash(hash),
-		_move(move),
-		_score(score),
-		_depth(depth),
-		_flag(flag)
-	{
-	}
-
-	constexpr hash_t hash() const noexcept
-	{
-		return _hash;
-	}
-
-	constexpr move_t move() const noexcept
-	{
-		return _move;
-	}
-
-	constexpr score_t score() const noexcept
-	{
-		return _score;
-	}
-
-	constexpr flag_t flag() const noexcept
-	{
-		return _flag;
-	}
-
-	constexpr std::uint8_t depth() const noexcept
-	{
-		return _depth;
-	}
+		move_t			move;
+		std::uint16_t	hash;
+		score_t			score;
+		flag_t			flag;
+		std::uint8_t	depth;
+	};
 
 private:
-	hash_t			_hash;
-	move_t			_move;
-	score_t			_score;
-	std::uint8_t	_depth;
-	flag_t			_flag;
-};
+	struct alignas(line) cluster_t
+	{
+		std::array<entry_t, line / sizeof(entry_t)> entries;
+	};
 
-class transposition_table_t
-{
-	typedef std::array<transposition_entry_t, 4> cluster_t;
-
-	static_assert(sizeof(cluster_t) == 64, "Bad cluster size");
+	static_assert(sizeof(cluster_t) == line, "cluster size != cache line");
 
 public:
 	inline transposition_table_t(const std::size_t size)
 	:
-		_entries(size)// / sizeof(cluster_t) + 13)
+		_clusters(size / sizeof(cluster_t))// + 13)
 	{
 	}
 
 
 	inline void clear() noexcept
 	{
-		std::fill(_entries.begin(), _entries.end(), cluster_t());
+		std::fill(_clusters.begin(), _clusters.end(), cluster_t());
 	}
 
-	inline void put(const node_t& node, const move_t move, const score_t score, const transposition_entry_t::flag_t flag, const std::uint8_t depth) noexcept
+	inline void put(const node_t& node, move_t move, const score_t score, const flag_t flag, const std::uint8_t depth) noexcept
 	{
-//		transposition_entry_t& entry = operator[](node);
-//		if (entry.depth() < depth)
-//			entry = transposition_entry_t(node.hash(), move, score, flag, depth);
-
+		const std::uint16_t hash = node.hash() >> bits;
 		cluster_t& cluster = get(node);
-		transposition_entry_t* replace = &cluster.front();
-		for (transposition_entry_t& entry : cluster)
+		entry_t* replace = &cluster.entries.front();
+		for (entry_t& entry : cluster.entries)
 		{
-			if (entry.hash() == node.hash())
+			if (entry.hash == hash)
 			{
 				if (move == move_t {})
-					entry = transposition_entry_t(node.hash(), entry.move(), score, flag, depth);
-				else
-					entry = transposition_entry_t(node.hash(), move, score, flag, depth);
+					move = entry.move;
+				entry = entry_t {move, hash, score, flag, depth};
 				return;
 			}
 
-			if (entry.depth() < replace->depth())
+			if (entry.depth < replace->depth)
 				replace = &entry;
 		}
 
-		if (depth >= replace->depth())
-			*replace = transposition_entry_t(node.hash(), move, score, flag, depth);
+		if (depth > replace->depth)
+			*replace = entry_t {move, hash, score, flag, depth};
 	}
 
-//	inline transposition_entry_t& operator[](const node_t& node) noexcept
-//	{
-//		return _entries[node.hash() % _entries.size()];
-//	}
-
-	inline const transposition_entry_t* const operator[](const node_t& node) const noexcept
+	inline const entry_t* const operator[](const node_t& node) const noexcept
 	{
+		const std::uint16_t hash = node.hash() >> bits;
 		const cluster_t& cluster = get(node);
-		for (const transposition_entry_t& entry : cluster)
-			if (entry.hash() == node.hash())
+		for (const entry_t& entry : cluster.entries)
+			if (entry.hash == hash)
 				return &entry;
 		return nullptr;
 	}
 
-protected:
-	cluster_t& get(const node_t& node) noexcept
+	inline void prefetch(const node_t& node) const noexcept
 	{
-//		return _entries[node.hash() % _entries.size()];
-		return _entries[node.hash() & (_entries.size() - 1)];
+		const cluster_t& cluster = get(node);
+		_mm_prefetch(&cluster, _MM_HINT_T0);
 	}
 
-	const cluster_t& get(const node_t& node) const noexcept
+protected:
+	inline cluster_t& get(const node_t& node) noexcept
 	{
-//		return _entries[node.hash() % _entries.size()];
-		return _entries[node.hash() & (_entries.size() - 1)];
+		constexpr std::size_t S = (1UL << bits) - 1;
+		return _clusters[(node.hash() & S) % _clusters.size()];
+	}
+
+	inline const cluster_t& get(const node_t& node) const noexcept
+	{
+		constexpr std::size_t S = (1UL << bits) - 1;
+		return _clusters[(node.hash() & S) % _clusters.size()];
 	}
 
 private:
-	std::vector<cluster_t> _entries;
+	std::vector<cluster_t> _clusters;
 };
 
 }
