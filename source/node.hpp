@@ -282,7 +282,7 @@ node_t::flip(const square_t en_passant) noexcept
 	_en_passant = en_passant;
 	_hash ^= en_passant_hash[en_passant];
 	// Set color
-//	_hash_node ^= color_hash()();
+	_hash ^= color_hash;
 	_color *= -1;
 	// Set counter
 //	_countMovesFull += (_color == Color::w);
