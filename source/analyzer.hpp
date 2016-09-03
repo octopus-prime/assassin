@@ -72,7 +72,7 @@ struct pawn_analyser_t
 	static constexpr bool
 	is_supported(const std::pair<properties_t,properties_t>& properties) noexcept
 	{
-		return properties.first & (1 << supported); // ...
+		return properties.first & (1 << supported); // own neighbour pawn on same rank or 1 rank behind
 	}
 
 private:
