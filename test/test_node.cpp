@@ -286,4 +286,23 @@ BOOST_AUTO_TEST_CASE(test_black)
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(test_node_flip)
+
+const node_t node(node_t::INITIAL_POSITION);
+
+BOOST_AUTO_TEST_CASE(test)
+{
+	const auto hash = node.hash();
+	BOOST_CHECK_EQUAL(node.color(), white);
+	const auto en_passant = const_cast<node_t&>(node).flip(0);
+	BOOST_CHECK_EQUAL(node.color(), black);
+	BOOST_CHECK_NE(node.hash(), hash);
+	BOOST_CHECK_EQUAL(node.hash(), hash ^ color_hash);
+	const_cast<node_t&>(node).flip(en_passant);
+	BOOST_CHECK_EQUAL(node.color(), white);
+	BOOST_CHECK_EQUAL(node.hash(), hash);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 }
