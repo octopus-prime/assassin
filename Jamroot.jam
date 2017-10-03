@@ -5,6 +5,8 @@ project assassin
 		requirements
 		<include>source
 		<define>BOOST_ALL_DYN_LINK
+#		<cxxflags>-pg
+#        <cxxflags>-fopenmp
 	;
 
 obj hash : source/hash.cpp ;
@@ -14,8 +16,9 @@ obj node_executor : source/node_executor.cpp ;
 obj move_generator : source/move_generator.cpp ;
 obj exchanger : source/exchanger.cpp ;
 obj evaluator : source/evaluator.cpp ;
-obj searcher : source/searcher.cpp ;
+obj searcher : source/searcher2.cpp ;
 obj analyzer : source/analyzer.cpp ;
+#obj tbprobe : source/tbprobe.cpp ;
 
 exe assassin
 	:
@@ -28,9 +31,11 @@ exe assassin
 		evaluator
 		searcher
 		analyzer
+#		tbprobe
 		source/engine.cpp
 		/site-config//tbb
-		/site-config//pthread
+        /site-config//pthread
+#        /site-config//gomp
 	;
 
 unit-test assassin-test
@@ -44,8 +49,10 @@ unit-test assassin-test
 		evaluator
 		searcher
 		analyzer
+#		tbprobe
 		[ glob test/*.cpp ]
 		/site-config//tbb
 		/site-config//pthread
+#        /site-config//gomp
 		/site-config//boost_unit_test_framework
 	;
