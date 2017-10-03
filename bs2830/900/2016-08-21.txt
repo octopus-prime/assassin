@@ -1,0 +1,538 @@
+mike@workstation:~/workspace/assassin$ bin/gcc-5.4.0/release/assassin
+Solution = qd3xf3
+ 1/ 2,   +1.70 p,   0.00 s,         91 N,   330876 N/s, qd3-f5 
+ 2/ 4,   +0.47 p,   0.00 s,        443 N,   325957 N/s, qd3-b5 
+ 3/ 6,   +1.66 p,   0.01 s,       1892 N,   296099 N/s, qd3-d6 
+ 4/ 8,   +0.54 p,   0.02 s,      12279 N,   638915 N/s, bb6xf2+ Kg1xf2 qd3xa6 Ra2xa6 re6-g6 
+ 5/10,   +1.02 p,   0.03 s,      20210 N,   727745 N/s, qd3xa6 Ra2xa6 bd7-c8 Ra6-a3 re6-g6 
+ 6/12,   +0.67 p,   0.05 s,      56378 N,  1101559 N/s, qd3xf1+ Qa6xf1 re6-e1 Pd2-d4 re1xf1+ Kg1xf1 pc6-c5 
+ 7/14,   +1.41 p,   0.18 s,     487532 N,  2688517 N/s, qd3-g6 Kg1-h1 re6-f6 Pd2-d4 pc6-c5 
+ 8/14,   +1.42 p,   0.33 s,    1199958 N,  3602362 N/s, qd3xa6 Ra2xa6 re6-e1 Pd2-d4 re1xf1+ Kg1xf1 pc6-c5 Kf1-g1 re8-e1+ 
+ 9/17,   +1.31 p,   0.49 s,    2104266 N,  4330374 N/s, qd3xa6 Ra2xa6 re6-e1 Pc3-c4 re1xf1+ Kg1xf1 bd7-c8 Ra6-a3 
+10/20,   +1.45 p,   0.67 s,    3056918 N,  4595912 N/s, qd3xa6 Ra2xa6 re6-e1 Pc3-c4 bd7-f5 Ra6-a3 pc6-c5 Rf1xe1 re8xe1+ 
+11/22,   +1.18 p,   1.60 s,    9638578 N,  6019528 N/s, qd3xa6 Ra2xa6 re6-e1 Pc3-c4 re1xf1+ Kg1xf1 bd7-e6 Kf1-g1 be6-d7 Kg1-h1 re8-e1+ 
+12/24,   +1.16 p,   3.20 s,   22305554 N,  6965107 N/s, qd3xa6 Ra2xa6 re6-e1 Pc3-c4 bd7-c8 Ra6-a3 re1xf1+ Kg1xf1 pc6-c5 Pb4-b5 re8-e7 Ra3-e3 
+13/26,   +1.63 p,   6.79 s,   47153796 N,  6948648 N/s, qd3xa6 Ra2xa6 pc6-c5 Bf3-g4 bd7-b5 Bg4xe6 pf7xe6 Ra6xb6 pc7xb6 Pd2-d3 bb5xd3 Rf1-d1 bd3-e4 
+14/28,   +2.40 p,  25.32 s,  196915361 N,  7776949 N/s, qd3xf3 Pg2xf3 re6-g6+ Kg1-h1 bd7-h3 Qa6-d3 pf7-f5 Qd3-c4+ kg8-f8 Qc4-h4 bh3xf1 Ra2-a1 bf1-g2+ Kh1-g1 bg2xf3+ 
+15/30,   +3.62 p,  47.01 s,  332688941 N,  7077053 N/s, qd3xf3 Pg2xf3 re6-g6+ Kg1-h1 bd7-h3 Qa6-d3 pf7-f5 Rf1-d1 bb6xf2 Qd3-c4+ kg8-f8 Qc4-f1 bh3xf1 Rd1xf1 
+16/32,   +3.66 p, 110.86 s,  723818553 N,  6529206 N/s, qd3xf3 Pg2xf3 re6-g6+ Kg1-h1 bd7-h3 Qa6-d3 pf7-f5 Rf1-d1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 bh3-g2+ Kh1-g1 bg2-h3+ Kg1-h1 
+17/34,   +3.70 p, 310.27 s, 1925467004 N,  6205708 N/s, qd3xf3 Pg2xf3 re6-g6+ Kg1-h1 bd7-h3 Qa6-d3 pf7-f5 Rf1-d1 bh3-g2+ Kh1-g1 bg2xf3+ Kg1-f1 bf3xd1 Qd3-c4+ re8-e6 Pd2-d4 bd1-f3 Ra2-a1 bf3-g2+ Kf1-g1 bg2-f3+ 
+Result = 25
+-------------------------------------------------------------------
+Solution = pf7-f5
+ 1/ 2,   +1.72 p,   0.00 s,         74 N,   605465 N/s, rh4-f4 
+ 2/ 4,   -1.40 p,   0.00 s,        665 N,   333244 N/s, be4-f5 
+ 3/ 6,   +0.50 p,   0.01 s,       2619 N,   339579 N/s, ke7-d8 
+ 4/ 7,   +0.37 p,   0.01 s,      11961 N,   857856 N/s, ke7-d8 Qf2xf7 kd8-c8 Kg1-h1 
+ 5/10,   +0.62 p,   0.05 s,      81790 N,  1794177 N/s, ke7-d8 Qf2-f6+ kd8-c8 Nd1-f2 qc7xc2 Qf6xf7 
+ 6/11,   +0.10 p,   0.15 s,     546314 N,  3673384 N/s, ke7-d8 Pc2-c3 kd8-c8 Nd1-e3 rh4-f4 Qf2-d2 
+ 7/14,   +0.99 p,   0.36 s,    1753355 N,  4887305 N/s, ke7-d8 Qf2-f6+ kd8-c8 Nd1-f2 be4xc2 Rf1-c1 rh4-h5 Qf6-e7 
+ 8/15,   +0.66 p,   1.46 s,    9740917 N,  6683602 N/s, ke7-d8 Pg5-g6 be4xg6 Nd1-e3 kd8-c8 Qf2-d2 qc7-g3 Kg1-h1 
+ 9/17,   +0.82 p,   4.51 s,   31876701 N,  7063713 N/s, ke7-d8 Nd1-e3 rh4-h7 Qf2-f6+ kd8-c8 Pg5-g6 
+10/20,   +0.88 p,  23.68 s,  185747368 N,  7843281 N/s, pf7-f5 Pg5xf6+ ke7-f8 Qf2-d2 be4xg2 Qd2xg2 rh8-g8 Qg2xg8+ kf8xg8 Pf6-f7+ kg8-f8 Nd1-e3 qc7-g3+ 
+11/24,   +1.62 p,  56.76 s,  428961153 N,  7557258 N/s, pf7-f5 Rf1-e1 ke7-e8 Nd1-e3 ke8-f8 Ne3-g4 rh4xg4 Ph3xg4 qc7-h2+ Kg1-f1 qh2-h1+ Kf1-e2 
+12/24,   +1.06 p, 218.72 s, 1798349887 N,  8222248 N/s, pf7-f5 Rf1-e1 ke7-f8 Pa2-a3 be4xg2 Qf2xg2 rh4xh3 Re1-e3 rh3-h2 Qg2-a8+ kf8-g7 Qa8-f3 qc7xc2 
+13/27,   +1.37 p, 640.05 s, 4692234176 N,  7331082 N/s, pf7-f5 Rf1-e1 be4xg2 Qf2xg2 rh4xh3 Re1-e3 rh3-h2 Qg2-f3 qc7xc2 Nd1-f2 qc2xb2 
+Result = 23
+-------------------------------------------------------------------
+Solution = bc8-h3+
+ 1/ 2,   +2.21 p,   0.00 s,        210 N,   853988 N/s, qd8-f6 
+ 2/ 4,   +2.67 p,   0.00 s,        822 N,   796659 N/s, pg5-g4 
+ 3/ 6,   +3.08 p,   0.00 s,       1175 N,   558538 N/s, pg5-g4 Nf3-h4 
+ 4/ 8,   +2.69 p,   0.01 s,      12642 N,  1007979 N/s, bc8-g4 Nc4-d2 qd8-f6 
+ 5/10,   +2.61 p,   0.02 s,      19633 N,   836430 N/s, bc8-g4 Nc4-d2 qd8-f6 Pb3-b4 
+ 6/12,   +2.76 p,   0.05 s,      45804 N,   899427 N/s, bc8-g4 Nc4-d2 bg4xf3+ Nd2xf3 qd8-f6 Qe2-e3 pg5-g4 
+ 7/14,   +2.42 p,   0.11 s,     146874 N,  1365550 N/s, bc8-g4 Nc4-d2 qd8-f6 Rf1-d1 qf6-h6 Kg2-f1 qh6-h3+ 
+ 8/16,   +2.31 p,   0.20 s,     444539 N,  2252681 N/s, bc8-g4 Nc4-d2 qd8-f6 Qe2-e3 bg7-h6 Rf1-d1 kg8-h8 Kg2-h1 
+ 9/19,   +1.50 p,   0.46 s,    1623674 N,  3556840 N/s, bc8-g4 Nc4-d2 nc6-d4 Bb2xd4 pc5xd4 Kg2-g1 qd8-f6 
+10/21,   +1.51 p,   0.87 s,    3669835 N,  4234100 N/s, bc8-g4 Nc4-d2 qd8-e8 Kg2-h1 qe8-h5 Rb1-d1 rf8xf3 Nd2xf3 bg4xf3+ 
+11/23,   +1.31 p,   2.68 s,   17434392 N,  6511705 N/s, bc8-g4 Nc4-d2 qd8-e8 Ph2-h3 bg4xh3+ Kg2xh3 qe8-h5+ Kh3-g2 pd6-d5 Pe4xd5 
+12/25,   +1.43 p,   5.37 s,   34885517 N,  6498514 N/s, bc8-g4 Nc4-d2 qd8-e8 Ph2-h3 bg4xh3+ Kg2xh3 pg5-g4+ Kh3-g2 pg4xf3+ Nd2xf3 qe8-g6 Rf1-d1 nc6-d4 Qe2-e3 qg6-h5 
+13/27,   +1.72 p,  14.89 s,  103056815 N,  6920611 N/s, bc8-g4 Nc4-d2 qd8-d7 Qe2-e3 bg4-h3+ Kg2-h1 bh3xf1 Rb1xf1 ph7-h6 Nf3xg5 nc6-a5 Ng5-f3 qd7-h3 
+14/30,   +1.99 p,  58.72 s,  466180288 N,  7938507 N/s, bc8-h3+ Kg2xh3 pg5-g4+ Kh3xg4 qd8-d7+ Kg4-h4 bg7-f6+ Nf3-g5 bf6xg5+ Kh4xg5 rf8-f6 Nc4xe5 nc6xe5 Kg5xf6 ph7-h6 Bb2xe5 qd7-f7+ 
+15/33,   +1.77 p, 238.20 s, 2118791631 N,  8895138 N/s, bc8-h3+ Kg2-h1 bh3-g4 Nc4-d2 qd8-f6 Kh1-g2 nc6-b4 Rf1-d1 qf6-h6 Kg2-h1 nb4xc2 Ph2-h4 pg5xh4 Pg3xh4 qh6-f4 Rd1-c1 
+16/33,   +2.18 p, 416.80 s, 3620178833 N,  8685583 N/s, bc8-h3+ Kg2-h1 bh3-g4 Nc4-d2 qd8-f6 Kh1-g2 qf6-h6 Qe2-e3 qh6-h5 Nf3xg5 ph7-h6 Kg2-h1 ph6xg5 Ph2-h4 pg5xh4 Kh1-g1 
+17/34,   +2.55 p, 829.68 s, 5968574239 N,  7193844 N/s, bc8-h3+ Kg2-h1 bh3-g4 Nc4-d2 qd8-f6 Kh1-g2 qf6-h6 Ph2-h4 qh6-h5 Qe2-e3 pg5xh4 Nf3xh4 bg7-h6 Qe3-e1 qh5-g5 Kg2-h1 
+Result = 58
+-------------------------------------------------------------------
+Solution = Nf5-d4
+ 1/ 2,   -1.00 p,   0.00 s,         49 N,   379447 N/s, Re7-e8 
+ 2/ 4,   -0.95 p,   0.00 s,        203 N,   431251 N/s, Re7-e8 kc7xd7 
+ 3/ 6,   -0.96 p,   0.00 s,       1238 N,   459811 N/s, Nf5-e3 qf6xe7 Ne3-d5+ 
+ 4/ 7,   -2.85 p,   0.01 s,       3679 N,   543211 N/s, Nf5-e3 qf6-d4 Ne3-d5+ qd4xd5 
+ 5/ 9,   -2.74 p,   0.01 s,       7788 N,   603046 N/s, Nf5-e3 qf6-d4 Ne3-c4 qd4xd3+ Kb1xb2 
+ 6/11,   -3.07 p,   0.03 s,      27820 N,   973400 N/s, Re7-e4 qf6-a6 Re4-c4+ kc7xd7 Rc4-d4+ kd7-c8 Rd4-c4+ kc8-b8 Rc4-b4+ 
+ 7/13,   -5.29 p,   0.07 s,      84973 N,  1180019 N/s, Nf5-e3 qf6-d4 Pd7-d8Q+ kc7xd8 Re7-e6 qd4xd3+ Kb1xb2 kd8-c7 Kb2-a1 
+ 8/16,   -5.70 p,   0.11 s,     160658 N,  1455535 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7xb8 
+ 9/18,   -5.29 p,   0.15 s,     245642 N,  1668648 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-a6 Rb8xb3 qd4-c5 
+10/19,   -6.08 p,   0.22 s,     491249 N,  2216065 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b5 Rc8-b8+ kb5-a4 Rb8-a8+ ka4-b5 
+11/21,   -6.08 p,   0.29 s,     741514 N,  2527548 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ 
+12/23,   -6.08 p,   0.40 s,    1272373 N,  3164094 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ 
+13/25,   -6.08 p,   0.64 s,    2390062 N,  3715302 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ 
+14/27,   -6.08 p,   1.18 s,    5619510 N,  4778210 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ 
+15/30,   -6.08 p,   2.07 s,   10710205 N,  5177766 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 
+16/31,   -6.08 p,   3.92 s,   23868957 N,  6082989 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ 
+17/33,   -6.08 p,   7.68 s,   53203999 N,  6923880 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ 
+18/35,   -6.08 p,  14.05 s,  105433589 N,  7506764 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ 
+19/38,   -6.08 p,  41.19 s,  362112385 N,  8790981 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 
+20/40,   -6.08 p, 151.80 s, 1275082601 N,  8399494 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 
+21/42,   -6.08 p, 217.71 s, 1883113421 N,  8649572 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 
+22/45,   -6.08 p, 414.98 s, 3696882854 N,  8908687 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ 
+23/45,   -6.08 p, 574.80 s, 5428402071 N,  9444026 N/s, Nf5-d4 qf6xd4 Pd7-d8Q+ kc7xd8 Re7-e8+ kd8-c7 Re8-c8+ kc7-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ kb7-c6 Rb8-c8+ kc6-b7 Rc8-b8+ 
+Result = 0
+-------------------------------------------------------------------
+Solution = Re1xe6
+ 1/ 2,   +6.58 p,   0.00 s,         89 N,   535216 N/s, Bb3xd5 
+ 2/ 4,   +3.76 p,   0.00 s,        243 N,   364754 N/s, Bb3xd5 kf7-g8 
+ 3/ 6,   +6.51 p,   0.00 s,       1034 N,   258139 N/s, Bb3xd5 pe6xd5 
+ 4/ 8,   +2.56 p,   0.01 s,       5077 N,   510394 N/s, Bb3xd5 qd6xd5 
+ 5/ 9,   +3.07 p,   0.03 s,      20759 N,   717499 N/s, Bb3xd5 qd6xd5 Kg1-h1 
+ 6/11,   +1.17 p,   0.09 s,     154470 N,  1811269 N/s, Kg1-f1 pf6-f5 Nf3-g5+ kf7-g8 Qg4-h4 be7-f6 Rd1-d3 
+ 7/12,   +2.05 p,   0.25 s,     557771 N,  2272712 N/s, Bb3xd5 qd6xd5 Qg4-h4 kf7-g8 Kg1-h1 qd5-d6 Bh6-d2 
+ 8/15,   +3.11 p,   0.67 s,    3142427 N,  4673304 N/s, Qg4-h3 kf7-g8 Qh3xe6+ qd6xe6 Re1xe6 
+ 9/16,   +3.05 p,   1.22 s,    6015343 N,  4911634 N/s, Qg4-h3 pf6-f5 Bh6-d2 ph7-h5 Qh3-g3 kf7-g7 Qg3-h3 kg7-h8 
+10/20,   +3.19 p,   3.44 s,   20629979 N,  6000048 N/s, Qg4-h3 nc6-d8 Bh6-f4 qd6xf4 Qh3xh7+ kf7-f8 Qh7-h8+ kf8-f7 Qh8-h7+ kf7-f8 Qh7-h8+ kf8-f7 Qh8-h7+ kf7-f8 Qh7-h8+ kf8-f7 Qh8-h7+ kf7-f8 Qh7-h8+ kf8-f7 
+11/22,   +2.71 p,   8.68 s,   57367528 N,  6609616 N/s, Qg4-h3 pf6-f5 Nf3-e5+ kf7-g8 Bb3-a4 be7-f6 Ba4xc6 rc8xc6 Ne5xc6 qd6xc6 Kg1-f1 kg8-h8 
+12/24,   +3.03 p,  24.41 s,  160567066 N,  6578462 N/s, Qg4-h3 qd6-d7 Rd1-d3 kf7-g8 Qh3xe6+ qd7xe6 Re1xe6 re8-d8 Bb3xd5 rd8xd5 
+13/26,   +2.80 p,  82.06 s,  575561689 N,  7013901 N/s, Qg4-h3 pf6-f5 Nf3-e5+ kf7-g8 Bb3-a4 re8-d8 Ba4xc6 rc8xc6 Ne5xc6 qd6xc6 Bh6-g7 kg8xg7 
+14/29,   +2.85 p, 177.67 s, 1124620575 N,  6329811 N/s, Qg4-h3 pf6-f5 Nf3-e5+ kf7-g8 Bb3-a4 nd5-f6 Ba4xc6 rc8xc6 Ne5xc6 qd6xc6 Pd4-d5 pe6xd5 Bh6-d2 nf6-h5 
+15/31,   +2.40 p, 678.70 s, 4571215336 N,  6735277 N/s, Qg4-h3 pf6-f5 Nf3-e5+ kf7-g8 Bb3-a4 be7-f6 Ne5xc6 rc8xc6 Bh6-d2 bf6xd4 Ba4xc6 qd6xc6 Qh3-h6 bd4-g7 Qh6-h4 qc6-c7 
+Result = 900
+-------------------------------------------------------------------
+Solution = Pf2-f3
+ 1/ 1,   +1.24 p,   0.00 s,         21 N,   549709 N/s, Pe2-e3 
+ 2/ 3,   +1.26 p,   0.00 s,         77 N,   738956 N/s, Pe2-e3 pa5-a4 
+ 3/ 4,   +1.29 p,   0.00 s,        385 N,  1487491 N/s, Pe2-e3 ke5-d6 
+ 4/ 6,   +0.94 p,   0.00 s,       1226 N,  1535155 N/s, Kg2-g1 ke5-d4 Pb2-b3 
+ 5/ 7,   +1.22 p,   0.00 s,       2663 N,  1250130 N/s, Pe2-e3 pf4xe3 Pf2xe3 ke5-e6 Pe3-e4 
+ 6/ 8,   +0.70 p,   0.00 s,       9876 N,  2271532 N/s, Kg2-g1 ke5-d4 Kg1-h1 kd4-c5 Pe2-e3 
+ 7/ 9,   +0.77 p,   0.01 s,      24324 N,  2524068 N/s, Pe2-e3 pa5-a4 Kg2-g1 pf4-f3 Kg1-h1 ke5-d6 Pe3-e4 
+ 8/11,   +0.58 p,   0.02 s,      67330 N,  3631721 N/s, Kg2-h1 ke5-d6 Pe2-e3 pf4-f3 Kh1-h2 kd6-d7 Kh2-g3 
+ 9/12,   +0.71 p,   0.03 s,     134251 N,  3854124 N/s, Pe2-e3 ke5-e4 Pe3xf4 ke4xf4 Pf2-f3 kf4-e3 Kg2-g3 pa5-a4 Kg3-g2 
+10/13,   +0.65 p,   0.07 s,     345364 N,  5177004 N/s, Kg2-h1 ke5-e4 Kh1-g2 ke4-e5 Kg2-h1 ke5-e4 Kh1-g2 ke4-e5 Kg2-h1 ke5-e4 Kh1-g2 ke4-e5 Kg2-h1 
+11/15,   +0.67 p,   0.11 s,     556036 N,  5153573 N/s, Pe2-e3 pa5-a4 Kg2-f3 pf4xe3 Pf2xe3 ke5-e6 Kf3-g2 ke6-f7 Pe3-e4 kf7-g8 Kg2-g1 
+12/16,   +0.59 p,   0.21 s,    1423834 N,  6665914 N/s, Kg2-f3 ke5-d6 Pe2-e3 pf4xe3 Pf2xe3 kd6-d7 Pe3-e4 kd7-c8 Kf3-g2 kc8-b8 Kg2-g1 
+13/17,   +0.58 p,   0.30 s,    2104401 N,  7054494 N/s, Kg2-f3 ke5-d4 Pe2-e3+ pf4xe3 Pf2xe3+ kd4-d3 Kf3-f2 kd3-c4 Kf2-g1 kc4xb5 Pe3-e4 kb5-c6 Pe4-e5 kc6-d5 
+14/20,   +0.44 p,   0.47 s,    3660918 N,  7792645 N/s, Pe2-e3 ke5-e4 Pe3xf4 ke4xf4 Pf2-f3 kf4-e5 Kg2-g3 ke5-f6 Pf3-f4 pg5xf4+ Kg3xf4 kf6-g7 Kf4-e3 kg7-g8 Ke3-d2 
+15/22,   +0.47 p,   0.68 s,    5902288 N,  8725808 N/s, Pe2-e3 pf4xe3 Pf2xe3 ke5-d6 Kg2-g1 kd6-d5 Kg1-f1 kd5-c4 Pe3-e4 kc4-d4 Pb2-b4 pa5xb4 Pb5-b6 pc7xb6 
+16/23,   +0.44 p,   1.26 s,   13984603 N, 11136844 N/s, Pe2-e3 ke5-e4 Pe3xf4 ke4xf4 Pf2-f3 kf4-e3 Kg2-g3 pa5-a4 Kg3-g2 ke3-e2 Pf3-f4 pg5xf4 Kg2-g1 pf4-f3 
+17/28,   +0.12 p,   4.15 s,   66946670 N, 16113066 N/s, Kg2-f3 ke5-d4 Pe2-e3+ pf4xe3 Pf2xe3+ kd4-d3 Pe3-e4 kd3-d4 Pb2-b3 kd4-c5 Kf3-e3 kc5xb5 Ke3-d2 kb5-a6 Pe4-e5 pc7-c5 Pe5-e6 ka6-b7 Pe6-e7 
+18/31,   +0.12 p,   8.18 s,  134266237 N, 16423349 N/s, Kg2-f1 ke5-d4 Kf1-e1 kd4-c5 Ke1-d1 kc5xb5 Pe2-e3 pf4-f3 Kd1-d2 pa5-a4 Pe3-e4 kb5-b4 Kd2-c1 pa4-a3 Kc1-b1 pa3xb2 Kb1xb2 
+19/31,   +0.12 p,  14.17 s,  214162365 N, 15115059 N/s, Pf2-f3 ke5-d5 Kg2-f2 kd5-c5 Pe2-e3 pf4xe3+ Kf2xe3 kc5-b4 Ke3-f2 kb4-b3 Pf3-f4 
+20/31,   +0.12 p,  23.02 s,  333770931 N, 14497097 N/s, Pf2-f3 ke5-d5 Kg2-f2 kd5-d4 Kf2-f1 kd4-c4 Kf1-f2 kc4xb5 Pe2-e3 pf4xe3+ Kf2xe3 pa5-a4 Pf3-f4 pg5xf4+ Ke3xf4 kb5-b4 Pg4-g5 ph6xg5+ Kf4xg5 kb4-b3 Ph5-h6 pa4-a3 Pb2xa3 kb3-b2 Ph6-h7 
+21/34,   +0.13 p,  31.91 s,  461687649 N, 14466687 N/s, Pe2-e3 pf4xe3 Pf2xe3 ke5-d5 Kg2-f1 kd5-c4 Kf1-e2 kc4-b3 Pe3-e4 kb3-c4 Pb2-b3+ kc4xb3 Pe4-e5 pa5-a4 Pe5-e6 pa4-a3 Pe6-e7 pa3-a2 Pe7-e8Q pa2-a1Q Qe8-e6+ kb3-b2 Qe6-a6 
+22/34,   +1.05 p, 204.68 s, 4043557761 N, 19755930 N/s, Kg2-f3 ke5-d4 Pb2-b3 kd4-c3 Pe2-e3 pf4xe3 Kf3xe3 kc3xb3 Pf2-f4 pg5xf4+ Ke3-d3 pa5-a4 Pg4-g5 pa4-a3 Pg5-g6 pa3-a2 Pg6-g7 kb3-a4 Pg7-g8Q pa2-a1Q Qg8-c4+ 
+23/36,   +1.20 p, 288.05 s, 5087165284 N, 17660442 N/s, Kg2-f3 pa5-a4 Pe2-e3 pf4xe3 Kf3xe3 ke5-d6 Pf2-f4 pg5xf4+ Ke3xf4 kd6-e7 Kf4-e3 ke7-e8 Ke3-d2 ke8-f8 Kd2-e3 kf8-e7 Ke3-d2 ke7-e8 Kd2-c1 ke8-f8 Kc1-c2 kf8-e7 Kc2-d3 ke7-e8 Kd3-c3 ke8-f8 Kc3-b4 kf8-e7 Kb4xa4 
+24/39,   +1.21 p, 533.87 s, 8229775263 N, 15415345 N/s, Kg2-f3 ke5-d4 Pb2-b3 kd4-c3 Pe2-e3 pf4xe3 Kf3xe3 kc3xb3 Pf2-f4 pg5xf4+ Ke3-f3 pa5-a4 Pg4-g5 pa4-a3 Pg5-g6 pa3-a2 Pg6-g7 pa2-a1Q Pg7-g8Q+ kb3-b2 Qg8-h8+ kb2-a2 Qh8-g8+ ka2-b1 Qg8-g1+ 
+25/41,   +1.21 p, 661.58 s, 9791254614 N, 14799723 N/s, Kg2-f3 ke5-d4 Pb2-b3 kd4-c3 Pe2-e3 pf4xe3 Kf3xe3 kc3xb3 Pf2-f4 pg5xf4+ Ke3-f3 pa5-a4 Pg4-g5 pa4-a3 Pg5-g6 pa3-a2 Pg6-g7 pa2-a1Q Pg7-g8Q+ kb3-b4 Qg8-f8+ kb4-b3 Qf8-f7+ kb3-b4 Qf7xf4+ kb4xb5 Qf4-f5+ kb5-b6 Qf5-g6+ kb6-a7 Qg6-c6 qa1-f1+ 
+Result = 900
+-------------------------------------------------------------------
+Solution = Pb2-b4
+ 1/ 1,   +1.82 p,   0.00 s,         20 N,   332989 N/s, Ke4-d3 
+ 2/ 2,   +1.07 p,   0.00 s,         65 N,   373625 N/s, Ke4-d3 bh4-g5 
+ 3/ 3,   +0.90 p,   0.00 s,        403 N,   724646 N/s, Ke4-f3 bh4-g5 Be3xg5 
+ 4/ 5,   +0.79 p,   0.00 s,       1006 N,   789500 N/s, Ke4-f3 kg6-f5 Kf3-e2 kf5xe5 
+ 5/ 6,   +0.97 p,   0.00 s,       3181 N,   891073 N/s, Ke4-f3 kg6-f5 Be3-f4 kf5-g6 Kf3-e2 
+ 6/ 8,   +0.90 p,   0.01 s,       6156 N,  1156877 N/s, Ke4-f3 kg6-f5 Be3-f4 bh4-g5 Bf4-g3 kf5-g6 
+ 7/ 9,   +0.47 p,   0.01 s,      25710 N,  1775845 N/s, Be3-f4 bh4-g5 Bf4xg5 kg6xg5 Pb2-b3 kg5-h5 Ke4-f3 
+ 8/11,   +0.35 p,   0.02 s,      58235 N,  2442053 N/s, Ke4-f3 kg6-f5 Be3-f4 bh4-f2 Ph2-h4 bf2-d4 Kf3-g3 
+ 9/12,   +0.24 p,   0.05 s,     153624 N,  2950856 N/s, Be3-f4 bh4-g5 Bf4xg5 kg6xg5 Pb2-b3 kg5-g4 Ke4-d3 kg4-h3 Kd3-d2 
+10/13,   +0.11 p,   0.10 s,     433288 N,  4185662 N/s, Be3-d2 bh4-g5 Bd2-f4 bg5xf4 Ke4xf4 ph7-h5 Pb2-b3 kg6-h7 Kf4-e3 
+11/15,   +0.08 p,   0.21 s,    1320129 N,  6337294 N/s, Be3-c1 bh4-g5 Bc1-f4 bg5xf4 Ke4xf4 ph7-h5 Pb2-b3 kg6-h7 Kf4-e3 
+12/16,   +0.07 p,   0.33 s,    2753244 N,  8272869 N/s, Be3-f4 bh4-g5 Bf4-g3 kg6-h5 Ke4-f3 bg5-c1 Pb2-b3 kh5-h6 Kf3-g2 
+13/18,   +0.01 p,   0.75 s,    8812663 N, 11783798 N/s, Pb2-b3 ph7-h5 Be3-f4 bh4-e1 Ph2-h3 ph5-h4 Bf4-h2 kg6-h7 Ke4-f3 kh7-g8 Kf3-g2 kg8-f8 Bh2-f4 
+14/20,   -0.04 p,   1.08 s,   14529736 N, 13435664 N/s, Ph2-h3 ph7-h5 Be3-g1 bh4-g5 Bg1-h2 bg5-c1 Pb2-b3 kg6-h7 Bh2-f4 bc1xf4 Ke4xf4 kh7-h6 Kf4-g3 kh6-h7 Kg3-g2 
+15/20,   -0.05 p,   1.99 s,   30717822 N, 15428814 N/s, Pb2-b3 ph7-h5 Be3-f4 bh4-e1 Bf4-c1 be1-c3 Bc1-f4 bc3-d4 Bf4-g3 kg6-h7 Ke4-f4 kh7-h8 Kf4-g5 ph5-h4 Kg5xh4 
+16/22,   -0.06 p,   2.63 s,   41458358 N, 15783487 N/s, Pb2-b3 bh4-e1 Be3-f4 ph7-h5 Ph2-h3 ph5-h4 Bf4-h2 be1-g3 Bh2xg3 ph4xg3 Ke4-f3 kg6-f5 Kf3xg3 kf5xe5 
+17/23,   -0.06 p,   3.08 s,   49331757 N, 16005707 N/s, Pb2-b3 bh4-e1 Be3-f4 ph7-h5 Ph2-h3 ph5-h4 Bf4-h2 be1-d2 Ke4-f3 kg6-f5 Kf3-g2 bd2-c3 Kg2-f1 bc3xe5 
+18/24,   -0.06 p,   3.94 s,   64474977 N, 16349645 N/s, Pb2-b3 bh4-e1 Be3-f4 ph7-h5 Ph2-h3 be1-c3 Bf4-e3 bc3-d4 Be3xd4 pc5xd4 Ke4xd4 kg6-f5 Ph3-h4 kf5-f4 Pb3-b4 pa5xb4 
+19/26,   -0.06 p,   5.50 s,   91691494 N, 16681277 N/s, Pb2-b3 bh4-e1 Be3-f4 ph7-h5 Ph2-h3 be1-c3 Bf4-e3 bc3-d4 Be3-d2 bd4-f2 Bd2-f4 bf2-d4 Bf4-h2 kg6-g5 Ke4-f3 kg5-f5 Kf3-g2 bd4xe5 Bh2xe5 kf5xe5 
+20/29,   -0.06 p,   9.13 s,  158537335 N, 17358094 N/s, Pb2-b3 bh4-e1 Be3-f4 ph7-h5 Ph2-h3 be1-c3 Bf4-e3 bc3-d4 Be3-d2 bd4-f2 Bd2-f4 bf2-d4 Bf4-h2 kg6-g5 Ke4-f3 kg5-f5 Kf3-g2 bd4xe5 Bh2xe5 kf5xe5 
+21/30,   -0.24 p,  90.86 s, 1983149150 N, 21826592 N/s, Pb2-b3 bh4-e1 Be3-f4 be1-f2 Bf4-c1 bf2-d4 Bc1-f4 kg6-h5 Ke4-f3 bd4-a1 Kf3-e3 kh5-g4 Ke3-e4 ba1-d4 Bf4-g3 ph7-h6 Bg3-f4 ph6-h5 Bf4-g3 ph5-h4 Bg3-f4 bd4-g1 Bf4-d2 kg4-h3 
+22/32,   -0.24 p, 119.69 s, 2550210233 N, 21306442 N/s, Pb2-b3 bh4-e1 Be3-f4 be1-f2 Bf4-c1 bf2-d4 Bc1-f4 kg6-h5 Ke4-f3 bd4-a1 Kf3-e3 kh5-g4 Ke3-e4 ba1-d4 Bf4-g3 ph7-h6 Bg3-f4 ph6-h5 Bf4-g3 ph5-h4 Bg3-f4 bd4-g1 Bf4-d2 kg4-h3 
+Result = 900
+-------------------------------------------------------------------
+Solution = bg4-h5
+ 1/ 2,   +2.12 p,   0.00 s,         79 N,   325421 N/s, bg4xf3 
+ 2/ 3,   +2.12 p,   0.00 s,        271 N,   217141 N/s, bg4xf3 Qf4xf3 
+ 3/ 4,   +2.12 p,   0.00 s,        927 N,   201354 N/s, bg4xf3 Qf4xf3 ne4xc5 
+ 4/ 7,   +1.44 p,   0.01 s,       2530 N,   251988 N/s, bg4xf3 Qf4xf3 ne4xc5 Qf3-f5 
+ 5/ 8,   +2.06 p,   0.02 s,       6169 N,   325147 N/s, bg4xf3 Qf4xf3 ne4xc5 Qf3-f5 kg8-h8 
+ 6/10,   +0.81 p,   0.05 s,      40068 N,   744536 N/s, bg4xf3 Qf4xf3 ne4xc5 Bd4xc5 qb5xc5 Qf3-f5 
+ 7/12,   +2.06 p,   0.09 s,      90339 N,  1061672 N/s, bg4xf3 Qf4xf3 ne4xc5 Bd4xc5 qb5xc5 Qf3-f5 kg8-h8 
+ 8/14,   +1.16 p,   0.20 s,     359489 N,  1832148 N/s, bg4xf3 Pa2-a4 qb5-b4 Qf4xf3 ne4xc5 Bd4xc5 qb4xc5 Qf3-f5 
+ 9/14,   +1.85 p,   0.38 s,    1191561 N,  3125689 N/s, bg4xf3 Pg2xf3 ne4xc5 Rh1-g1 nc5-e6 Rg1xg7+ ne6xg7 Qf4-f6 
+10/17,   +0.13 p,   1.14 s,    5369284 N,  4721060 N/s, nb8-c6 Qf4xg4 nc6xd4 Rd1xd4 ne4xf2 Pc2-c4 qb5xc5 Qg4-f5 nf2xh1 
+11/19,   -0.15 p,   5.03 s,   29553767 N,  5878430 N/s, bg4xf3 Pg2xf3 ne4xc5 Rh1-g1 nc5-e6 Rg1xg7+ ne6xg7 Qf4-f6 kg8-f8 Qf6xg7+ kf8-e7 
+12/21,   -0.19 p,  10.45 s,   65291506 N,  6247164 N/s, nb8-c6 Bd4xg7 qb5xc5 Qf4xg4 ne4xf2 Bg7-d4+ nf2xg4 Bd4xc5 ng4-e3 Rd1-g1 pb7-b6 Bc5xe3 re8xe3 
+13/23,   -0.93 p,  34.45 s,  215837682 N,  6264410 N/s, bg4xf3 Pg2xf3 ne4xc5 Bd4xg7 qb5-c4 
+14/27,   -0.25 p, 192.83 s, 1371820500 N,  7114002 N/s, bg4-h5 Pa2-a4 qb5-c4 Nc5xe4 pd5xe4 Pb2-b3 qc4-b4 Qf4-g5 bh5-g6 Nf3-e5 pf7-f6 
+15/27,   +0.08 p, 374.47 s, 2691295910 N,  7186961 N/s, bg4-h5 Nc5xe4 re8xe4 Qf4-g5 bh5-g6 Pa2-a4 qb5-c6 Bd4-c3 pf7-f6 Qg5xd5+ qc6xd5 Rd1xd5 re4-e8 Rd5-d6 kg8-h8 Kc1-b1 
+Result = 192
+-------------------------------------------------------------------
+Solution = Nc3-b1
+ 1/ 1,   +1.73 p,   0.00 s,         54 N,   499482 N/s, Be2-c4 
+ 2/ 3,   +0.98 p,   0.00 s,        416 N,   417707 N/s, Ra1-d1 
+ 3/ 3,   +1.23 p,   0.01 s,       2665 N,   469353 N/s, Ra1-d1 pd6-d5 
+ 4/ 5,   +0.39 p,   0.02 s,      32247 N,  1694938 N/s, Be2-f3 rh8-g8 Pg2-g3 
+ 5/ 7,   +1.29 p,   0.05 s,     152816 N,  2859322 N/s, Pf4-f5 pd6-d5 Pe4xd5 
+ 6/ 9,   +0.47 p,   0.13 s,     528051 N,  3964323 N/s, Ra1-d1 bf8-e7 Pf4-f5 ke8-f8 
+ 7/10,   +1.07 p,   0.48 s,    3584816 N,  7540503 N/s, Pf4-f5 bf8-h6 Qd2-d3 rh8-g8 Be2xh5 ke8-c8 Pg2-g3 
+ 8/12,   +0.37 p,   0.91 s,    7105930 N,  7834518 N/s, Ra1-d1 ph5-h4 Be2-g4 ke8-c8 Qd2-f2 pd6-d5 Pe4xd5 
+ 9/15,   +0.79 p,   3.23 s,   29474485 N,  9123861 N/s, Pf4-f5 bf8-h6 Qd2-d3 bh6-g5 Nc3-b1 qa3-b4 Pa2-a3 qb4-b6 Rf1-f2 
+10/15,   +0.30 p,   7.95 s,   69800948 N,  8777053 N/s, Rf1-d1 ph5-h4 Nc3-b1 qa3-b4 
+11/17,   +0.72 p,  14.00 s,  122052643 N,  8716796 N/s, Nc3-b1 qa3-b2 Pa2-a3 pf6-f5 Nb1-c3 pf5xe4 Rf1-b1 pe4-e3 Qd2-d3 
+12/21,   +0.25 p, 128.12 s, 1103047080 N,  8609444 N/s, Rf1-d1 ph5-h4 Be2-g4 bf8-e7 Nc3-d5 pe6xd5 Bg4xd7+ ke8xd7 Pe4xd5 nc6-b4 Pc2-c3 nb4xd5 Qd2xd5 
+13/21,   +0.63 p, 176.42 s, 1486800546 N,  8427528 N/s, Nc3-b1 qa3-b4 Qd2-e3 pf6-f5 Pe4xf5 nc6-e7 Pf5xe6 pf7xe6 Pa2-a3 ne7-f5 Qe3-d3 qb4-b6 Rf1-f2 
+14/25,   +0.39 p, 536.36 s, 4197744231 N,  7826358 N/s, Ph2-h4 pf6-f5 Ra1-d1 bf8-e7 Pe4xf5 be7xh4 Nc3-b1 qa3-b4 Pc2-c3 qb4-b6 Qd2xd6 
+Result = 900
+-------------------------------------------------------------------
+Solution = Bb4-d2
+ 1/ 2,   +1.05 p,   0.00 s,         79 N,   462453 N/s, Pg6-g7 
+ 2/ 4,   +1.87 p,   0.00 s,        333 N,   292555 N/s, Pg6xh7+ 
+ 3/ 6,   -0.39 p,   0.01 s,       2033 N,   250821 N/s, Pg6xh7+ kg8-h8 Pg2-g4 kh8-g7 
+ 4/ 8,   +0.23 p,   0.02 s,      10463 N,   424170 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-d8 Bb7-e4 
+ 5/10,   +0.25 p,   0.05 s,      29176 N,   617043 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Bb7-e4 bg5-f6 
+ 6/11,   -0.08 p,   0.08 s,      65469 N,   780491 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Bb7-e4 nb6-d5 
+ 7/13,   +0.20 p,   0.18 s,     266223 N,  1459249 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Bb7-e4 nb6-a4 Pg2-g4 qe6-h6 
+ 8/15,   +0.04 p,   0.43 s,    1060038 N,  2449858 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Bb7-e4 bg5-f6 Qf3-f4 nb6-d5 
+ 9/16,   -0.20 p,   0.99 s,    3766585 N,  3808919 N/s, Pg6xh7+ kg8-h8 Bb4-c3+ bg5-f6 Be4xb7 ra8-b8 Rf1-e1 qe6-d6 Rb1-d1 qd6-f4 Qf3xf4 
+10/18,   -0.02 p,   2.42 s,   11988001 N,  4953030 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Rf1-e1 qe6-h6 Bb7-e4 bg5-f6 Qf3-g3 bf6-g5 Bb4-c3+ 
+11/20,   -0.03 p,   5.42 s,   30827483 N,  5683456 N/s, Pg6xh7+ kg8-h8 Be4xb7 ra8-b8 Bb7-e4 bg5-f6 Rf1-e1 bd7-c6 Be4xc6 bf6-e5 Bc6xe8 rb8xe8 
+12/22,   +0.07 p,  17.61 s,  111109474 N,  6310254 N/s, Bb4-d2 bg5xd2 Rb1xb6 pa7xb6 Be4-d5 ph7xg6 Bd5xe6+ bd7xe6 Qf3-d3 
+13/26,   +0.59 p,  39.03 s,  235377425 N,  6031106 N/s, Bb4-d2 ph7xg6 Bd2xg5 re8-f8 Qf3-b3 qe6xb3 Rb1xb3 bd7-e6 Rb3-f3 kg8-h8 Be4xb7 ra8-d8 
+14/27,   +0.69 p,  97.46 s,  563903017 N,  5786143 N/s, Bb4-d2 ph7xg6 Bd2xg5 re8-f8 Qf3-b3 qe6xb3 Rb1xb3 kg8-h8 Be4xb7 ra8-b8 Bb7-e4 bd7-f5 Be4-f3 pe7-e5 
+15/29,   +0.74 p, 295.89 s, 1650787599 N,  5578984 N/s, Bb4-d2 ph7xg6 Bd2xg5 re8-f8 Qf3-b3 qe6xb3 Rb1xb3 pe7-e5 Be4xb7 ra8-b8 Bb7-e4 bd7-f5 Be4-f3 kg8-h8 Pg2-g4 
+Result = 17
+-------------------------------------------------------------------
+Solution = Pe5xf6
+ 1/ 2,   -1.56 p,   0.00 s,        148 N,   605297 N/s, Nc4-d6+ 
+ 2/ 4,   -1.56 p,   0.00 s,        828 N,   545292 N/s, Nc4-d6+ qe6xd6 
+ 3/ 6,   -1.38 p,   0.01 s,       2252 N,   374845 N/s, Qa4-b3 ng6xh4 Nc4-d6+ 
+ 4/ 6,   -1.38 p,   0.01 s,       4534 N,   348051 N/s, Qa4-b3 ng6xe5 Nc4xe5 qe6xe5 
+ 5/ 8,   -0.63 p,   0.03 s,      16099 N,   602156 N/s, Qa4-b3 ng6xh4 Nc4-d6+ ke8-e7 
+ 6/10,   -0.63 p,   0.06 s,      61002 N,  1011521 N/s, Qa4-b3 ng6xh4 Nc4-d6+ ke8-f8 
+ 7/12,   -0.63 p,   0.12 s,     189346 N,  1541580 N/s, Qa4-b3 ng6xh4 Nc4-d6+ ke8-f8 Qb3xe6 pf7xe6 Pe5xf6 
+ 8/15,   +0.09 p,   0.35 s,    1118687 N,  3166206 N/s, Qa4-b3 ke8-g8 Pe5xf6 ng6xh4 Pf6xg7 kg8xg7 Nc4-e3 pc5-c4 
+ 9/16,   +0.31 p,   0.84 s,    3576163 N,  4239879 N/s, Qa4-b3 ng6xh4 Nc4-d6+ ke8-e7 Nd6xb7 nf6-d7 Ra1-e1 pc5-c4 Qb3-b4+ ke7-e8 
+10/18,   -0.03 p,   2.73 s,   15500839 N,  5686568 N/s, Bd3-f5 pb5xa4 Bf5xe6 pf7xe6 Nc4-d6+ ke8-f8 Nd6xb7 ng6xh4 Pe5xf6 pg7xf6 Nb7xc5 
+11/20,   +0.38 p,   6.58 s,   39893582 N,  6065684 N/s, Pe5xf6 pb5xa4 Ra1-e1 ng6xh4 Re1xe6+ pf7xe6 Nc4-d6+ ke8-d7 Nd6xb7 pg7xf6 Nb7xc5+ kd7-c7 Nc5xe6+ 
+12/22,   +0.63 p,  21.57 s,  136374616 N,  6321843 N/s, Pe5xf6 ke8-g8 Qa4-c2 ng6xh4 Pf6xg7 kg8xg7 Ra1-e1 pb5xc4 Re1xe6 pc4xd3 Qc2xd3 pf7xe6 
+13/25,   +0.87 p,  55.92 s,  343706912 N,  6146262 N/s, Pe5xf6 ke8-g8 Ra1-e1 qe6xe1 Rf1xe1 pb5xa4 Bd3xg6 pf7xg6 Re1-e7 rf8-f7 Nc4-d6 rf7xe7 Pf6xe7 
+14/27,   +1.35 p, 218.84 s, 1312243713 N,  5996257 N/s, Pe5xf6 ke8-g8 Rf1-e1 qe6xe1+ Ra1xe1 pb5xa4 Bd3xg6 pf7xg6 Re1-e7 rf8-f7 Re7xf7 kg8xf7 Nc4-d6+ kf7-g8 Nd6xb7 
+15/28,   +1.34 p, 842.00 s, 5410700139 N,  6426017 N/s, Pe5xf6 ke8-g8 Ra1-e1 pb5xa4 Re1xe6 pf7xe6 Bd3xg6 bb7-a6 Pf6xg7 kg8xg7 Nc4-e5 rf8-f4 Bh4-g3 
+Result = 6
+-------------------------------------------------------------------
+Solution = Bc1-b2
+ 1/ 2,   +1.73 p,   0.00 s,         41 N,   284981 N/s, Kg1-h1 
+ 2/ 4,   -0.33 p,   0.00 s,        818 N,   440222 N/s, Qd3-c3 
+ 3/ 6,   -0.10 p,   0.01 s,       3310 N,   298045 N/s, Pc2-c3 bc8-f5 Qd3-d5 
+ 4/ 7,   -0.35 p,   0.03 s,      50134 N,  1476249 N/s, Bc1-b2 qf6xb2 Bc4-d5 
+ 5/ 9,   -0.34 p,   0.06 s,      86417 N,  1445478 N/s, Bc1-b2 qf6xb2 Nf3-g5 
+ 6/11,   +0.31 p,   0.12 s,     245580 N,  2039416 N/s, Bc1-b2 qf6-f4 Bb2xg7 kg8xg7 Kg1-h1 nc6-e5 
+ 7/13,   -0.03 p,   0.26 s,     713665 N,  2779300 N/s, Bc1-b2 qf6-f4 Pa2-a4 bc8-f5 Qd3-c3 nc6-e5 Nf3xe5 
+ 8/17,   +0.42 p,   0.62 s,    2452202 N,  3945936 N/s, Bc1-b2 qf6-f4 Pg2-g3 qf4-g4 Ra1-e1 bc8-e6 Kg1-h1 
+ 9/18,   +0.47 p,   1.78 s,    8462042 N,  4765990 N/s, Bc1-b2 qf6-f4 Ph2-h3 bc8-f5 Qd3-d5 nc6-e5 Bb2xe5 
+10/20,   +0.88 p,   6.37 s,   33913921 N,  5327127 N/s, Bc1-b2 qf6-f4 Pg2-g3 qf4-g4 Ph2-h3 qg4xh3 Nf3-g5 
+11/23,   +0.89 p,  20.48 s,  115835272 N,  5656872 N/s, Bc1-b2 qf6-f4 Qd3-c3 nc6-e5 Nf3xe5 bd6xe5 Qc3-g3 qf4xg3 Pf2xg3 bc8-f5 Rf1xf5 
+12/26,   +0.68 p,  86.07 s,  529450767 N,  6151135 N/s, Bc1-b2 qf6-f4 Rf1-e1 bc8-g4 Qd3-c3 re8xe1+ Ra1xe1 bd6-f8 Bc4-d5 kg8-h8 Pg2-g3 
+13/28,   +0.81 p, 303.62 s, 1810499978 N,  5962994 N/s, Bc1-b2 qf6-f4 Rf1-e1 bc8-d7 Qd3-c3 bd6-f8 Kg1-h1 re8xe1+ Ra1xe1 kg8-h8 Pg2-g3 qf4-h6 Nf3-h4 
+Result = 0
+-------------------------------------------------------------------
+Solution = Ke1-c1
+ 1/ 2,   -0.47 p,   0.00 s,         88 N,   406861 N/s, Bf3-e4 
+ 2/ 3,   -1.00 p,   0.00 s,        966 N,   487844 N/s, Nd4-b5 
+ 3/ 5,   -0.06 p,   0.01 s,       1788 N,   314044 N/s, Nd4-b5 pa6xb5 
+ 4/ 7,   -1.09 p,   0.02 s,      20459 N,   842956 N/s, Nd4-e2 qg6-d6 Bf3-e4 
+ 5/ 8,   +0.02 p,   0.04 s,      39907 N,   904159 N/s, Nd4-e2 qg6-d6 Ke1-c1 bc8-d7 Qd2-d5 
+ 6/11,   -0.76 p,   0.15 s,     376034 N,  2492696 N/s, Nd4-e2 pe5-e4 Be3-g5 nb8-d7 Bf3xe4 qg6-d6 
+ 7/12,   +0.23 p,   0.27 s,     916616 N,  3390235 N/s, Nd4-e2 pe5-e4 Ke1-c1 nb8-d7 Ne2-f4 qg6-f6 Bf3xe4 
+ 8/16,   -0.47 p,   0.81 s,    4129238 N,  5088559 N/s, Nd4-e2 nb8-d7 Ke1-c1 qg6-e6 Bf3-d5 qe6-f5 Bd5-e4 qf5-e6 
+ 9/17,   +0.02 p,   2.35 s,   14513303 N,  6169886 N/s, Nd4-e2 pe5-e4 Ne2-f4 qg6-d6 Qd2xd6 bf8xd6 Bf3xe4 bd6-b4+ Pc2-c3 bb4-d6 
+10/19,   -0.09 p,   8.63 s,   53589161 N,  6211746 N/s, Nd4-e2 qg6-e6 Bf3-d5 qe6-g4 Ke1-c1 nb8-d7 Be3-g5 pf7-f6 Bg5-e3 ke8-d8 
+11/21,   +0.15 p,  50.59 s,  373662407 N,  7386342 N/s, Nd4-e2 pe5-e4 Ra1-d1 bc8-d7 Ne2-f4 qg6-c6 Bf3-g2 pf7-f5 
+12/24,   +0.51 p, 154.20 s, 1068152225 N,  6926978 N/s, Ke1-c1 nb8-d7 Rh1-g1 qg6-d6 Nd4-e2 qd6-c7 Qd2-d3 ke8-d8 Qd3-d5 qc7-c4 Qd5xc4 
+13/27,   +0.32 p, 513.48 s, 3261009341 N,  6350758 N/s, Ke1-c1 pe5xd4 Be3xd4 bf8-e7 Rh1-g1 qg6-f5 Bd4xg7 rh8-g8 Bf3-g4 qf5-c5 Bg4xc8 qc5xc8 
+Result = 154
+-------------------------------------------------------------------
+Solution = Ne5xf7
+ 1/ 1,   +1.48 p,   0.00 s,        146 N,   422496 N/s, Bg5xf6 
+ 2/ 3,   +1.48 p,   0.00 s,        372 N,   341049 N/s, Bg5xf6 nd7xf6 
+ 3/ 5,   +0.47 p,   0.01 s,       3662 N,   392090 N/s, Bg5xf6 qd8xf6 
+ 4/ 7,   +0.38 p,   0.01 s,       5266 N,   388058 N/s, Bg5xf6 qd8xf6 Ne5-g4 
+ 5/ 9,   -0.02 p,   0.04 s,      36496 N,   861222 N/s, Ne5xd7 re8xe1+ Qd2xe1 bc8xd7 Qe1-e4 
+ 6/12,   +1.47 p,   0.10 s,      74347 N,   777062 N/s, Ne5xf7 re8xe1+ Qd2xe1 bf6xg5+ Nf7xg5 qd8-b6 Qe1-e6+ 
+ 7/14,   +1.34 p,   0.18 s,     148027 N,   814528 N/s, Ne5xf7 kg8xf7 Bf1-c4+ kf7-f8 Qd2-b4+ re8-e7 Bg5xf6 nd7xf6 
+ 8/15,   +0.67 p,   0.40 s,     957510 N,  2373105 N/s, Ne5xd7 re8xe1+ Qd2xe1 bf6xg5+ Ph4xg5 qd8xg5+ Kc1-b1 bc8xd7 Qe1-e4 qg5-f5 Qe4-h4 
+ 9/17,   +0.71 p,   0.72 s,    2701642 N,  3774427 N/s, Ne5xf7 kg8xf7 Bf1-c4+ kf7-f8 Re1xe8+ qd8xe8 Rh1-e1 nd7-e5 Bg5xf6 
+10/19,   +1.52 p,   1.20 s,    4858065 N,  4061254 N/s, Ne5xf7 re8xe1+ Qd2xe1 kg8xf7 Bg5xf6 nd7xf6 Bf1-c4+ kf7-g6 Qe1-d2 nf6-d5 Qd2xd4 kg6-h5 
+11/21,   +1.30 p,   2.00 s,    9170390 N,  4595162 N/s, Ne5xf7 re8xe1+ Qd2xe1 kg8xf7 Bf1-c4+ kf7-f8 Bg5-d2 bf6xh4 Bd2-b4+ qd8-e7 Bb4xe7+ bh4xe7 Rh1xh7 be7-g5+ Kc1-b1 nd7-e5 
+12/22,   +1.91 p,   3.28 s,   16265651 N,  4958542 N/s, Ne5xf7 re8xe1+ Qd2xe1 kg8xf7 Bf1-c4+ kf7-f8 Qe1-e6 bf6xg5+ Ph4xg5 qd8xg5+ Pf2-f4 qg5xf4+ Kc1-b1 nd7-c5 Qe6-g8+ 
+13/24,   +1.77 p,   8.12 s,   45294170 N,  5580571 N/s, Ne5xf7 re8xe1+ Qd2xe1 kg8xf7 Bf1-c4+ kf7-f8 Qe1-e6 bf6xg5+ Ph4xg5 qd8xg5+ Kc1-b1 nd7-e5 Qe6-g8+ kf8-e7 Rh1-e1 
+14/27,   +3.17 p,  26.48 s,  165040921 N,  6231963 N/s, Ne5xf7 re8xe1+ Qd2xe1 qd8-f8 Bf1-c4 pd4-d3 Pc2xd3 pb7-b5 Bg5xf6 pb5xc4 Bf6-e7 qf8xf7 
+15/29,   +3.17 p,  54.32 s,  325853624 N,  5998447 N/s, Ne5xf7 re8xe1+ Qd2xe1 qd8-f8 Bf1-c4 pd4-d3 Nf7-e5+ kg8-h8 Ne5-f7+ kh8-g8 Nf7-e5+ kg8-h8 Ne5-f7+ kh8-g8 Nf7-e5+ kg8-h8 Ne5-f7+ kh8-g8 Nf7-e5+ kg8-h8 Ne5-f7+ kh8-g8 Nf7-e5+ kg8-h8 Ne5-f7+ kh8-g8 Nf7-e5+ kg8-h8 Ne5-f7+ 
+16/31,   +3.18 p, 145.09 s,  864675536 N,  5959712 N/s, Ne5xf7 re8xe1+ Qd2xe1 qd8-f8 Bf1-c4 pb7-b5 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Bc4-d5 nd7-b6 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ 
+17/33,   +3.09 p, 667.02 s, 4712595906 N,  7065130 N/s, Ne5xf7 re8xe1+ Qd2xe1 qd8-f8 Bf1-c4 pb7-b5 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Bc4-d5 bc8-b7 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ kg8-h8 Nh6-f7+ kh8-g8 Nf7-h6+ 
+Result = 0
+-------------------------------------------------------------------
+Solution = Kh2-g3
+ 1/ 2,   +3.25 p,   0.00 s,         67 N,   315565 N/s, Rd7-e7 
+ 2/ 4,   +3.25 p,   0.00 s,        175 N,   249993 N/s, Rd7-e7 qc6xa4 
+ 3/ 6,   +1.74 p,   0.01 s,       2214 N,   331803 N/s, Rd7-e7 qc6-c5 
+ 4/ 6,   +1.51 p,   0.01 s,       4456 N,   438664 N/s, Rd7-e7 qc6xa4 Pc4-c5 qa4-a1 
+ 5/ 8,   +1.74 p,   0.02 s,       9851 N,   463109 N/s, Rd7-e7 qc6xa4 Nf3-g5 qa4-a3 Re7-d7 
+ 6/12,   +1.88 p,   0.08 s,     178976 N,  2273352 N/s, Rd7-d8 rc8xd8 Rd4xd8 rf8xd8 Qf6xd8+ 
+ 7/13,   +2.01 p,   0.12 s,     228368 N,  1961046 N/s, Rd7-d8 qc6-c5 Nf3-g5 rc8xd8 Rd4xd8 rf8xd8 
+ 8/16,   +2.53 p,   0.29 s,    1099723 N,  3731559 N/s, Rd7-e7 qc6-c5 Nf3-g5 qc5xd4 Ng5xf7 qd4xc4 Qf6xg6+ 
+ 9/17,   +2.43 p,   0.42 s,    1636095 N,  3939223 N/s, Rd7-e7 rc8-e8 Re7xe8 rf8xe8 Kh2-h1 qc6xa4 Nf3-e1 qa4-a3 
+10/18,   +1.97 p,   0.77 s,    3822055 N,  4965643 N/s, Rd7-d8 rc8xd8 Rd4xd8 qc6xc4 Nf3-g5 qc4xh4+ Kh2-g1 qh4-c4 Rd8xf8+ kg8xf8 Qf6xf7+ 
+11/20,   +1.97 p,   1.26 s,    6885544 N,  5469676 N/s, Rd7-d8 rc8xd8 Rd4xd8 rf8xd8 Qf6xd8+ kg8-g7 Qd8-e7 qc6xc4 Qe7-f6+ kg7-g8 
+12/22,   +1.98 p,   2.37 s,   14685306 N,  6207328 N/s, Rd7-d8 rc8xd8 Rd4xd8 rf8xd8 Qf6xd8+ kg8-g7 Kh2-g1 qc6xa4 Qd8-f6+ kg7-g8 Nf3-g5 qa4xc2 Qf6xf7+ kg8-h8 Qf7-f6+ 
+13/24,   +1.98 p,   7.40 s,   55017430 N,  7434359 N/s, Rd7-e7 rc8-e8 Re7xe8 rf8xe8 Rd4-d8 re8xd8 Qf6xd8+ kg8-g7 Kh2-g1 qc6xa4 Qd8-f6+ kg7-g8 Nf3-g5 qa4xc2 Qf6xf7+ kg8-h8 Qf7-f6+ 
+14/29,   +6.78 p,  26.95 s,  211581343 N,  7850610 N/s, Kh2-g3 rc8-a8 Kg3-f4 qc6xa4 Kf4-g5 qa4xc2 Kg5-h6 qc2-c1+ Nf3-g5 bb7xg2 Qf6-g7+ 
+15/29,   +6.92 p,  54.71 s,  448998326 N,  8207463 N/s, Kh2-g3 qc6xd7 Rd4xd7 bb7xf3 Kg3xf3 kg8-h7 Rd7xf7+ rf8xf7 Qf6xf7+ kh7-h8 Qf7xg6 pc7-c5 Qg6xh5+ kh8-g8 Qh5-g6+ kg8-h8 Qg6-h6+ kh8-g8 Qh6xe6+ kg8-h8 
+16/29,   +6.92 p,  90.53 s,  725629155 N,  8015489 N/s, Kh2-g3 qc6xd7 Rd4xd7 bb7-c6 Rd7-d4 bc6xa4 Rd4-f4 ba4xc2 Nf3-g5 bc2-f5 Pf2-f3 bf5-b1 Ng5xf7 bb1-f5 
+17/33,   +7.73 p, 189.55 s, 1504649930 N,  7938195 N/s, Kh2-g3 qc6xd7 Rd4xd7 bb7-c6 Rd7-d4 bc6xf3 Kg3xf3 kg8-h7 Rd4-d7 kh7-h6 
+18/35,   +8.20 p, 440.33 s, 3444207769 N,  7821909 N/s, Kh2-g3 qc6xd7 Rd4xd7 bb7-c6 Rd7-d4 bc6xf3 Kg3xf3 pc7-c6 Kf3-g3 kg8-h7 Kg3-h2 rf8-g8 Qf6xf7+ rg8-g7 Qf7-f6 kh7-h8 
+Result = 26
+-------------------------------------------------------------------
+Solution = rd2xb2
+ 1/ 2,   +0.04 p,   0.00 s,         50 N,   395103 N/s, rd2-d1+ 
+ 2/ 4,   +0.06 p,   0.00 s,        191 N,   426384 N/s, rd2-d1+ Kg1-f2 
+ 3/ 6,   +0.20 p,   0.00 s,       1303 N,   608789 N/s, pc4-c3 Na4xb6 rd2-d1+ 
+ 4/ 6,   +0.17 p,   0.01 s,       2794 N,   555690 N/s, pc4-c3 Na4xc3 rd2xb2 Kg1-h1 
+ 5/10,   +0.17 p,   0.01 s,       7488 N,   680343 N/s, rd2-d1+ Kg1-f2 rd1-d2+ Kf2-f1 pc4-c3 Na4xb6 pa7xb6 
+ 6/12,   +0.16 p,   0.02 s,      18861 N,   868216 N/s, rd2-d1+ Kg1-f2 rd1-d2+ Kf2-f1 pc4-c3 Pb2xc3 rd2-d1+ Kf1-f2 bb6-a5 Kf2-g3 
+ 7/14,   +0.16 p,   0.04 s,      41910 N,   996668 N/s, rd2-d1+ Kg1-f2 rd1-d2+ Kf2-g1 rd2-d1+ Kg1-f2 rd1-d2+ Kf2-g1 rd2-d1+ Kg1-f2 rd1-d2+ Kf2-g1 rd2-d1+ Kg1-f2 
+ 8/16,   +0.25 p,   0.12 s,     279951 N,  2400854 N/s, bb6-d8 Rb7xa7 bd8-f6 Na4xc5 rd2-d1+ Kg1-f2 bf6-d4+ Kf2-g3 bd4xc5 
+ 9/16,   +0.22 p,   0.19 s,     701164 N,  3636295 N/s, bb6-d8 Rb7xa7 bd8-f6 Ph2-h3 rd2-d1+ Kg1-h2 bf6-e5+ Pg2-g3 rd1-d2+ Kh2-h1 
+10/18,   +0.25 p,   0.34 s,    1612869 N,  4748462 N/s, bb6-d8 Rb7xa7 bd8-f6 Pg2-g3 rd2-d1+ Kg1-g2 pc4-c3 Na4xc3 rd1-f1 Nc3-e4 
+11/20,   +0.30 p,   0.95 s,    7180561 N,  7552344 N/s, bb6-d8 Pg2-g3 bd8-f6 Kg1-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 
+12/22,   +0.31 p,   1.79 s,   16798178 N,  9385407 N/s, pc4-c3 Pb2xc3 bb6-d8 Na4-b2 bd8-f6 Kg1-h1 bf6xc3 Nb2-a4 bc3-d4 
+13/23,   +0.32 p,   2.99 s,   30602521 N, 10230273 N/s, pc4-c3 Na4xc3 rd2xb2 Ph2-h4 rb2-b4 Nc3-d5 rb4-b1+ Kg1-h2 pc5-c4 Nd5xb6 pa7xb6 Kh2-g3 rb1-b2 Kg3-h3 kh7-h8 
+14/24,   +0.50 p,   4.42 s,   48923304 N, 11058050 N/s, pc4-c3 Na4xc3 rd2xb2 Ph2-h4 rb2-b4 Pg2-g3 rb4-b2 Kg1-h1 pc5-c4 Rb7-b8 rb2-c2 Nc3-d5 bb6-f2 Ph4-h5 bf2xg3 
+15/26,   +0.37 p,  12.77 s,  174047546 N, 13624514 N/s, pc4-c3 Na4xc3 rd2xb2 Ph2-h4 pc5-c4+ Kg1-h1 rb2-c2 Nc3-e4 rc2xa2 Kh1-h2 ra2-a1 Ne4-g5+ kh7-h6 Ng5-f3 ra1-f1 Kh2-h3 rf1-h1+ 
+16/28,   +0.60 p,  20.93 s,  278942930 N, 13326966 N/s, pc4-c3 Na4xc3 rd2xb2 Ph2-h4 pc5-c4+ Kg1-h1 rb2-c2 Nc3-e4 rc2xa2 Ne4-f6+ kh7-g6 Nf6-d5 ra2-a1+ Kh1-h2 bb6-g1+ Kh2-h3 ra1-a3+ Pg2-g3 kg6-h6 Nd5-f4 
+17/30,   +0.59 p,  75.88 s, 1199597040 N, 15808274 N/s, pc4-c3 Pb2xc3 bb6-d8 Rb7xa7 bd8-g5 Pg2-g3 bg5-e3+ Kg1-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h3 be3-g1 Kh3-g4 rd2xh2 Ra7-a6 bg1-e3 
+18/32,   +0.59 p, 126.32 s, 1931466470 N, 15290237 N/s, pc4-c3 Pb2xc3 bb6-d8 Rb7xa7 bd8-g5 Pg2-g3 bg5-e3+ Kg1-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 rd2-d1+ Kh1-g2 rd1-d2+ Kg2-h1 
+19/34,   +0.53 p, 511.84 s, 9002805957 N, 17589264 N/s, pc4-c3 Pb2xc3 bb6-d8 Rb7xa7 rd2xa2 Ra7-a6 ra2-a1+ Kg1-f2 bd8-e7 Kf2-g3 ra1-e1 Ph2-h3 re1-e2 Ra6-c6 re2-e4 Pc3-c4 re4xc4 Kg3-f2 rc4-c2+ 
+20/35,   +0.53 p, 718.92 s, 11945093176 N, 16615239 N/s, pc4-c3 Pb2xc3 bb6-d8 Rb7xa7 rd2xa2 Ra7-a6 bd8-e7 Pg2-g3 pc5-c4 Ph2-h4 be7-f6 Na4-c5 ra2xa6 Nc5xa6 bf6xc3 Ph4-h5 bc3-d4+ Kg1-h2 bd4-f2 
+Result = 900
+-------------------------------------------------------------------
+Solution = Nc5-e6
+ 1/ 1,   +0.71 p,   0.00 s,        130 N,   691713 N/s, Nc5-d3 
+ 2/ 2,   +0.50 p,   0.00 s,        265 N,   351952 N/s, Nc5-d3 pe7-e6 
+ 3/ 4,   +0.92 p,   0.00 s,       2024 N,   405261 N/s, Nc5xd7 bc8xd7 Qd1-d2 
+ 4/ 6,   +0.32 p,   0.01 s,       9029 N,   873425 N/s, Nc5-e4 bg7xe5 Bc7xe5 
+ 5/ 8,   +0.57 p,   0.02 s,      29183 N,  1231018 N/s, Nc5-d3 pa7-a6 Nb5-a3 pe7-e6 Bc7-d6 
+ 6/10,   +0.36 p,   0.07 s,     139285 N,  2032045 N/s, Nc5-d3 pa7-a6 Nb5-a3 pb7-b5 Qd1-d2 pe7-e6 
+ 7/12,   +0.48 p,   0.13 s,     366432 N,  2727220 N/s, Nc5-d3 pa7-a6 Nb5-a3 ra8-a7 Na3-c4 pb7-b5 
+ 8/15,   +0.23 p,   0.25 s,     946823 N,  3769660 N/s, Nc5-d3 pa7-a6 Nb5-a3 bg7xe5 Bc7xe5 nd7xe5 Nd3xe5 nc6xe5 
+ 9/18,   +0.45 p,   0.93 s,    4895197 N,  5280511 N/s, Nc5-b3 nd7xe5 Pf2-f4 pg5xf4 Rf1xf4 ne5-g6 Rf4-f1 bg7-e5 Bc7xe5 
+10/20,   -0.02 p,   2.67 s,   18802234 N,  7042867 N/s, Nc5-d3 pa7-a6 Nb5-a3 ra8-a7 Pe5-e6 nd7-f6 Pe6xf7+ qe8xf7 Nd3-e5 qf7-d5 Be2-f3 
+11/22,   +0.35 p,   7.65 s,   49549142 N,  6476427 N/s, Nc5-b3 nd7xe5 Bc7xe5 bg7xe5 Be2-c4 pa7-a6 Qd1-d3 pa6xb5 Qd3-g6+ 
+12/25,   +0.47 p,  26.02 s,  183654592 N,  7057949 N/s, Nc5-e6 pf7xe6 Be2-h5 rf8-f7 Nb5xd4 bg7xe5 Nd4xc6 be5xc7 Qd1-d3 pb7xc6 Qd3-g6+ kg8-h8 Qg6xh6+ 
+13/26,   +0.53 p,  90.89 s,  579416715 N,  6375013 N/s, Nc5-d3 pa7-a6 Nb5-a3 nc6xe5 Nd3xe5 nd7xe5 Bc7xe5 bg7xe5 Na3-c4 be5-g7 Nc4-b6 ra8-a7 Qd1-d3 
+14/28,   +0.30 p, 344.25 s, 2398548630 N,  6967371 N/s, Nc5-e6 pf7xe6 Be2-h5 rf8-f7 Nb5xd4 nd7xe5 Nd4xc6 ne5xc6 Qd1-d3 bg7xb2 Bh5xf7+ qe8xf7 Ra1-b1 qf7-g7 Pf2-f3 
+Result = 344
+-------------------------------------------------------------------
+Solution = pg6-g5
+ 1/ 2,   +0.99 p,   0.00 s,         43 N,   506746 N/s, kf3-g3 
+ 2/ 4,   +1.57 p,   0.00 s,        179 N,   582373 N/s, pd5-d4+ Bc5xd4 kf3-g3 
+ 3/ 5,   +1.45 p,   0.00 s,       1123 N,   899515 N/s, kf3-g3 Kc3xb3 kg3xh4 
+ 4/ 6,   +1.40 p,   0.00 s,       2955 N,   873749 N/s, kf3-g3 Bc5-d4 be6-f5 Kc3xb3 
+ 5/ 8,   +1.39 p,   0.01 s,       6693 N,  1137996 N/s, kf3-g3 Kc3xb3 pd5-d4+ Kb3-a4 pd4xe3 Bc5xe3 
+ 6/ 9,   +0.90 p,   0.02 s,      38288 N,  2192222 N/s, pd5-d4+ Bc5xd4 kf3-g3 Kc3-d2 be6-f5 Kd2-d1 kg3xh4 
+ 7/11,   +0.78 p,   0.04 s,      88803 N,  2123010 N/s, kf3-g2 Kc3-b2 kg2-g3 Bc5-d4 be6-f5 
+ 8/12,   +0.74 p,   0.09 s,     261165 N,  2999828 N/s, kf3-g4 Bc5-d4 kg4xh4 Kc3xb3 be6-f5 Bd4-f6+ kh4-h3 Kb3-a2 bf5-c2 
+ 9/14,   +0.90 p,   0.12 s,     440838 N,  3561859 N/s, kf3-g4 Kc3xb3 pd5-d4+ Kb3-a3 pd4xe3 Bc5xe3 be6-c4 Be3-f2 kg4xf4 Ka3-b2 
+10/16,   +0.76 p,   0.19 s,     894387 N,  4821275 N/s, kf3-g4 Kc3xb3 kg4xh4 Kb3-a2 pd5-d4+ Ka2-b2 pd4xe3 Bc5xe3 kh4-g4 Be3-f2 kg4xf4 
+11/16,   +0.93 p,   0.24 s,    1504844 N,  6191601 N/s, kf3-g4 Kc3xb3 kg4xh4 Kb3-a2 kh4-h3 Ka2-a1 be6-f5 Bc5-e7 bf5-c2 Ka1-b2 bc2-d3 Kb2-a1 
+12/17,   +0.93 p,   0.38 s,    3139839 N,  8278712 N/s, kf3-g4 Bc5-d4 kg4xh4 Kc3xb3 kh4-h3 Kb3-a2 be6-f5 Bd4-f6 kh3-h2 Bf6-h4 bf5-c2 Bh4-f2 kh2-h1 
+13/19,   +0.93 p,   0.62 s,    5865273 N,  9471109 N/s, kf3-g4 Kc3xb3 pd5-d4+ Kb3-c2 pd4xe3 Bc5xe3 kg4xh4 Kc2-c1 kh4-g4 Kc1-b1 be6-c4 Kb1-a1 bc4-d5 Be3-f2 kg4xf4 Bf2-d4 kf4-g3 
+14/21,   +0.95 p,   1.10 s,   13602410 N, 12334252 N/s, kf3-g4 Kc3xb3 kg4xh4 Kb3-c2 be6-f5+ Kc2-b2 kh4-h3 Kb2-a1 kh3-g2 Bc5-d4 ph5-h4 Bd4-c3 ph4-h3 Bc3-e1 ph3-h2 
+15/23,   +1.06 p,   2.34 s,   35540202 N, 15188718 N/s, kf3-g4 Kc3xb3 kg4xh4 Kb3-a3 be6-f5 Ka3-a2 kh4-g3 Bc5-b4 bf5-d3 Bb4-e1+ kg3-g2 Ka2-a1 bd3-c4 Be1-h4 kg2-h1 Bh4-g3 
+16/25,   +1.16 p,   5.34 s,   89735459 N, 16814370 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 kf4-f5 Bf6-g5 kf5-e4 Bg5-d2 be6-g8 Bd2-c1 bg8-e6 Bc1-a3 ke4-e3 Ba3-c1+ ke3-e2 Bc1-g5 ke2-f2 Kc3-b2 be6-c4 Bg5-f4 bc4-d3 Kb2xb3 kf2-f1 
+17/27,   +1.16 p,   6.97 s,  120137489 N, 17229044 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 kf4-f5 Bf6-g5 kf5-e4 Bg5-d2 be6-g8 Bd2-c1 bg8-e6 Bc1-a3 ke4-e3 Ba3-c1+ ke3-e2 Bc1-g5 ke2-f2 Kc3-b2 be6-c4 Bg5-f4 bc4-d3 Kb2xb3 kf2-f1 Kb3-a2 
+18/28,   +1.16 p,   9.58 s,  168538307 N, 17597340 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 kf4-f5 Bf6-g5 kf5-e4 Bg5-d2 be6-g8 Bd2-c1 bg8-e6 Bc1-a3 ke4-e3 Ba3-c1+ ke3-e2 Bc1-g5 ke2-f2 Kc3-b2 be6-c4 Bg5-f4 bc4-d3 Kb2xb3 kf2-f1 Kb3-a2 
+19/30,   +1.16 p,  15.74 s,  293114859 N, 18621614 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 kf4-f5 Bf6-g5 kf5-e4 Bg5-d2 be6-g8 Bd2-c1 bg8-e6 Bc1-a3 ke4-e3 Ba3-c1+ ke3-e2 Bc1-g5 ke2-f2 Kc3-b2 be6-c4 Bg5-f4 bc4-d3 Kb2xb3 kf2-f1 Kb3-a2 
+20/32,   +1.21 p,  79.54 s, 1544629169 N, 19419616 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 be6-d5 Bf6-g5+ kf4-e4 Bg5-d2 ke4-f5 Kc3-b2 kf5-e6 Bd2-f4 ke6-d7 Bf4-g3 kd7-c6 Kb2-a1 bd5-e4 Bg3-f2 kc6-c7 Bf2-g3+ kc7-c6 Bg3-f2 kc6-c7 Bf2-g3+ kc7-c6 Bg3-f2 kc6-c7 Bf2-g3+ kc7-c6 Bg3-f2 
+21/35,   +1.21 p, 100.23 s, 1945398700 N, 19408778 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 be6-d5 Kc3-b2 kf4-e4 Kb2-a1 ke4-d3 Ka1-b2 bd5-c4 Kb2-b1 bc4-d5 Kb1-b2 bd5-c4 Kb2-b1 bc4-d5 Kb1-b2 bd5-c4 Kb2-b1 bc4-d5 Kb1-b2 bd5-c4 Kb2-b1 bc4-d5 Kb1-b2 bd5-c4 Kb2-b1 bc4-d5 Kb1-b2 bd5-c4 Kb2-b1 bc4-d5 
+22/38,   +1.22 p, 479.35 s, 8472217322 N, 17674394 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 be6-d5 Kc3-b2 kf4-e4 Kb2-a1 ke4-d3 Ka1-b2 kd3-c4 Bf6-e5 kc4-b5 Be5-d6 kb5-c6 Bd6-c5 kc6-b7 Bc5-d6 bd5-c4 Kb2-a1 bc4-d5 Ka1-b1 bd5-c4 Pd4-d5 bc4-d3+ 
+23/39,   +1.22 p, 588.64 s, 10631471257 N, 18061126 N/s, kf3-g4 Bc5-e7 pd5-d4+ Pe3xd4 kg4xf4 Be7-f6 be6-d5 Kc3-b2 kf4-e4 Kb2-a1 ke4-d3 Ka1-b2 kd3-c4 Bf6-e5 kc4-b5 Be5-d6 kb5-c6 Bd6-c5 kc6-b7 Bc5-d6 bd5-c4 Kb2-a1 bc4-d5 Ka1-b1 bd5-c4 Pd4-d5 bc4-d3+ 
+Result = 900
+-------------------------------------------------------------------
+Solution = Bc3-e1
+ 1/ 2,   +1.12 p,   0.00 s,        154 N,   750271 N/s, Pb2-b4 
+ 2/ 3,   +0.64 p,   0.00 s,        415 N,   490360 N/s, Ne5xd7 
+ 3/ 5,   +1.57 p,   0.00 s,       2222 N,   473244 N/s, Ne5xd7 ke8xd7 
+ 4/ 6,   +0.19 p,   0.02 s,      14643 N,   803109 N/s, Ph5-h6 bd5xa2 Pb2-b4 
+ 5/ 8,   +0.93 p,   0.04 s,      43728 N,  1091820 N/s, Ne5xd7 ke8xd7 Pb2-b4 
+ 6/10,   -0.04 p,   0.08 s,     160039 N,  1971439 N/s, Ne5xd7 ke8xd7 Ph5-h6 kd7-c8 Pb2-b4 
+ 7/12,   +1.40 p,   0.15 s,     337426 N,  2233182 N/s, Ne5xd7 ke8xd7 Qg4-f4 kd7-c8 Qf4xd6 
+ 8/15,   +0.64 p,   0.26 s,     949246 N,  3587816 N/s, Ne5xd7 ke8xd7 Qg4-f4 bd5xa2 Pb2-b4 nd6-f5 Re3-e1 qb6-c7 
+ 9/16,   +0.61 p,   0.55 s,    2870234 N,  5173520 N/s, Ne5xd7 ke8xd7 Pa2-a4 kd7-c8 Qg4-f4 pe6-e5 Pd4xe5 
+10/21,   +0.78 p,   1.09 s,    6169252 N,  5661067 N/s, Ne5xd7 ke8xd7 Qg4-f4 rh8-d8 Pa2-a4 kd7-c8 Pa4-a5 qb6-c7 Pb2-b4 kc8-b8 
+11/21,   +0.85 p,   2.50 s,   16737762 N,  6703250 N/s, Ne5xd7 ke8xd7 Pa2-a3 kd7-c8 Qg4-f4 pc6-c5 Pd4xc5 qb6xc5 Bc3-b4 
+12/23,   +0.88 p,  16.46 s,  131002663 N,  7959315 N/s, Pg5-g6 ke8-c8 Ne5xf7 nd6xf7 Pg6xf7 bd5xa2 Pb2-b4 
+13/26,   +0.98 p,  41.79 s,  323091633 N,  7731265 N/s, Pg5-g6 nd7xe5 Pd4xe5 nd6-f5 Pg6xf7+ ke8xf7 Re3-e2 bd5xa2 Pb2-b4 kf7-g8 Bc3-d2 qb6-c7 Qg4-g5 qc7-d7 
+14/27,   +0.79 p, 137.44 s, 1078000077 N,  7843144 N/s, Pg5-g6 ph7xg6 Ne5xd7 ke8xd7 Ph5xg6 nd6-f5 Pg6xf7 ra8-d8 Re3-e1 kd7-c8 Qg4-f4 nf5-d6 
+15/29,   +1.01 p, 363.90 s, 2753843342 N,  7567679 N/s, Bc3-e1 nd7xe5 Pd4xe5 nd6-f5 Re3-a3 ke8-c8 Qg4-b4 rd8-d7 Qb4xb6 
+16/32,   +1.35 p, 738.15 s, 5095434874 N,  6902977 N/s, Bc3-e1 nd7xe5 Pd4xe5 nd6-f5 Re3-a3 ke8-c8 Qg4-f4 bd5xa2 Rd1xd8+ rh8xd8 Be1-a5 rd8-d4 Ba5xb6 
+Result = 363
+-------------------------------------------------------------------
+Solution = ke8-g8
+ 1/ 2,   +8.92 p,   0.00 s,         44 N,   494520 N/s, ke8xf7 
+ 2/ 4,   +1.42 p,   0.00 s,        401 N,   557507 N/s, bc5-f2+ Kg3xf2 qd8-h4+ 
+ 3/ 6,   +1.70 p,   0.00 s,       2285 N,   517110 N/s, nd5-c3 Nf7xd8 nc3xd1 
+ 4/10,   +1.13 p,   0.02 s,       6876 N,   353040 N/s, ke8xf7 Qd1xd5+ kf7-g6 Qd5-f3 pd7-d6 
+ 5/12,   +1.74 p,   0.06 s,      43623 N,   675225 N/s, qd8-e7 Nf7xh8 qe7-g5+ Qd1-g4 bc5-f2+ Kg3-h3 nd5-f4+ 
+ 6/15,   +2.12 p,   0.16 s,     263559 N,  1626329 N/s, ke8xf7 Qd1xd5+ kf7-e8 Qd5xc5 qd8-g5+ 
+ 7/16,   +2.12 p,   0.32 s,     776768 N,  2461049 N/s, qd8-e7 Qd1xd5 qe7xf7 Qd5xc5 qf7-g6+ Kg3-f2 qg6-f5+ Kf2-g1 pd7-d6 
+ 8/19,   +1.90 p,   0.86 s,    3757120 N,  4347699 N/s, ke8xf7 Qd1xd5+ kf7-e8 Qd5xc5 qd8-g5+ Kg3-f2 rh8-f8+ Kf2-g1 qg5-f4 Qc5-d5 qf4-e3+ 
+ 9/24,   +2.09 p,   2.71 s,   14318440 N,  5276711 N/s, qd8-e7 Qd1xd5 qe7xf7 Qd5xf7+ ke8xf7 Rh1-f1+ kf7-g8 Kg3-h3 pd7-d6+ Kh3-h4 pc7-c6 
+10/24,   +2.17 p,   5.54 s,   30976445 N,  5593107 N/s, qd8-e7 Qd1xd5 rh8-f8 Rh1-f1 rf8xf7 Rf1xf7 qe7xf7 Qd5xc5 pd7-d6 
+11/25,   +2.15 p,  19.54 s,  117005586 N,  5986763 N/s, qd8-e7 Qd1xd5 qe7xf7 Qd5xc5 rh8-f8 Qc5-d4 pd7-d6 Ph2-h4 pc7-c5 Qd4xd6 qf7-f4+ 
+12/28,   +2.17 p,  76.65 s,  456535388 N,  5956070 N/s, qd8-e7 Qd1xd5 rh8-f8 Rh1-f1 rf8xf7 Rf1xf7 qe7xf7 Qd5xc5 pd7-d6 Pe5xd6 qf7-g6+ Kg3-f2 pc7xd6 
+13/31,   +3.59 p, 657.67 s, 4756384504 N,  7232168 N/s, ke8-g8 Nf7xd8 bc5-f2+ Kg3-h3 nd5-f4+ Kh3-g4 pd7-d5+ Pe5-e6 nf4xe6 Pg2-g3 ne6xd8+ Kg4-h4 rf8-f4+ Kh4-h5 pg7-g6+ Kh5-g5 nd8-e6+ Kg5-h6 rf4-h4+ 
+Result = 657
+-------------------------------------------------------------------
+Solution = Nc3-e4
+ 1/ 1,   +0.42 p,   0.00 s,         86 N,   453553 N/s, Ra1-c1 
+ 2/ 3,   +1.26 p,   0.00 s,        714 N,   379743 N/s, Qd1-g4 
+ 3/ 4,   +0.38 p,   0.01 s,       5105 N,   457862 N/s, Qd1-g4 bb7-c8 
+ 4/ 6,   +0.28 p,   0.03 s,      21028 N,   823546 N/s, Qd1-h5 pg7-g6 Qh5-h6 
+ 5/ 7,   +0.85 p,   0.06 s,     100365 N,  1712877 N/s, Qd1-h5 pg7-g6 Qh5-h6 bf6xc3 
+ 6/ 9,   +0.85 p,   0.12 s,     273646 N,  2208644 N/s, Qd1-h5 pg7-g6 Qh5-h6 bf6xc3 Pb2xc3 
+ 7/12,   +0.75 p,   0.48 s,    2210193 N,  4574115 N/s, Qd1-h5 pg7-g6 Qh5-h6 nc7-e6 Re1xe6 qd7xe6 
+ 8/14,   +0.70 p,   1.30 s,    6765484 N,  5204974 N/s, Qd1-h5 qd7-c6 Bf4-d6 bf6xc3 Pb2xc3 pd5-d4 Bd6xf8 qc6-h1+ 
+ 9/15,   +0.58 p,   8.99 s,   56040253 N,  6231286 N/s, Bf4-d6 rf8-b8 Qd1-h5 pg7-g6 Qh5-h6 bf6xc3 Pb2xc3 pg6xf5 Qh6-f6+ 
+10/19,   +0.61 p,  24.25 s,  140217274 N,  5782202 N/s, Qd1-h5 nc7-e6 Bf4-e5 bf6xe5 Re1xe5 pg7-g6 Qh5-h6 pd5-d4 Re5xe6 
+11/20,   +0.05 p, 133.85 s,  819268357 N,  6120589 N/s, Bf4-e5 bf6xe5 Re1xe5 pd5-d4 Qd1xd4 qd7xd4 Nf5xd4 kh8-g8 Re5-h5 
+12/23,   +0.22 p, 430.11 s, 2511500816 N,  5839271 N/s, Nc3-e4 bf6xb2 Ra1-b1 bb2-a3 Bf4-d6 ba3xd6 Ne4xd6 qd7-c6 Nd6xb7 qc6xb7 Qd1-h5 
+Result = 430
+-------------------------------------------------------------------
+Solution = qd8xd3
+ 1/ 2,   +2.66 p,   0.00 s,         83 N,   577190 N/s, bf6-d4+ 
+ 2/ 4,   +1.01 p,   0.00 s,        519 N,   526258 N/s, qd8-b8 
+ 3/ 6,   +2.36 p,   0.01 s,       2464 N,   377564 N/s, bf6-d4+ Kg1-h1 qd8-b8 
+ 4/ 8,   +1.26 p,   0.02 s,       7362 N,   411567 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 bd4xb2 
+ 5/10,   +2.13 p,   0.03 s,      15266 N,   473621 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 bd4xb2 Qe2-h5 
+ 6/10,   +1.54 p,   0.07 s,      54902 N,   803710 N/s, bf6-d4+ Kg1-h1 bb7xg2+ Kh1xg2 qd8-f6 Qe2-h5 re8xe6 
+ 7/12,   +2.21 p,   0.13 s,     153751 N,  1144277 N/s, bf6-d4+ Kg1-h1 bb7xg2+ Kh1xg2 qd8-f6 Rf1-e1 qf6-g6 Qe2-e4 
+ 8/15,   +1.48 p,   0.36 s,     984683 N,  2771517 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 bd4xb2 Qe2-h5 bb7xg2+ 
+ 9/16,   +1.61 p,   0.65 s,    2108669 N,  3265248 N/s, bf6-d4+ Kg1-h1 qd8-f6 Rf1-e1 bd4xb2 Qe2-g4 bb7xg2+ Kh1xg2 ra8-d8 Rd3xd8 
+10/17,   +1.77 p,   1.07 s,    4039268 N,  3764367 N/s, bf6-d4+ Kg1-h1 qd8-f6 Rf1-e1 bd4xb2 Qe2-g4 bb2-d4 Be6-d5 re8xe1+ Ng2xe1 bb7xd5+ Pc4xd5 qf6-h6 
+11/20,   +1.61 p,   1.97 s,   10112156 N,  5120714 N/s, bf6-d4+ Kg1-h1 qd8-f6 Rf1-e1 bd4xb2 Qe2-g4 bb2-c3 Rd3xc3 bb7xg2+ Kh1-g1 qf6xc3 
+12/23,   +1.95 p,   4.56 s,   28723826 N,  6302084 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 pg7-g6 Qe2-d1 bd4xb2 Be6-d5 pc7-c6 Pf5xg6 qf6xg6 Ng2-h4 
+13/24,   +1.59 p,  12.48 s,   97972703 N,  7848447 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 bd4xb2 Rd3-d7 qf6-e5 Qe2xe5 bb2xe5 Rd7-d2 re8-f8 Rd2-d7 rf8-d8 
+14/25,   +1.54 p,  37.90 s,  317867733 N,  8387571 N/s, bf6-d4+ Kg1-h1 qd8-f6 Pf4-f5 bd4xb2 Rd3-d1 bb2-d4 Qe2-g4 pg7-g5 Qg4-h5 bb7xg2+ Kh1xg2 re8xe6 Pf5xe6 
+15/27,   +1.59 p, 132.83 s, 1182230312 N,  8900568 N/s, qd8xd3 Qe2xd3 re8xe6 Pf4-f5 re6-e7 Pb2-b3 ra8-e8 Kg1-h1 re7-e1 Kh1-g1 bf6-d4+ Kg1-h1 bb7xg2+ Kh1xg2 re1-e3 Qd3-b1 re3-e4 Kg2-h1 
+16/29,   +2.38 p, 269.44 s, 2370748146 N,  8798839 N/s, qd8xd3 Qe2xd3 bf6-d4+ Kg1-h1 re8xe6 Pf4-f5 re6-e3 Qd3-c2 ra8-e8 Pf5-f6 pg7xf6 Pb2-b3 re3-e2 Qc2xe2 re8xe2 
+17/30,   +2.47 p, 598.43 s, 5015792569 N,  8381571 N/s, qd8xd3 Qe2xd3 bf6-d4+ Qd3xd4 pc5xd4 Pf4-f5 ra8-b8 Kg1-h1 re8-f8 Kh1-g1 rb8-d8 Kg1-h1 rd8-b8 Kh1-g1 rb8-d8 Kg1-h1 rd8-b8 Kh1-g1 rb8-d8 Kg1-h1 rd8-b8 Kh1-g1 rb8-d8 Kg1-h1 rd8-b8 Kh1-g1 rb8-d8 Kg1-h1 rd8-b8 Kh1-g1 
+Result = 132
+-------------------------------------------------------------------
+Solution = rf8xf3
+ 1/ 1,   +1.54 p,   0.00 s,         49 N,   487227 N/s, kd6-e7 
+ 2/ 3,   -0.12 p,   0.00 s,        577 N,   508324 N/s, bg6-e8 
+ 3/ 4,   +1.48 p,   0.01 s,       3204 N,   541828 N/s, kd6-d7 
+ 4/ 6,   +0.34 p,   0.02 s,      10688 N,   654113 N/s, kd6-d7 Rb1-a1 qa3-b3 Kg2-h2 
+ 5/ 8,   +0.34 p,   0.02 s,      17390 N,   703171 N/s, kd6-d7 Rb1-a1 qa3-b3 Rh1-b1 
+ 6/10,   -0.08 p,   0.07 s,     163766 N,  2216131 N/s, bg6-e8 Rb1-a1 qa3-b3 Rh1-b1 qb3-c3 
+ 7/12,   +0.54 p,   0.13 s,     308647 N,  2292558 N/s, bg6-e8 Rb1-a1 qa3-c3 Qd2xc3 pd4xc3 Kg2-h2 kd6-e7 
+ 8/15,   +0.20 p,   0.58 s,    4073924 N,  7084410 N/s, qa3-a8 Rb1-a1 qa8-d8 Rh1-e1 rf8xf3 Kg2xf3 qd8-f6+ 
+ 9/16,   +0.49 p,   1.22 s,   10041403 N,  8204793 N/s, qa3-a8 Rh1-d1 bg6-e8 Qd2-f2 pb7-b6 Kg2-h2 kd6-e7 Kh2-h1 
+10/18,   +0.25 p,   2.23 s,   20862796 N,  9350659 N/s, qa3-a8 Rb1-a1 qa8-d8 Rh1-h3 rf8xf3 Kg2xf3 qd8-f6+ Kf3-g2 kd6-e7 Kg2-h2 
+11/20,   +0.68 p,   7.28 s,   74674273 N, 10259867 N/s, qa3-a8 Rb1-d1 qa8-d8 Rh1-h3 rf8xf3 Kg2xf3 qd8-f6+ Kf3-g2 kd6-e7 Kg2-h1 
+12/24,   +0.33 p,  21.11 s,  223798836 N, 10600540 N/s, qa3-a8 Rb1-a1 qa8-d8 Ra1-f1 bg6-e8 Rh1-h3 qd8-g5 Qd2-a5 kd6-e7 Qa5-c7+ be8-d7 Qc7xc5+ ke7-e8 Kg2-h2 
+13/24,   +2.94 p,  48.58 s,  487366330 N, 10031734 N/s, rf8xf3 Kg2xf3 bg6xe4+ Kf3xe4 rg7xg3 Rh1-g1 qa3-c3 Qd2-e2 rg3-e3+ Qe2xe3 pd4xe3 Ke4-f3 pe5-e4+ 
+14/26,   +3.23 p,  70.54 s,  668977299 N,  9484054 N/s, rf8xf3 Kg2xf3 bg6xe4+ Kf3xe4 rg7xg3 Rh1-g1 qa3-a2 Qd2-e1 pb7-b6 Rb1-a1 qa2xa1 Qe1xa1 rg3-e3+ 
+15/29,   +4.14 p, 146.99 s, 1320732108 N,  8985183 N/s, rf8xf3 Kg2xf3 bg6xe4+ Kf3-e2 be4xh1 Rb1xh1 rg7xg3 Rh1-f1 rg3-e3+ Ke2-f2 qa3xd3 Qd2xd3 re3xd3 Rf1-e1 rd3-c3 Re1-e2 
+16/31,   +3.39 p, 298.84 s, 2724470462 N,  9116779 N/s, rf8xf3 Kg2xf3 bg6xe4+ Kf3-e2 be4xh1 Rb1xh1 rg7xg3 Rh1-f1 rg3-e3+ Ke2-f2 qa3xd3 Qd2xd3 re3xd3 Kf2-g2 rd3-d2+ Kg2-h1 kd6-d7 Rf1-f7+ 
+17/33,   +3.64 p, 662.04 s, 5753368506 N,  8690356 N/s, rf8xf3 Kg2xf3 bg6xe4+ Kf3-e2 be4xh1 Rb1xh1 rg7xg3 Rh1-f1 rg3-e3+ Ke2-f2 qa3xd3 Qd2xd3 re3xd3 Kf2-g2 kd6-e7 Kg2-g1 rd3-c3 Kg1-h2 ke7-d8 Rf1-f7 
+Result = 48
+-------------------------------------------------------------------
+Solution = Kb1-a1
+ 1/ 2,   +9.93 p,   0.00 s,         33 N,   591366 N/s, Qe2-f2 
+ 2/ 4,   +8.87 p,   0.00 s,        152 N,   829092 N/s, Qe2-f2 kh2-h1 
+ 3/ 6,   +8.03 p,   0.00 s,        603 N,  1190880 N/s, Kb1-a1 kh2-h1 Qe2-e4 
+ 4/ 7,   +9.99 p,   0.00 s,       1991 N,  1562659 N/s, Ph5-h6 kh2-h1 Qe2-f3 
+ 5/ 8,   +9.02 p,   0.00 s,       4442 N,  1798433 N/s, Ph5-h6 kh2-g1 Qe2-e1+ kg1-h2 Qe1-f2 kh2-h1 
+ 6/11,   +9.21 p,   0.00 s,       8007 N,  2145725 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 
+ 7/12,   +9.22 p,   0.01 s,      11305 N,  2139917 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+ 8/14,   +9.22 p,   0.01 s,      15576 N,  2213781 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+ 9/16,   +9.22 p,   0.01 s,      23202 N,  2303665 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+10/18,   +9.22 p,   0.02 s,      36596 N,  2301876 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+11/20,   +9.22 p,   0.03 s,      64270 N,  2528327 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+12/21,   +9.22 p,   0.06 s,     176807 N,  2900189 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+13/23,   +9.22 p,   0.11 s,     389480 N,  3492525 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+14/25,   +9.22 p,   0.20 s,     850621 N,  4295888 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+15/27,   +9.22 p,   0.38 s,    1921800 N,  5115028 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+16/29,   +9.22 p,   0.79 s,    4986274 N,  6292392 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+17/31,   +9.22 p,   1.68 s,   12167500 N,  7225715 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+18/33,   +9.22 p,   3.65 s,   29146784 N,  7989437 N/s, Ph5-h6 kh2-h1 Qe2-f3 kh1-h2 Qf3-f4+ kh2xh3 Qf4-f3+ kh3-h2 Qf3-f4+ kh2-h1 Qf4-h4+ 
+19/35,   +9.23 p,   9.47 s,   98413380 N, 10397236 N/s, Kb1-a1 kh2-h1 Qe2-e4 kh1-h2 Qe4-e5+ kh2-h1 Qe5-d5 kh1-h2 Qd5-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-c7+ kh2-h1 Qc7xh7 pg2-g1Q+ Qh7-b1 qg1xb1+ Ka1xb1 kh1-g2 Ph5-h6 kg2xh3 Ph6-h7 kh3-g2 Ph7-h8Q kg2-f2 Qh8-h1 kf2-e2 Qh1-c1 
+20/37,   +9.42 p,  88.80 s,  588312909 N,  6625302 N/s, Kb1-a1 kh2-h1 Qe2-e4 kh1-h2 Qe4-e5+ kh2-h1 Qe5-d5 kh1-h2 Qd5-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ 
+21/39,   +9.42 p,  95.95 s,  687523494 N,  7165733 N/s, Kb1-a1 kh2-h1 Qe2-e4 kh1-h2 Qe4-e5+ kh2-h1 Qe5-d5 kh1-h2 Qd5-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 
+22/41,   +9.42 p, 117.43 s, 1015397003 N,  8646568 N/s, Kb1-a1 kh2-h1 Qe2-e4 kh1-h2 Qe4-e5+ kh2-h1 Qe5-d5 kh1-h2 Qd5-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ kh2-h1 Qd6-c6 kh1-h2 Qc6-d6+ 
+Result = 9
+-------------------------------------------------------------------
+Solution = ra8-f8
+ 1/ 2,   +2.72 p,   0.00 s,         47 N,   430560 N/s, rb2xc2 
+ 2/ 3,   +0.66 p,   0.00 s,        256 N,   267693 N/s, rb2xc2 Qg4-e6 
+ 3/ 5,   +0.78 p,   0.00 s,       2063 N,   472487 N/s, rb2xc2 Qg4-e6 rc2-f2 
+ 4/ 7,   +0.72 p,   0.01 s,       6164 N,   624922 N/s, rb2xc2 Qg4-e6 qc5-f8 
+ 5/ 8,   +0.94 p,   0.02 s,      34926 N,  1596583 N/s, rb2xc2 Qg4-e6 rc2-f2 Ra1-b1 kg8-h8 
+ 6/10,   +1.08 p,   0.06 s,      99282 N,  1772015 N/s, rb2xc2 Qg4-e6 rc2-f2 Ra1-e1 rf2-f4 Rf1-g1 
+ 7/11,   +0.94 p,   0.20 s,     927788 N,  4553366 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-e6+ kf7-g7 Qe6xe5+ kg7-h6 Qe5-f4+ pg6-g5 Ra1-a6+ 
+ 8/13,   +1.41 p,   0.38 s,    1804349 N,  4723302 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-h8 Qe6xe5+ kh8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 
+ 9/15,   +1.41 p,   0.86 s,    5035963 N,  5865526 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 qc5-f2 Ra1-g1 kf8-g8 
+10/17,   +1.41 p,   1.94 s,   12300171 N,  6338968 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 kf8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 
+11/20,   +1.41 p,   5.45 s,   40869063 N,  7494485 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 kf8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ 
+12/21,   +1.41 p,  16.26 s,  116885247 N,  7190185 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 kf8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 
+13/23,   +1.41 p,  54.63 s,  430227525 N,  7875891 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 kf8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 
+14/26,   +1.41 p, 162.12 s, 1206980304 N,  7444964 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 kf8-g8 Qe5-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ kg8-h8 Qe6-f6+ kh8-g8 Qf6-e6+ 
+15/28,   +1.41 p, 576.99 s, 4468924384 N,  7745226 N/s, rb2xc2 Rf1xf7 kg8xf7 Qg4-d7+ kf7-g8 Qd7-e6+ kg8-f8 Qe6xe5 qc5-f2 Qe5-h8+ kf8-e7 Qh8xh7+ ke7-f6 Ra1-a6+ kf6-e5 Qh7-g7+ ke5xe4 Qg7xg6+ ke4xd5 Qg6-c6+ kd5-d4 Qc6xa8 qf2-e1+ 
+Result = 900
+-------------------------------------------------------------------
+Solution = qb7-d5
+ 1/ 2,   +2.14 p,   0.00 s,         78 N,   447273 N/s, qb7-f3 
+ 2/ 3,   +1.78 p,   0.00 s,        206 N,   290201 N/s, qb7-f3 Nf7-g5 
+ 3/ 5,   +0.89 p,   0.00 s,       1861 N,   440405 N/s, qb7-f3 Nf7-g5 qf3-e2 
+ 4/ 7,   -0.29 p,   0.02 s,      13937 N,   787570 N/s, qb7-b3 Nf7-h6+ kg8-g7 Nh6-f7 qb3xa3 
+ 5/ 9,   -0.17 p,   0.04 s,      45311 N,  1018567 N/s, qb7-b3 Rd1-c1 qb3-f3 Qd4-f4 
+ 6/12,   -0.03 p,   0.11 s,     250059 N,  2324737 N/s, qb7-f3 Nf7-g5 qf3-a8 
+ 7/13,   -0.02 p,   0.14 s,     328115 N,  2344795 N/s, qb7-f3 Nf7-g5 qf3xa3 Kg1-h1 rb8-b2 Kh1-h2 kg8-h8 
+ 8/18,   +0.43 p,   0.45 s,    2627649 N,  5803157 N/s, qb7-e4 Qd4xe4 nf6xe4 Nf7-h6+ kg8-f8 Rd1-e1 pd6-d5 Re1-e3 rb8-b1+ 
+ 9/18,   +0.21 p,   0.53 s,    3114026 N,  5871798 N/s, qb7-e4 Qd4xe4 nf6xe4 Nf7-h6+ kg8-g7 Nh6-f7 rb8-b3 Rd1-d5 kg7-f8 
+10/18,   +0.36 p,   0.74 s,    4657469 N,  6322304 N/s, qb7-e4 Qd4xe4 nf6xe4 Rd1-d4 rb8-b1+ Kg1-h2 ne4xf2 Rd4xc4 rb1-h1+ Kh2-g2 rh1-e1 Rc4-c8+ 
+11/24,   -0.37 p,   3.81 s,   33146529 N,  8709113 N/s, qb7-f3 Rd1-f1 pc4-c3 Nf7-g5 qf3-d5 Qd4xd5 nf6xd5 Kg1-h2 pc3-c2 
+12/24,   -0.30 p,   9.29 s,   86806716 N,  9348672 N/s, qb7-f3 Rd1-e1 qf3-c6 Qd4-h4 rb8-b3 Qh4-h6 qc6-f3 Nf7-g5 qf3-h5 Qh6xh5 
+13/25,   -0.30 p,  16.42 s,  156958593 N,  9556881 N/s, qb7-f3 Rd1-e1 pc4-c3 Qd4-a7 rb8-e8 Qa7-e3 qf3xe3 Re1xe3 pc3-c2 Re3-e1 re8-f8 
+14/27,   -0.02 p,  25.29 s,  249263871 N,  9854531 N/s, qb7-f3 Rd1-e1 pc4-c3 Qd4-a7 rb8-b2 Nf7-g5 qf3-f5 Pg3-g4 qf5xg5 Qa7xe7 qg5-h4 
+15/29,   +0.06 p,  53.12 s,  545532671 N, 10269467 N/s, qb7-f3 Rd1-e1 pc4-c3 Qd4-a7 rb8-b2 Nf7-g5 qf3-f5 Ng5-f7 kg8-f8 Nf7xd6 qf5xh3 Qa7-a8+ kf8-g7 Nd6-f7 
+16/31,   +0.67 p, 302.93 s, 3444994249 N, 11372211 N/s, qb7-d5 Qd4xd5 nf6xd5 Rd1xd5 rb8-b1+ Kg1-h2 pc4-c3 Nf7-h6+ kg8-g7 Nh6-f5+ pg6xf5 Rd5xf5 pc3-c2 Rf5-f7+ kg7-h6 
+17/34,   +0.52 p, 453.30 s, 5151583618 N, 11364503 N/s, qb7-d5 Nf7-h6+ kg8-g7 Nh6-g4 pc4-c3 Ng4xf6 qd5xd4 Rd1xd4 rb8-b1+ Kg1-h2 pc3-c2 Rd4-c4 pc2-c1Q Rc4xc1 rb1xc1 Nf6-d5 rc1-f1 Nd5xe7 
+18/35,   +0.60 p, 797.00 s, 8813880867 N, 11058869 N/s, qb7-d5 Nf7-h6+ kg8-g7 Nh6-g4 qd5xe6 Ng4xf6 qe6xf6 Qd4xc4 kg7-h8 Rd1-c1 qf6-f5 Qc4-d4+ kh8-g8 Kg1-h2 pe7-e5 Qd4-a7 rb8-f8 
+Result = 302
+-------------------------------------------------------------------
+Solution = Pd4-d5
+ 1/ 1,   +0.98 p,   0.00 s,         59 N,   712302 N/s, Qd1-f3 
+ 2/ 3,   +0.61 p,   0.00 s,        685 N,   778676 N/s, Qd1-d3 
+ 3/ 5,   +0.95 p,   0.01 s,       4287 N,   729368 N/s, Re3-b3 bb4-d6 Qd1-f3 
+ 4/ 6,   +0.38 p,   0.02 s,      27125 N,  1340952 N/s, Kg1-h1 
+ 5/ 8,   +1.07 p,   0.10 s,     222658 N,  2248459 N/s, Pg3-g4 nf6-d5 Pe4xd5 qd8-h4 Qd1-d3 
+ 6/ 9,   +0.30 p,   0.23 s,     825897 N,  3659757 N/s, Bf4-g5 ph7-h6 Bg5xf6 qd8xf6 Qd1-f3 
+ 7/11,   +0.82 p,   0.72 s,    4531501 N,  6322954 N/s, Ne5-g4 nf6xg4 Qd1xg4 qd8xd4 Ra1-d1 qd4-b2 Qg4-h5 
+ 8/13,   +0.43 p,   1.33 s,    9317793 N,  7014923 N/s, Bf4-g5 kg8-h8 Ra1-b1 bb4-d6 Bg5xf6 qd8xf6 Ne5-d7 
+ 9/15,   +0.42 p,   3.02 s,   22894943 N,  7593150 N/s, Bf4-g5 kg8-h8 Ne5-g4 bb4-e7 Bg5xf6 be7xf6 Ng4xf6 qd8xf6 Qd1-h5 
+10/17,   +0.15 p,   7.98 s,   63858986 N,  8001317 N/s, Bf4-g5 kg8-h8 Ph2-h3 bb4-c3 Ra1-c1 qd8xd4 Bg5xf6 qd4xd1+ Rc1xd1 pg7xf6 Ne5-g4 
+11/19,   +0.38 p,  29.98 s,  242099158 N,  8074249 N/s, Bf4-g5 bb4-e7 Ra1-b1 ph7-h6 Bg5xf6 be7xf6 Qd1-h5 bf6xe5 Qh5xe5 qd8-g5 
+12/22,   +0.31 p, 114.83 s,  954375641 N,  8311149 N/s, Ne5-g4 nf6xg4 Qd1xg4 qd8xd4 Ra1-d1 qd4-c5 Bf4-d6 qc5xe3 Pf2xe3 bb4xd6 Qg4-h5 
+13/25,   +0.36 p, 362.93 s, 2753691993 N,  7587311 N/s, Ne5-g4 bb4-c3 Ra1-c1 nf6xg4 Re3xc3 rc8xc3 Rc1xc3 ng4-f6 Kg1-h1 bb7xe4 Bg2xe4 nf6xe4 
+Result = 900
+-------------------------------------------------------------------
+GZ = 9996
+Elo = 2670
+19/27
+mike@workstation:~/workspace/assassin$ 
