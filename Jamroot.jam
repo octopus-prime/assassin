@@ -4,6 +4,7 @@ project assassin
 	:
 		requirements
 		<cxxflags>-std=c++17
+		<cxxflags>-mavx2
 		<include>source
 		<define>BOOST_ALL_DYN_LINK
 #		<cxxflags>-pg
