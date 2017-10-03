@@ -8,6 +8,7 @@
 #include "evaluator.hpp"
 #include "attacker.hpp"
 #include "analyzer.hpp"
+#include "exchanger.hpp"
 #include <algorithm>
 
 
@@ -290,7 +291,7 @@ struct evaluator<pawn_blocked_tag>
 	{
 		typedef typename color_traits<color_tag>::other other_tag;
 		score_t score = 0;
-		constexpr std::array<board_t, 8> files {Fa, Fb, Fc, Fd, Fe, Ff, Fg, Fh};
+		constexpr std::array<board_t, 8> files {{Fa, Fb, Fc, Fd, Fe, Ff, Fg, Fh}};
 		for (board_t file : files)
 		{
 			const board_t pawns = node.occupy<pawn_tag, other_tag>() & file;
@@ -308,11 +309,11 @@ reverse(const std::array<score_t, 64>& black) noexcept
 {
 	std::array<score_t, 64> white;
 	std::reverse_copy(black.begin(), black.end(), white.begin());
-	return std::move(white);
+	return white;
 }
 
 constexpr std::array<score_t, 64> scoresKm
-{
+{{
 	-30,-40,-40,-50,-50,-40,-40,-30,
 	-30,-40,-40,-50,-50,-40,-40,-30,
 	-30,-40,-40,-50,-50,-40,-40,-30,
@@ -321,9 +322,9 @@ constexpr std::array<score_t, 64> scoresKm
 	-10,-20,-20,-20,-20,-20,-20,-10,
 	 20, 20,  0,  0,  0,  0, 20, 20,
 	 20, 30, 10,  0,  0, 10, 30, 20
-};
+}};
 constexpr std::array<score_t, 64> scoresKe
-{
+{{
 	-50,-40,-30,-20,-20,-30,-40,-50,
 	-30,-20,-10,  0,  0,-10,-20,-30,
 	-30,-10, 20, 30, 30, 20,-10,-30,
@@ -332,10 +333,10 @@ constexpr std::array<score_t, 64> scoresKe
 	-30,-10, 20, 30, 30, 20,-10,-30,
 	-30,-30,  0,  0,  0,  0,-30,-30,
 	-50,-30,-30,-30,-30,-30,-30,-50
-};
+}};
 
 constexpr std::array<score_t, 64> scoresQ
-{
+{{
 	-20,-10,-10, -5, -5,-10,-10,-20,
 	-10,  0,  0,  0,  0,  0,  0,-10,
 	-10,  0,  5,  5,  5,  5,  0,-10,
@@ -344,9 +345,9 @@ constexpr std::array<score_t, 64> scoresQ
 	-10,  5,  5,  5,  5,  5,  0,-10,
 	-10,  0,  5,  0,  0,  0,  0,-10,
 	-20,-10,-10, -5, -5,-10,-10,-20
-};
+}};
 constexpr std::array<score_t, 64> scoresR
-{
+{{
 	  0,  0,  0,  0,  0,  0,  0,  0,
 	  5, 10, 10, 10, 10, 10, 10,  5,
 	 -5,  0,  0,  0,  0,  0,  0, -5,
@@ -355,9 +356,9 @@ constexpr std::array<score_t, 64> scoresR
 	 -5,  0,  0,  0,  0,  0,  0, -5,
 	 -5,  0,  0,  0,  0,  0,  0, -5,
 	  0,  0,  0,  5,  5,  0,  0,  0
-};
+}};
 constexpr std::array<score_t, 64> scoresB
-{
+{{
 	-20,-10,-10,-10,-10,-10,-10,-20,
 	-10,  0,  0,  0,  0,  0,  0,-10,
 	-10,  0,  5, 10, 10,  5,  0,-10,
@@ -366,9 +367,9 @@ constexpr std::array<score_t, 64> scoresB
 	-10, 10, 10, 10, 10, 10, 10,-10,
 	-10,  5,  0,  0,  0,  0,  5,-10,
 	-20,-10,-10,-10,-10,-10,-10,-20,
-};
+}};
 constexpr std::array<score_t, 64> scoresN
-{
+{{
 	-50,-40,-30,-30,-30,-30,-40,-50,
 	-40,-20,  0,  0,  0,  0,-20,-40,
 	-30,  0, 10, 15, 15, 10,  0,-30,
@@ -377,9 +378,9 @@ constexpr std::array<score_t, 64> scoresN
 	-30,  5, 10, 15, 15, 10,  5,-30,
 	-40,-20,  0,  5,  5,  0,-20,-40,
 	-50,-40,-30,-30,-30,-30,-40,-50,
-};
+}};
 constexpr std::array<score_t, 64> scoresP
-{
+{{
 	 0,  0,  0,  0,  0,  0,  0,  0,
 	50, 50, 50, 50, 50, 50, 50, 50,
 	10, 10, 20, 30, 30, 20, 10, 10,
@@ -388,7 +389,7 @@ constexpr std::array<score_t, 64> scoresP
 	 5, -5,-10,  0,  0,-10, -5,  5,
 	 5, 10, 10,-20,-20, 10, 10,  5,
 	 0,  0,  0,  0,  0,  0,  0,  0
-};
+}};
 
 template <typename piece_tag, typename color_tag>
 struct evaluator2;
@@ -399,6 +400,7 @@ struct evaluator2<pawn_tag, color_tag>
 	static score_t
 	evaluate(const node_t& node, const board_t king) noexcept
 	{
+//		typedef typename color_traits<color_tag>::other other_tag;
 		typedef pawn_analyser_t<color_tag> analyser_t;
 		const analyser_t analyze(node);
 
@@ -406,16 +408,20 @@ struct evaluator2<pawn_tag, color_tag>
 		for (const square_t square : bsf(node.occupy<pawn_tag, color_tag>()))
 		{
 			score += scores[square];
-			score += bonus[rank_of(square)];
+			score += bonus[rank_of(square)] / 2;
 //			score += evaluate_free(node, square) * 30;
 			score += evaluate_king(node, square, king) * 1;
 //			score -= evaluate_multi(node, square) * 25;
 //			score -= evaluate_iso(node, square) * 20;
 
 			const auto properties = analyze(square);
-			score += analyser_t::is_passed(properties) * 30;
+			score += analyser_t::is_passed(properties) * (30 + bonus[rank_of(square)] /* * (node.king<other_tag>() != square + 8)*/);
+			score += analyser_t::is_supported(properties) * 7;
 			score -= analyser_t::is_doubled(properties) * 25;
 			score -= analyser_t::is_isolated(properties) * 20;
+			score -= analyser_t::is_backwarded(properties) * 15;
+
+//			score -= evaluate_back(node, square) * 15;
 		}
 		return score;
 	}
@@ -470,16 +476,61 @@ protected:
 	static score_t
 	evaluate_king(const node_t& node, const square_t square, const board_t king) noexcept
 	{
-		typedef typename color_traits<color_tag>::other other_tag;
+//		typedef typename color_traits<color_tag>::other other_tag;
 //		const board_t king = attacker<king_tag, other_tag>::attack(node.occupy<king_tag, other_tag>()) | node.occupy<king_tag, other_tag>();
 		const board_t pawn = attacker<pawn_tag, color_tag>::attack(board_of(square));
 		return popcnt(king & pawn) * 10;
 	}
 
+//	static score_t
+//	evaluate_back(const node_t& node, const square_t square) noexcept;
+
 private:
 	static const std::array<score_t, 64> scores;
 	static const std::array<score_t, 8> bonus;
 };
+
+//template <>
+//inline score_t
+//evaluator2<pawn_tag, white_tag>::evaluate_back(const node_t& node, const square_t square) noexcept
+//{
+//	score_t result = 0;
+//	if (node[square + 8] == no_piece)
+//	{
+//		const score_t score = exchanger_t(node)(move_t {square, square_t(square + 8)});
+//		if (score < 0)
+//			++result;
+//
+//		if (rank_of(square) == 1 && node[square + 16] == no_piece)
+//		{
+//			const score_t score = exchanger_t(node)(move_t {square, square_t(square + 16)});
+//			if (score < 0)
+//				++result;
+//		}
+//	}
+//	return result;
+//}
+//
+//template <>
+//inline score_t
+//evaluator2<pawn_tag, black_tag>::evaluate_back(const node_t& node, const square_t square) noexcept
+//{
+//	score_t result = 0;
+//	if (node[square - 8] == no_piece)
+//	{
+//		const score_t score = exchanger_t(node)(move_t {square, square_t(square - 8)});
+//		if (score < 0)
+//			++result;
+//
+//		if (rank_of(square) == 6 && node[square - 16] == no_piece)
+//		{
+//			const score_t score = exchanger_t(node)(move_t {square, square_t(square - 16)});
+//			if (score < 0)
+//				++result;
+//		}
+//	}
+//	return result;
+//}
 
 template <>
 const std::array<score_t, 64>
@@ -491,11 +542,11 @@ evaluator2<pawn_tag, black_tag>::scores = scoresP;
 
 template <>
 const std::array<score_t, 8>
-evaluator2<pawn_tag, white_tag>::bonus {0, 0, 0, 0, 0, 10, 50, 0};
+evaluator2<pawn_tag, white_tag>::bonus {{0, 0, 0, 0, 0, 10, 50, 0}};
 
 template <>
 const std::array<score_t, 8>
-evaluator2<pawn_tag, black_tag>::bonus {0, 50, 10, 0, 0, 0, 0, 0};
+evaluator2<pawn_tag, black_tag>::bonus {{0, 50, 10, 0, 0, 0, 0, 0}};
 
 template <typename color_tag>
 struct evaluator2<knight_tag, color_tag>
@@ -525,7 +576,7 @@ protected:
 	static score_t
 	evaluate_king(const node_t& node, const square_t square, const board_t king) noexcept
 	{
-		typedef typename color_traits<color_tag>::other other_tag;
+//		typedef typename color_traits<color_tag>::other other_tag;
 //		const board_t king = attacker<king_tag, other_tag>::attack(node.occupy<king_tag, other_tag>()) | node.occupy<king_tag, other_tag>();
 		const board_t knight = attacker<knight_tag, color_tag>::attack(board_of(square));
 		return popcnt(king & knight) * 10;
@@ -562,7 +613,7 @@ protected:
 	static score_t
 	evaluate_king(const node_t& node, const square_t square, const board_t king) noexcept
 	{
-		typedef typename color_traits<color_tag>::other other_tag;
+//		typedef typename color_traits<color_tag>::other other_tag;
 //		const board_t king = attacker<king_tag, other_tag>::attack(node.occupy<king_tag, other_tag>()) | node.occupy<king_tag, other_tag>();
 		const board_t bishop1 = attacker<bishop_queen_tag, color_tag>::attack(board_of(square), 0UL);
 		const board_t bishop2 = attacker<bishop_queen_tag, color_tag>::attack(board_of(square), node.occupy());
@@ -609,7 +660,7 @@ protected:
 	static score_t
 	evaluate_king(const node_t& node, const square_t square, const board_t king) noexcept
 	{
-		typedef typename color_traits<color_tag>::other other_tag;
+//		typedef typename color_traits<color_tag>::other other_tag;
 //		const board_t king = attacker<king_tag, other_tag>::attack(node.occupy<king_tag, other_tag>()) | node.occupy<king_tag, other_tag>();
 		const board_t rook1 = attacker<rook_queen_tag, color_tag>::attack(board_of(square), 0UL);
 		const board_t rook2 = attacker<rook_queen_tag, color_tag>::attack(board_of(square), node.occupy());
@@ -648,7 +699,7 @@ protected:
 	static score_t
 	evaluate_king(const node_t& node, const square_t square, const board_t king) noexcept
 	{
-		typedef typename color_traits<color_tag>::other other_tag;
+//		typedef typename color_traits<color_tag>::other other_tag;
 //		const board_t king = attacker<king_tag, other_tag>::attack(node.occupy<king_tag, other_tag>()) | node.occupy<king_tag, other_tag>();
 		const board_t queen1 = attacker<sliding_tag, color_tag>::attack(board_of(square), board_of(square), 0UL);
 		const board_t queen2 = attacker<sliding_tag, color_tag>::attack(board_of(square), board_of(square), node.occupy());

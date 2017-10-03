@@ -29,7 +29,7 @@ create_piece_square_hash()
 	for (piece_t piece = K; piece <= p; ++piece)
 		std::generate_n(hash[piece].begin(), 64, random);
 
-	return std::move(hash);
+	return hash;
 }
 
 static std::array<hash_t, 64>
@@ -43,7 +43,7 @@ create_en_passant_hash()
 	std::generate_n(hash.begin() + 40, 8, random);
 	std::fill_n(hash.begin() + 48, 16, 0);
 
-	return std::move(hash);
+	return hash;
 }
 
 static std::array<hash_t, 16>
@@ -53,7 +53,7 @@ create_castle_hash()
 
 	std::generate_n(hash.begin(), 16, random);
 
-	return std::move(hash);
+	return hash;
 }
 
 const std::array<std::array<hash_t, 64>, 13>

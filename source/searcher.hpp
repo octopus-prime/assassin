@@ -20,6 +20,8 @@ typedef std::function<void (const std::uint_fast8_t iteration, const std::uint_f
 
 class searcher
 {
+	static constexpr std::uint_fast8_t PLY = 4;
+
 public:
 	searcher(transposition_table_t& t_table, const report_t& report) noexcept;
 
@@ -31,7 +33,7 @@ public:
 
 protected:
 	score_t
-	search(const node_t& node, const score_t alpha, const score_t beta, std::uint_fast8_t depth, const std::uint_fast8_t height, const move_t moved);
+	search(const node_t& node, const score_t alpha, const score_t beta, const std::uint_fast8_t depth, const std::uint_fast8_t height, const move_t moved);
 
 	score_t
 	search(const node_t& node, const score_t alpha, const score_t beta);
@@ -39,8 +41,8 @@ protected:
 	static constexpr bool
 	test_check(const node_t& node, const color_t color) noexcept;
 
-	static std::uint_fast8_t
-	count_repetition(const node_t& leaf) noexcept;
+//	static std::uint_fast8_t
+//	count_repetition(const node_t& leaf) noexcept;
 
 	template <typename color_tag>
 	static bool
@@ -50,7 +52,7 @@ protected:
 	try_null(const node_t& node) noexcept;
 
 	std::string
-	get_pv(node_t node) const;
+	get_pv(node_t node, const std::uint_fast8_t length) const;
 
 private:
 	report_t _report;

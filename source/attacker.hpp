@@ -31,13 +31,13 @@ struct filler;
 template <>
 struct filler<left_tag>
 {
-	static constexpr board4_t
+	static board4_t
 	fill(const board4_t board, const board4_t shift, const board4_t mask) noexcept
 	{
 		return (board << shift) & mask;
 	}
 
-	static constexpr board4_t
+	static board4_t
 	fill(board4_t board, const board4_t shift, const board4_t mask, board4_t empty) noexcept
 	{
 		board4_t flood (board);
@@ -55,13 +55,13 @@ struct filler<left_tag>
 template <>
 struct filler<right_tag>
 {
-	static constexpr board4_t
+	static board4_t
 	fill(const board4_t board, const board4_t shift, const board4_t mask) noexcept
 	{
 		return (board >> shift) & mask;
 	}
 
-	static constexpr board4_t
+	static board4_t
 	fill(board4_t board, const board4_t shift, const board4_t mask, board4_t empty) noexcept
 	{
 		board4_t flood (board);
@@ -230,7 +230,7 @@ private:
 template <>
 struct attacker<pawn_tag, white_tag>
 {
-	static constexpr board_t
+	static board_t
 	attack(const board_t board) noexcept
 	{
 		const board4_t in = board4_of(board);
@@ -239,7 +239,7 @@ struct attacker<pawn_tag, white_tag>
 	}
 
 private:
-	static constexpr board4_t
+	static board4_t
 	left(const board4_t board) noexcept
 	{
 		constexpr board4_t mask {~Fh, ~Fa};
@@ -252,7 +252,7 @@ private:
 template <>
 struct attacker<pawn_tag, black_tag>
 {
-	static constexpr board_t
+	static board_t
 	attack(const board_t board) noexcept
 	{
 		const board4_t in = board4_of(board);
@@ -261,7 +261,7 @@ struct attacker<pawn_tag, black_tag>
 	}
 
 private:
-	static constexpr board4_t
+	static board4_t
 	right(const board4_t board) noexcept
 	{
 		constexpr board4_t mask {~Fa, ~Fh};

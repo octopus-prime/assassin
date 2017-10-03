@@ -8,6 +8,7 @@
 #pragma once
 
 #include "node.hpp"
+#include "attacker.hpp"
 
 namespace chess {
 namespace detail {
@@ -16,6 +17,7 @@ template <typename color_tag>
 struct pawn_analyser_t
 {
 	typedef std::uint8_t properties_t;
+	typedef std::array<std::array<properties_t, 64>, 6> entries_t; // [rank][index]
 
 	pawn_analyser_t(const node_t& node) noexcept
 	{
@@ -26,7 +28,11 @@ struct pawn_analyser_t
 			indexes_color[i] = _pext_u64(node.occupy<pawn_tag, color_tag>(), mask);
 			indexes_other[i] = _pext_u64(node.occupy<pawn_tag, other_tag>(), mask);
 		}
+
+		backwards = make_backwards(node);
 	}
+
+	static board_t make_backwards(const node_t& node) noexcept;
 
 	std::pair<properties_t,properties_t> // color,other
 	operator()(const square_t square) const noexcept
@@ -48,6 +54,7 @@ struct pawn_analyser_t
 			properties_other |= properties_other_1[rank][indexes_other[file + 1]];
 		}
 
+		properties_color |= bool(backwards & board_of(square)) << backwarded;
 		return std::make_pair(properties_color, properties_other);
 	}
 
@@ -75,6 +82,12 @@ struct pawn_analyser_t
 		return properties.first & (1 << supported); // own neighbour pawn on same rank or 1 rank behind
 	}
 
+	static constexpr bool
+	is_backwarded(const std::pair<properties_t,properties_t>& properties) noexcept
+	{
+		return properties.first & (1 << backwarded);
+	}
+
 private:
 	typedef typename color_traits<color_tag>::other other_tag;
 
@@ -83,13 +96,13 @@ private:
 		neighbour,
 		doubled,
 		blocked,
-		supported
+		supported,
+		backwarded
 	};
 
 	std::array<size_t, 8> indexes_color;
 	std::array<size_t, 8> indexes_other;
-
-	typedef std::array<std::array<properties_t, 64>, 6> entries_t; // [rank][index]
+	board_t backwards;
 
 	static const entries_t properties_color_0; // this file
 	static const entries_t properties_other_0; // this file
@@ -101,6 +114,36 @@ private:
 	static entries_t make_other_0() noexcept;
 	static entries_t make_other_1() noexcept;
 };
+
+template <>
+inline board_t
+pawn_analyser_t<white_tag>::make_backwards(const node_t& node) noexcept
+{
+	board_t spans = attacker<pawn_tag, white_tag>::attack(node.occupy<pawn_tag, white_tag>());
+	for (std::size_t i = 0; i < 3; ++i)
+		spans |= spans << (8 << i);
+
+	board_t area = attacker<pawn_tag, black_tag>::attack(node.occupy<pawn_tag, black_tag>()) & ~spans;
+	for (std::size_t i = 0; i < 3; ++i)
+		area |= area >> (8 << i);
+
+	return area & node.occupy<pawn_tag, white_tag>();
+}
+
+template <>
+inline board_t
+pawn_analyser_t<black_tag>::make_backwards(const node_t& node) noexcept
+{
+	board_t spans = attacker<pawn_tag, black_tag>::attack(node.occupy<pawn_tag, black_tag>());
+	for (std::size_t i = 0; i < 3; ++i)
+		spans |= spans >> (8 << i);
+
+	board_t area = attacker<pawn_tag, white_tag>::attack(node.occupy<pawn_tag, white_tag>()) & ~spans;
+	for (std::size_t i = 0; i < 3; ++i)
+		area |= area << (8 << i);
+
+	return area & node.occupy<pawn_tag, black_tag>();
+}
 
 }
 }

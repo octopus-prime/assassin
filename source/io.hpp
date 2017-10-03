@@ -19,6 +19,9 @@ ostream&
 operator<<(ostream& stream, const bitset<64>& board);
 
 ostream&
+operator<<(ostream& stream, const chess::color color);
+
+ostream&
 operator<<(ostream& stream, const chess::square square);
 
 ostream&

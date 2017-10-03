@@ -10,7 +10,7 @@
 #include "evaluator.hpp"
 #include "attacker.hpp"
 #include "io.hpp"
-#include <tbb/task_group.h>
+//#include <tbb/task_group.h>
 #include <sstream>
 
 namespace chess {
@@ -32,6 +32,8 @@ searcher::searcher(transposition_table_t& t_table, const report_t& report) noexc
 score_t
 searcher::operator()(const node_t& node, const std::uint_fast8_t depth)
 {
+//	const bool check = test_check(node, node.color());
+
 	score_t score = 0;
 	_start = clock::now();
 
@@ -42,7 +44,7 @@ searcher::operator()(const node_t& node, const std::uint_fast8_t depth)
 		if (_stop)
 			break;
 
-		_report(iteration, _height, score, clock::now() - _start, _count, get_pv(node));
+		_report(iteration, _height, score * node.color(), clock::now() - _start, _count, get_pv(node, iteration));
 
 		if (-30000 + 100 > score || score > +30000 - 100)
 			break;
@@ -57,8 +59,30 @@ searcher::stop()
 	_stop = true;
 }
 
+const score_t razor_margin[4] = { 483, 570, 603, 554 };
+
+constexpr score_t
+futility_margin(std::uint_fast8_t d) noexcept
+{
+	return 150 * d;
+}
+
+bool
+danger(const node_t& node, const move_t move) noexcept
+{
+	switch (node[move.to])
+	{
+	case P:
+		return rank_of(move.to) >= 5;
+	case p:
+		return rank_of(move.to) <= 2;
+	default:
+		return false;
+	}
+}
+
 score_t
-searcher::search(const node_t& node, const score_t alpha, const score_t beta, std::uint_fast8_t depth, const std::uint_fast8_t height, const move_t moved)
+searcher::search(const node_t& node, score_t alpha, score_t beta, std::uint_fast8_t depth, const std::uint_fast8_t height, const move_t moved)
 {
 	if (_stop)
 		return 0;
@@ -66,69 +90,85 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 	if (height > _height)
 		_height = height;
 
-	if (count_repetition(node) >= 3 || node.half_moves() >= 50)
+	if (node.is_3fold_repetition() || node.is_50_moves())
 		return 0;
 
 	const bool check = test_check(node, node.color());
 	depth += check;
+
+	move_t best_move = {};
+	score_t best_score = -30000;
+
+	const transposition_table_t::entry_t* const entry = _t_table[node];
+	if (entry)
+	{
+		if (entry->depth >= depth)
+		{
+			const score_t score = entry->score;
+			switch (entry->flag)
+			{
+			case transposition_table_t::EXACT:
+				return score;
+			case transposition_table_t::LOWER:
+				if (score > alpha)
+					alpha = score;
+				break;
+			case transposition_table_t::UPPER:
+				if (score < beta)
+					beta = score;
+				break;
+			default:
+				break;
+			}
+			if (alpha >= beta)
+				return alpha;
+		}
+		best_move = entry->move;
+	}
 
 	if (depth == 0)
 		return search(node, alpha, beta);
 
 	++_count;
 
-	move_t best_move = {};
-	score_t search_alpha = alpha;
-	score_t search_beta = beta;
+//	score_t best_score = alpha;//-30000;
 
-	const transposition_entry_t& entry = _t_table[node];
-	if (entry.hash() == node.hash())
-	{
-		if (entry.depth() >= depth)
-		{
-			const score_t score = entry.score();
-			switch (entry.flag())
-			{
-			case transposition_entry_t::EXACT:
-				return score;
-			case transposition_entry_t::LOWER:
-				if (score > search_alpha)
-					search_alpha = score;
-				break;
-			case transposition_entry_t::UPPER:
-				if (score < search_beta)
-					search_beta = score;
-				break;
-			default:
-				break;
-			}
-			if (search_alpha >= search_beta)
-				return search_beta;
-		}
-		best_move = entry.move();
-	}
+//	const bool check = test_check(node, node.color());
+	const score_t eval = node.score() * node.color();
+
+    if (!check && depth < 4 && eval + razor_margin[depth] <= alpha && best_move == move_t {})
+    {
+    	const score_t ralpha = alpha - razor_margin[depth];
+    	const score_t score = search(node, ralpha, ralpha+1);
+        if (score <= ralpha)
+            return score;
+    }
+
+    if (!check && depth < 7 && eval - futility_margin(depth) >= beta && eval < 20000)//VALUE_KNOWN_WIN &&  pos.non_pawn_material(pos.side_to_move()))
+    {
+    	return eval - futility_margin(depth);
+    }
 
 	const std::uint_fast8_t reduction = 3 + (depth > 6);
-	const bool skip = entry.hash() == node.hash() && entry.depth() >= depth - reduction && entry.score() < search_beta && entry.flag() == transposition_entry_t::UPPER;
+	const bool skip = entry && entry->depth >= depth - reduction && entry->score < beta && entry->flag == transposition_table_t::UPPER;
 	if (depth >= reduction && moved != move_t {} && !check && try_null(node) && !skip)
 	{
 		const square_t en_passant = const_cast<node_t&>(node).flip(0);
-		const score_t score = -search(node, -search_beta, -search_beta + 1, depth - reduction, height + 1, move_t());
+		const score_t score = -search(node, -beta, -beta + 1, depth - reduction, height + 1, move_t());
 		const_cast<node_t&>(node).flip(en_passant);
-		if (score >= search_beta)
-			return search_beta;
+		if (score >= beta)
+			return beta;
 	}
 
 	if (best_move == move_t {} && depth > 2)
 	{
-		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-		const transposition_entry_t& entry = _t_table[node];
-		if (entry.hash() == node.hash())
-			best_move = entry.move();
+		search(node, alpha, beta, depth - 2, height + 1, best_move);
+		const transposition_table_t::entry_t* const entry = _t_table[node];
+		if (entry)
+			best_move = entry->move;
 	}
 
 	std::atomic_int_fast32_t legal(0);
-	score_t best_score = search_alpha;
 
 	if (best_move != move_t {})
 	{
@@ -139,15 +179,18 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 			{
 				legal++;
 				_b_table.put(node, best_move);
-				const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
+
+				auto ext = 0;//best_move.index;
+
+				const score_t score = -search(succ, -beta, -alpha, depth - 1 + ext, height + 1, best_move);
 				if (score > best_score)
 				{
-					if (score >= search_beta)
+					if (score >= beta)
 					{
-						_t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
+						_t_table.put(node, best_move, score, transposition_table_t::LOWER, depth + ext);
 						_h_table.put(node, best_move);
 						_k_table.put(node, best_move, height);
-						return search_beta;
+						return score;
 					}
 					best_score = score;
 				}
@@ -160,157 +203,88 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta, st
 		}
 	}
 
-	bool prune = false;
-	score_t scoreX = 0;
-	const score_t scoreM = node.score() * node.color();
-	switch (depth)
-	{
-	case 3:
-		if (!check && scoreM + 900 <= best_score)
-			depth -= 1;
-		break;
-	case 2:
-		scoreX = scoreM + 500;
-		if (scoreX <= best_score)
-			prune = true;
-		break;
-	case 1:
-		scoreX = scoreM + 333;
-		if (scoreX <= best_score)
-			prune = true;
-		break;
-	}
+	constexpr killer_table_t::entry_t k_entry {};
+	const move_generator<all_tag> moves(node, _h_table, _b_table, _k_table[height], _k_table[height + 2], height > 2 ? _k_table[height - 2] : k_entry);
 
-	const move_generator<all_tag> moves(node, _h_table, _b_table, _k_table[height], _k_table[height + 2]);
-
-	if (!check && depth > 3 && moves.size() > 8)
+#pragma omp parallel //if (depth > 4)
 	{
-		tbb::task_group group;
-		const auto work = [&](const node_t& succ, const move_t move)
+#pragma omp for
+	for (auto move_i = moves.begin(); move_i < moves.end(); ++move_i)
+//	for (auto move : moves)
+	{
+		auto move = *move_i;
+		if (move == best_move)
+			continue;
+		const node_t succ(node, move);
+		if (test_check(succ, node.color()))
+			continue;
+		legal++;
+		_b_table.put(node, move);
+
+		const score_t mscore = moves.score(move);
+		const bool killer = moves.killer(move);
+
+		move.metadata.check = test_check(succ, succ.color());
+
+		auto ext = //move.index ||
+				moves.size() == 1 || danger(node, move);
+
+		score_t score;
+		if (best_score > alpha)
 		{
-			score_t score;
-			if (group.is_canceling())
-				return;
-			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move);
-			if (group.is_canceling())
-				return;
-			if (score > best_score && score < search_beta)
-				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-			if (group.is_canceling())
-				return;
-			if (score > best_score)
+
+			if (legal > 4 && depth > 3 && mscore <= 0 && !check && !move.metadata.check && !killer)
+//			if (legal > 4 && depth > 3 && node[move.to] == no_piece && node[move.promotion] == 0 && !check && !move.index)// && !killer)
 			{
-				best_score = score;
-				best_move = move;
-				if (score >= search_beta)
-				{
-					group.cancel();
-					_t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-					_h_table.put(node, move);
-					_k_table.put(node, move, height);
-				}
-			}
-		};
-
-		const auto work2 = [&](const node_t& succ, const move_t move)
-		{
-			const score_t score = -search(succ, -best_score - 1, -best_score, depth - 2, height + 1, move);
-			if (score <= best_score)
-				return;
-			if (group.is_canceling())
-				return;
-			work(succ, move);
-		};
-
-		for (auto move : moves)
-		{
-			if (group.is_canceling())
-				break;
-			if (move == best_move)
-				continue;
-			const node_t succ(node, move);
-			if (test_check(succ, node.color()))
-				continue;
-			legal++;
-			_b_table.put(node, move);
-
-			const score_t mscore = moves[move];
-			move.index = test_check(succ, succ.color());
-			if (!check && !move.index && prune && mscore + scoreX <= best_score)
-				continue;
-
-			if (group.is_canceling())
-				break;
-			if (legal > 4 && depth > 3 && node[move.to] == no_piece && node[move.promotion] == 0 && !check && !move.index)
-				group.run(std::bind(work2, succ, move));
-			else if (legal > 2)
-				group.run(std::bind(work, succ, move));
-			else
-				work(succ, move);
-		}
-
-		group.wait();
-
-		if (best_score >= search_beta)
-			return search_beta;
-	}
-	else
-	{
-		for (auto move : moves)
-		{
-			if (move == best_move)
-				continue;
-			const node_t succ(node, move);
-			if (test_check(succ, node.color()))
-				continue;
-			legal++;
-			_b_table.put(node, move);
-
-			const score_t mscore = moves[move];
-			move.index = test_check(succ, succ.color());
-			if (!check && !move.index && prune && mscore + scoreX <= best_score)
-				continue;
-
-			if (legal > 4 && depth > 3 && node[move.to] == no_piece && node[move.promotion] == 0 && !check && !move.index)
-			{
-				const score_t score = -search(succ, -best_score - 1, -best_score, depth - 2, height + 1, move);
+				const std::uint_fast8_t reduction = 2 + (depth > 6) + (mscore < 0);
+				const score_t score = -search(succ, -best_score - 1, -best_score, depth - reduction, height + 1, move);
 				if (score <= best_score)
 					continue;
 			}
 
-			score_t score;
-			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move);
-			if (score > best_score && score < search_beta)
-				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-			if (score > best_score)
+			score = -search(succ, -best_score - 1, -best_score, depth - 1 + ext, height + 1, move);
+			if (score > best_score && score < beta)
+				score = -search(succ, -beta, -best_score, depth - 1 + ext, height + 1, move);
+		}
+		else
+			score = -search(succ, -beta, -alpha, depth - 1 + ext, height + 1, move);
+		if (score > best_score)
+		{
+//#pragma omp atomic write
+			best_score = score;
+			best_move = move;
+			if (score >= beta)
 			{
-				if (score >= search_beta)
-				{
-					_t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-					_h_table.put(node, move);
-					_k_table.put(node, move, height);
-					return search_beta;
-				}
-				best_score = score;
-				best_move = move;
+//#pragma omp cancel for
+//				return score;
 			}
 		}
+//#pragma omp cancellation point for
+	}
+	}
+
+	if (best_score >= beta)
+	{
+		_t_table.put(node, best_move, best_score, transposition_table_t::LOWER, depth);
+		_h_table.put(node, best_move);
+		_k_table.put(node, best_move, height);
+		return best_score;
 	}
 
 	if (!legal)
 	{
 		const score_t score = check ? -30000 + height : 0;
-		_t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
+		_t_table.put(node, move_t {}, score, transposition_table_t::EXACT, depth);
 		return score;
 	}
 
 	if (best_score > alpha)
 	{
-		_t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
+		_t_table.put(node, best_move, best_score, transposition_table_t::EXACT, depth);
 		_h_table.put(node, best_move);
 	}
 	else
-		_t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
+		_t_table.put(node, best_move, best_score, transposition_table_t::UPPER, depth);
 
 	return best_score;
 }
@@ -323,30 +297,22 @@ searcher::search(const node_t& node, const score_t alpha, const score_t beta)
 
 	_count++;
 
-	score_t best_score = alpha;
+	score_t best_score = evaluator::evaluate(node);
+	if (best_score >= beta)
+		return best_score;
 
-	const score_t score = evaluator::evaluate(node);
-	if (score > best_score)
-	{
-		if (score >= beta)
-			return beta;
-		best_score = score;
-	}
-
-	const move_generator<active_tag> moves(node);
+	const move_generator<active_tag> moves(node, _h_table, _b_table);
 
 	for (const auto move : moves)
 	{
 		const node_t succ(node, move);
 		if (test_check(succ, node.color()))
 			continue;
-		if (node.score() * node.color() + moves[move] + 100 < best_score)
-			break;
 		const score_t score = -search(succ, -beta, -best_score);
 		if (score > best_score)
 		{
 			if (score >= beta)
-				return beta;
+				return score;
 			best_score = score;
 		}
 	}
@@ -362,14 +328,17 @@ searcher::test_check(const node_t& node, const color_t color) noexcept
 		: node.occupy<king_tag, black_tag>() & node.attack<white_tag>();
 }
 
-inline std::uint_fast8_t
-searcher::count_repetition(const node_t& leaf) noexcept
-{
-	std::uint_fast8_t count = 1;
-	for (const node_t* node = leaf.parent(); node && node->half_moves(); node = node->parent())
-		count += (leaf.hash() == node->hash());
-	return count;
-}
+//inline std::uint_fast8_t
+//searcher::count_repetition(const node_t& leaf) noexcept
+//{
+//	std::uint_fast8_t count = 1;
+//	for (const node_t* node = leaf.parent(); node && node->half_moves(); node = node->parent())
+//		count += (leaf.hash() == node->hash());
+//
+//	std::cout << "r = " << count << std::endl;
+//
+//	return count;
+//}
 
 template <typename color_tag>
 inline bool
@@ -390,15 +359,15 @@ searcher::try_null(const node_t& node) noexcept
 }
 
 std::string
-searcher::get_pv(node_t node) const
+searcher::get_pv(node_t node, const std::uint_fast8_t length) const
 {
 	std::ostringstream stream;
-	for (std::uint_fast8_t i = 0; i < _height; ++i)
+	for (std::uint_fast8_t i = 0; i < length; ++i)
 	{
-		const transposition_entry_t& entry = _t_table[node];
-		if (entry.hash() != node.hash())
+		const transposition_table_t::entry_t* const entry = _t_table[node];
+		if (!entry)
 			break;
-		const move_t move = entry.move();
+		const move_t move = entry->move;
 		if (move == move_t {})
 			break;
 		stream << std::make_pair(std::cref(node), std::cref(move)) << ' ';

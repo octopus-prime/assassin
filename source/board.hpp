@@ -21,6 +21,24 @@ board_of(const square_t square) noexcept
 	return 1UL << square;
 }
 
+inline square_t
+bsfq(const board_t board) noexcept
+{
+	return _tzcnt_u64(board);
+}
+
+inline square_t
+bsrq(const board_t board) noexcept
+{
+	return _lzcnt_u64(board) ^ 63;
+}
+
+inline size_t
+popcnt(const board_t board) noexcept
+{
+	return _popcnt64(board);
+}
+
 class bsf
 {
 public:
@@ -48,7 +66,8 @@ public:
 		square_t
 		operator*() noexcept
 		{
-			const square_t square = __bsfq(_board);
+			const square_t square = bsfq(_board);
+
 			_board ^= board_of(square);
 			return square;
 		}
@@ -79,12 +98,6 @@ public:
 private:
 	board_t _board;
 };
-
-inline size_t
-popcnt(const board_t board) noexcept
-{
-	return __popcntq(board);
-}
 
 enum board : board_t
 {

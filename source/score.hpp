@@ -25,10 +25,10 @@ constexpr chess::score_t operator "" _K(const unsigned long long value) {return 
 namespace chess {
 
 constexpr std::array<score_t, 13> score_of
-{
+{{
 	0,
 	1_K, 1_Q, 1_R, 1_B, 1_N, 1_P,
 	1_K, 1_Q, 1_R, 1_B, 1_N, 1_P,
-};
+}};
 
 }

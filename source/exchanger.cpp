@@ -15,7 +15,7 @@
 namespace chess {
 namespace detail {
 
-constexpr std::array<score_t, 5> promotion {0, 1_N - 1_P, 1_B - 1_P, 1_R - 1_P, 1_Q - 1_P};
+constexpr std::array<score_t, 5> promotion {{0, 1_N - 1_P, 1_B - 1_P, 1_R - 1_P, 1_Q - 1_P}};
 
 struct exchanger_t
 {
@@ -78,20 +78,20 @@ exchanger_t::find(const board_t board, const board_t color) const noexcept
 		const board_t sliders = attacker<sliding_tag, white_tag>::attack(board, board, _white | _black) & color;
 		const board_t bishops = sliders & _node.occupy<bishop_tag>();
 		if (bishops)
-			return __bsfq(bishops);
+			return bsfq(bishops);
 		const board_t rooks = sliders & _node.occupy<rook_tag>();
 		if (rooks)
-			return __bsfq(rooks);
+			return bsfq(rooks);
 		const board_t queens = sliders & _node.occupy<queen_tag>();
 		if (queens)
-			return __bsfq(queens);
+			return bsfq(queens);
 	}
 
 	if (color & _node.occupy<king_tag>())
 	{
 		const board_t kings = attacker<king_tag, white_tag>::attack(board) & _node.occupy<king_tag>() & color;
 		if (kings)
-			return __bsfq(kings);
+			return bsfq(kings);
 	}
 
 	// todo: kings

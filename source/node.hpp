@@ -21,10 +21,10 @@ namespace chess {
 
 class node_t
 {
+public:
 	struct creator;
 	struct executor;
 
-public:
 	static const std::string INITIAL_POSITION;
 
 	constexpr node_t();
@@ -51,7 +51,7 @@ public:
 
 	constexpr score_t score() const noexcept;
 
-	constexpr const node_t* const parent() const noexcept;
+//	constexpr const node_t* const parent() const noexcept;
 
 	constexpr square_t en_passant() const noexcept;
 
@@ -63,6 +63,9 @@ public:
 	constexpr hash_t hash() const noexcept {return _hash;}
 
 	square_t flip(const square_t en_passant) noexcept;
+
+	bool is_3fold_repetition() const noexcept;
+	bool is_50_moves() const noexcept;
 
 private:
 	const node_t* _parent;
@@ -86,11 +89,11 @@ private:
 	std::uint8_t _full_moves;
 };
 
-constexpr const node_t* const
-node_t::parent() const noexcept
-{
-	return _parent;
-}
+//constexpr const node_t* const
+//node_t::parent() const noexcept
+//{
+//	return _parent;
+//}
 
 constexpr piece_t
 node_t::operator[](const std::size_t index) const noexcept
@@ -289,4 +292,20 @@ node_t::flip(const square_t en_passant) noexcept
 	return result;
 }
 
+inline bool
+node_t::is_3fold_repetition() const noexcept {
+  std::uint_fast8_t count = 1;
+  for (const node_t* node = _parent; node; node = node->_parent) {
+    count += (_hash == node->_hash);
+    if (!node->_half_moves)
+      break;
+  }
+  return count >= 3;
 }
+
+inline bool
+node_t::is_50_moves() const noexcept {
+	return _half_moves >= 100;
+}
+
+}  // namespace chess

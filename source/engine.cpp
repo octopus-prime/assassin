@@ -5,1016 +5,30 @@
  *      Author: mike_gresens
  */
 
-//#include "move_generator.hpp"
-//#include "transposition_table.hpp"
-//#include "history_table.hpp"
-//#include "killer_table.hpp"
-//#include "evaluator.hpp"
 #include "searcher.hpp"
+#include "tbprobe.h"
 #include "io.hpp"
 #include <chrono>
 #include <iomanip>
 #include <future>
-//#include <functional>
-//#include <atomic>
-//#include <tbb/task_group.h>
+#include <deque>
+#include <ratio>
+
+constexpr unsigned long long
+operator "" _GB(const unsigned long long value)
+{
+	return value << 30;
+}
+
+constexpr unsigned long long
+operator "" _MB(const unsigned long long value)
+{
+	return value << 20;
+}
 
 using namespace chess;
+using namespace std::literals::chrono_literals;
 
-
-//transposition_table_t t_table(24UL << 30);
-//history_table_t h_table;
-//history_table_t b_table;
-//killer_table_t k_table;
-//std::atomic_uint_fast64_t count(0);
-//std::atomic_uint_fast8_t max_height(0);
-//std::atomic_uint_fast64_t count1(0);
-//std::atomic_uint_fast64_t count2(0);
-//
-//struct environment_t
-//{
-//	transposition_table_t t_table;
-//	history_table_t h_table;
-//	history_table_t b_table;
-//	killer_table_t k_table;
-//	std::atomic_uint_fast64_t count;
-//	std::atomic_uint_fast8_t height;
-//
-//	environment_t(const std::size_t size)
-//	:
-//		t_table(size),
-//		h_table(),
-//		b_table(),
-//		k_table(),
-//		count(),
-//		height()
-//	{
-//	}
-//
-//	void clear()
-//	{
-//		t_table.clear();
-//		h_table.clear();
-//		b_table.clear();
-//		k_table.clear();
-//		count = 0;
-//		height = 0;
-//	}
-//};
-//
-//constexpr bool
-//test_check(const node_t& node, const color_t color) noexcept
-//{
-//	return color == white
-//		? node.occupy<king_tag, white_tag>() & node.attack<black_tag>()
-//		: node.occupy<king_tag, black_tag>() & node.attack<white_tag>();
-//}
-//
-//inline std::uint_fast8_t
-//repetition(const node_t& leaf) noexcept
-//{
-//	std::uint_fast8_t count = 1;
-//	for (const node_t* node = leaf.parent(); node && node->half_moves(); node = node->parent())
-//		count += (leaf.hash() == node->hash());
-//	return count;
-//}
-//
-//score_t
-//search(const node_t& node, const score_t alpha, const score_t beta)
-//{
-//	count++;
-//
-//	score_t best_score = alpha;
-//
-//	const score_t score = evaluator::evaluate(node);
-//	if (score > best_score)
-//	{
-//		if (score >= beta)
-//			return beta;
-//		best_score = score;
-//	}
-//
-//	const move_generator<active_tag> moves(node);
-//
-//	for (const auto move : moves)
-//	{
-//		const node_t succ(node, move);
-//		if (test_check(succ, node.color()))
-//			continue;
-//		const score_t mscore = node.score() * node.color() + moves[move];
-////		if (mscore > best_score)
-////		{
-////			if (mscore >= beta)
-////				return beta;
-////			best_score = mscore;
-////		}
-//		if (mscore + 100 < best_score)
-//			break;
-//		const score_t score = -search(succ, -beta, -best_score);
-//		if (score > best_score)
-//		{
-//			if (score >= beta)
-//				return beta;
-//			best_score = score;
-//		}
-//	}
-//
-//	return best_score;
-//}
-//
-////score_t
-////search(const node_t& node, const score_t alpha, const score_t beta)
-////{
-////	count++;
-////
-////	score_t best_score = alpha;
-////
-////	const score_t score = evaluator::evaluate(node);
-////	if (score > best_score)
-////	{
-////		if (score >= beta)
-////			return beta;
-////		best_score = score;
-////	}
-////
-////	const move_generator<active_tag> moves(node);
-////
-////	for (const auto move : moves)
-////	{
-////		const node_t succ(node, move);
-////		if (test_check(succ, node.color()))
-////			continue;
-////		const score_t score = -search(succ, -beta, -best_score);
-////		if (score > best_score)
-////		{
-////			if (score >= beta)
-////				return beta;
-////			best_score = score;
-////		}
-////	}
-////
-////	return best_score;
-////}
-//
-//template <typename color_tag>
-//bool
-//try_null(const node_t& node) noexcept
-//{
-//	typedef typename color_traits<color_tag>::other other_tag;
-//	return popcnt(node.occupy<color_tag>()) > 3
-//		&& (node.occupy<knight_tag, color_tag>() | node.occupy<bishop_queen_tag, color_tag>() | node.occupy<rook_queen_tag, color_tag>())
-//		&& !(node.attack<other_tag>() & detail::attacker<king_tag, color_tag>::attack(node.occupy<king_tag, color_tag>()));
-//}
-//
-//bool
-//try_null(const node_t& node) noexcept
-//{
-//	return (node.color() == white)
-//		? try_null<white_tag>(node)
-//		: try_null<black_tag>(node);
-//}
-///*
-//score_t
-//search(const node_t& node, const score_t alpha, const score_t beta, const int depth, const int height, const move_t moved)
-//{
-//	if (depth == 0)
-//		return search(node, alpha, beta);
-//
-//	++count;
-//
-//	move_t best_move = {};
-//	score_t search_alpha = alpha;
-//	score_t search_beta = beta;
-//
-//	const transposition_entry_t& entry = t_table[node];
-//	if (entry.hash() == node.hash())
-//	{
-//		if (entry.depth() >= depth)
-//		{
-//			const score_t score = entry.score();
-//			switch (entry.flag())
-//			{
-//			case transposition_entry_t::EXACT:
-//				return score;
-//			case transposition_entry_t::LOWER:
-//				if (score > search_alpha)
-//					search_alpha = score;
-//				break;
-//			case transposition_entry_t::UPPER:
-//				if (score < search_beta)
-//					search_beta = score;
-//				break;
-//			default:
-//				break;
-//			}
-//			if (search_alpha >= search_beta)
-//				return search_beta;
-//		}
-//		best_move = entry.move();
-//	}
-//
-//	const std::uint_fast8_t reduction = 3 + (depth > 6);
-//	if (depth >= reduction && moved != move_t {} && !test_check(node, node.color()) && try_null(node))
-//	{
-//		const square_t en_passant = const_cast<node_t&>(node).flip(0);
-//		const score_t score = -search(node, -search_beta, -search_beta + 1, depth - reduction, height + 1, move_t());
-//		const_cast<node_t&>(node).flip(en_passant);
-//		if (score >= search_beta)
-//			return search_beta;
-//	}
-//
-//	if (best_move == move_t {} && depth > 2)
-//	{
-//		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-//		const transposition_entry_t& entry = t_table[node];
-//		if (entry.hash() == node.hash())
-//			best_move = entry.move();
-//	}
-//
-//	int legal = 0;
-//	score_t best_score = search_alpha;
-//
-//	if (best_move != move_t {})
-//	{
-//		const node_t succ(node, best_move);
-//		if (!test_check(succ, node.color()))
-//		{
-//			legal++;
-//			b_table.put(node, best_move);
-//			const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
-//			if (score > best_score)
-//			{
-//				if (score >= search_beta)
-//				{
-//					t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
-////					h_table.put(node, best_move);
-//					k_table.put(node, best_move, height);
-//					return search_beta;
-//				}
-//				best_score = score;
-//			}
-//		}
-//	}
-//
-//	const move_generator<all_tag> moves(node, h_table, b_table, k_table[height], k_table[height + 2]);
-//	for (auto move : moves)
-//	{
-//		if (move == best_move)
-//			continue;
-//		const node_t succ(node, move);
-//		if (test_check(succ, node.color()))
-//			continue;
-//		legal++;
-//		b_table.put(node, move);
-//		move.index = test_check(succ, succ.color());
-//
-//
-//
-//
-//		score_t eval;
-//		if(legal >= 4             &&
-//		   depth >= 3                       &&
-//		   node[move.to] == no_piece    &&
-//		   node[move.promotion] == 0    &&
-//		   !test_check(node, node.color()) &&
-//		   !move.index)
-//		{
-//			eval = -search(succ, -search_alpha-1,-search_alpha, depth -2, height + 1, move);
-//		}
-//		else
-//			eval = search_alpha +1;
-//
-//		if (eval <= search_alpha)
-//			continue;
-//
-//
-//
-//		score_t score;
-//		score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//		if (score > best_score && score < search_beta)
-//			score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//		if (score > best_score)
-//		{
-//			if (score >= search_beta)
-//			{
-//				t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-////				h_table.put(node, move);
-//				k_table.put(node, move, height);
-//				return search_beta;
-//			}
-//			best_score = score;
-//			best_move = move;
-//		}
-//	}
-//
-//	if (!legal)
-//	{
-//		const score_t score = test_check(node, node.color()) ? -30000 + height : 0;
-//		t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
-//		return score;
-//	}
-//
-//	if (best_score > alpha)
-//	{
-//		t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
-//		h_table.put(node, best_move);
-//	}
-//	else
-//		t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
-//
-//	return best_score;
-//}
-//*/
-///*
-//score_t
-//search(const node_t& node, const score_t alpha, const score_t beta, const int depth, const int height, const move_t moved)
-//{
-//	if (depth == 0)
-//		return search(node, alpha, beta);
-//
-//	++count;
-//
-//	move_t best_move = {};
-//	score_t search_alpha = alpha;
-//	score_t search_beta = beta;
-//
-//	const transposition_entry_t& entry = t_table[node];
-//	if (entry.hash() == node.hash())
-//	{
-//		if (entry.depth() >= depth)
-//		{
-//			const score_t score = entry.score();
-//			switch (entry.flag())
-//			{
-//			case transposition_entry_t::EXACT:
-//				return score;
-//			case transposition_entry_t::LOWER:
-//				if (score > search_alpha)
-//					search_alpha = score;
-//				break;
-//			case transposition_entry_t::UPPER:
-//				if (score < search_beta)
-//					search_beta = score;
-//				break;
-//			default:
-//				break;
-//			}
-//			if (search_alpha >= search_beta)
-//				return search_beta;
-//		}
-//		best_move = entry.move();
-//	}
-//
-//	const bool check = test_check(node, node.color());
-//	const std::uint_fast8_t reduction = 3 + (depth > 6);
-//	if (depth >= reduction && moved != move_t {} && !check && try_null(node))
-//	{
-//		const square_t en_passant = const_cast<node_t&>(node).flip(0);
-//		const score_t score = -search(node, -search_beta, -search_beta + 1, depth - reduction, height + 1, move_t());
-//		const_cast<node_t&>(node).flip(en_passant);
-//		if (score >= search_beta)
-//			return search_beta;
-//	}
-//
-//	if (best_move == move_t {} && depth > 2)
-//	{
-//		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-//		const transposition_entry_t& entry = t_table[node];
-//		if (entry.hash() == node.hash())
-//			best_move = entry.move();
-//	}
-//
-//	std::atomic_int_fast32_t legal(0);
-//	score_t best_score = search_alpha;
-//
-//	if (best_move != move_t {})
-//	{
-//		const node_t succ(node, best_move);
-//		if (!test_check(succ, node.color()))
-//		{
-//			legal++;
-//			b_table.put(node, best_move);
-//			const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
-//			if (score > best_score)
-//			{
-//				if (score >= search_beta)
-//				{
-//					t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
-////					h_table.put(node, best_move);
-//					k_table.put(node, best_move, height);
-//					return search_beta;
-//				}
-//				best_score = score;
-//			}
-//		}
-//	}
-//
-//	const move_generator<all_tag> moves(node, h_table, b_table, k_table[height]);//, k_table[height + 2]);
-//	if (!check && depth > 4 && moves.size() > 8)
-//	{
-//		tbb::task_group_context context;
-//		const auto work = [&](const move_t move)
-//		{
-//			if (move == best_move)
-//				return;
-//			const node_t succ(node, move);
-//			if (test_check(succ, node.color()))
-//				return;
-//			legal++;
-//			b_table.put(node, move);
-//			score_t score;
-//			if (context.is_group_execution_cancelled())
-//				return;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//			if (context.is_group_execution_cancelled())
-//				return;
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//			if (context.is_group_execution_cancelled())
-//				return;
-//			if (score > best_score)
-//			{
-//				best_score = score;
-//				best_move = move;
-//				if (score >= search_beta)
-//				{
-//					context.cancel_group_execution();
-//					t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-//	//				h_table.put(node, move);
-//					k_table.put(node, move, height);
-//				}
-//			}
-//		};
-//
-//		tbb::parallel_for_each(moves.begin(), moves.end(), work, context);
-//		if (best_score >= search_beta)
-//			return search_beta;
-//	}
-//	else
-//	{
-//		for (const auto move : moves)
-//		{
-//			if (move == best_move)
-//				continue;
-//			const node_t succ(node, move);
-//			if (test_check(succ, node.color()))
-//				continue;
-//			legal++;
-//			b_table.put(node, move);
-//			score_t score;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//			if (score > best_score)
-//			{
-//				if (score >= search_beta)
-//				{
-//					t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-//	//				h_table.put(node, move);
-//					k_table.put(node, move, height);
-//					return search_beta;
-//				}
-//				best_score = score;
-//				best_move = move;
-//			}
-//		}
-//	}
-//
-//	if (!legal)
-//	{
-//		const score_t score = check ? -30000 + height : 0;
-//		t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
-//		return score;
-//	}
-//
-//	if (best_score > alpha)
-//	{
-//		t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
-//		h_table.put(node, best_move);
-//	}
-//	else
-//		t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
-//
-//	return best_score;
-//}
-//*/
-///*
-//score_t
-//search(const node_t& node, const score_t alpha, const score_t beta, const int depth, const int height, const move_t moved)
-//{
-//	if (depth == 0)
-//		return search(node, alpha, beta);
-//
-//	++count;
-//
-//	move_t best_move = {};
-//	score_t search_alpha = alpha;
-//	score_t search_beta = beta;
-//
-//	const transposition_entry_t& entry = t_table[node];
-//	if (entry.hash() == node.hash())
-//	{
-//		if (entry.depth() >= depth)
-//		{
-//			const score_t score = entry.score();
-//			switch (entry.flag())
-//			{
-//			case transposition_entry_t::EXACT:
-//				return score;
-//			case transposition_entry_t::LOWER:
-//				if (score > search_alpha)
-//					search_alpha = score;
-//				break;
-//			case transposition_entry_t::UPPER:
-//				if (score < search_beta)
-//					search_beta = score;
-//				break;
-//			default:
-//				break;
-//			}
-//			if (search_alpha >= search_beta)
-//				return search_beta;
-//		}
-//		best_move = entry.move();
-//	}
-//
-//	const bool check = test_check(node, node.color());
-//	const std::uint_fast8_t reduction = 3 + (depth > 6);
-//	if (depth >= reduction && moved != move_t {} && !check && try_null(node))
-//	{
-//		const square_t en_passant = const_cast<node_t&>(node).flip(0);
-//		const score_t score = -search(node, -search_beta, -search_beta + 1, depth - reduction, height + 1, move_t());
-//		const_cast<node_t&>(node).flip(en_passant);
-//		if (score >= search_beta)
-//			return search_beta;
-//	}
-//
-//	if (best_move == move_t {} && depth > 2)
-//	{
-//		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-//		const transposition_entry_t& entry = t_table[node];
-//		if (entry.hash() == node.hash())
-//			best_move = entry.move();
-//	}
-//
-//	std::atomic_int_fast32_t legal(0);
-//	score_t best_score = search_alpha;
-//
-//	if (best_move != move_t {})
-//	{
-//		try
-//		{
-//			const node_t succ(node, best_move);
-//			if (!test_check(succ, node.color()))
-//			{
-//				legal++;
-//				b_table.put(node, best_move);
-//				const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
-//				if (score > best_score)
-//				{
-//					if (score >= search_beta)
-//					{
-//						t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
-//	//					h_table.put(node, best_move);
-//						k_table.put(node, best_move, height);
-//						return search_beta;
-//					}
-//					best_score = score;
-//				}
-//			}
-//		}
-//		catch (...)
-//		{
-//			// Illegal move detected. Could come from type-1 collision in TT. Discard "best" move.
-//			best_move = move_t {};
-//		}
-//	}
-//
-//	const move_generator<all_tag> moves(node, h_table, b_table, k_table[height]);//, k_table[height + 2]);
-//	auto move = moves.begin();
-//	for (;move != moves.end() && std::distance(moves.begin(), move) != 3; ++move)
-//	{
-//		if (*move == best_move)
-//			continue;
-//		const node_t succ(node, *move);
-//		if (test_check(succ, node.color()))
-//			continue;
-//		legal++;
-//		b_table.put(node, *move);
-//		score_t score;
-//		score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, *move); // todo
-//		if (score > best_score && score < search_beta)
-//			score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, *move);
-//		if (score > best_score)
-//		{
-//			if (score >= search_beta)
-//			{
-//				t_table.put(node, *move, search_beta, transposition_entry_t::LOWER, depth);
-////				h_table.put(node, move);
-//				k_table.put(node, *move, height);
-//				return search_beta;
-//			}
-//			best_score = score;
-//			best_move = *move;
-//		}
-//	}
-//
-//	if (!check && depth > 4 && moves.size() > 8)
-//	{
-//		tbb::task_group group;
-//		const auto work = [&](const node_t& succ, const move_t move)
-//		{
-//			score_t score;
-//			if (group.is_canceling())
-//				return;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//			if (group.is_canceling())
-//				return;
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//			if (group.is_canceling())
-//				return;
-//			if (score > best_score)
-//			{
-//				best_score = score;
-//				best_move = move;
-//				if (score >= search_beta)
-//				{
-//					group.cancel();
-//					t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-//	//				h_table.put(node, move);
-//					k_table.put(node, move, height);
-//				}
-//			}
-//		};
-//
-////		for (const auto move : moves)
-//		for (;move != moves.end(); ++move)
-//		{
-//			if (group.is_canceling())
-//				break;
-//			if (*move == best_move)
-//				continue;
-//			const node_t succ(node, *move);
-//			if (test_check(succ, node.color()))
-//				continue;
-//			legal++;
-//			b_table.put(node, *move);
-//
-//			if (group.is_canceling())
-//				break;
-//			group.run(std::bind(work, succ, *move));
-//		}
-//
-//		group.wait();
-//
-//		if (best_score >= search_beta)
-//			return search_beta;
-//	}
-//	else
-//	{
-////		for (const auto move : moves)
-//		for (;move != moves.end(); ++move)
-//		{
-//			if (*move == best_move)
-//				continue;
-//			const node_t succ(node, *move);
-//			if (test_check(succ, node.color()))
-//				continue;
-//			legal++;
-//			b_table.put(node, *move);
-//			score_t score;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, *move); // todo
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, *move);
-//			if (score > best_score)
-//			{
-//				if (score >= search_beta)
-//				{
-//					t_table.put(node, *move, search_beta, transposition_entry_t::LOWER, depth);
-//	//				h_table.put(node, move);
-//					k_table.put(node, *move, height);
-//					return search_beta;
-//				}
-//				best_score = score;
-//				best_move = *move;
-//			}
-//		}
-//	}
-//
-//	if (!legal)
-//	{
-//		const score_t score = check ? -30000 + height : 0;
-//		t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
-//		return score;
-//	}
-//
-//	if (best_score > alpha)
-//	{
-//		t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
-//		h_table.put(node, best_move);
-//	}
-//	else
-//		t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
-//
-//	return best_score;
-//}
-//*/
-//
-//
-//
-//
-//template<typename T>
-//void update_maximum(std::atomic<T>& maximum_value, T const value) noexcept
-//{
-//    T prev_value = maximum_value;
-//    while (prev_value < value && !maximum_value.compare_exchange_weak(prev_value, value));
-//}
-//
-//score_t
-//search(const node_t& node, const score_t alpha, const score_t beta, std::uint_fast8_t depth, const std::uint_fast8_t height, const move_t moved)
-//{
-//	if (height > max_height)
-//		max_height = height;
-//
-//	if (repetition(node) >= 3 || node.half_moves() >= 50) // todo don't parallel
-//		return 0;
-//
-//	const bool check = test_check(node, node.color());
-//	depth += check;
-////	depth += bool(moved.promotion);
-//
-//	if (depth == 0)
-//		return search(node, alpha, beta);
-//
-//	++count;
-//
-//	move_t best_move = {};
-//	score_t search_alpha = alpha;
-//	score_t search_beta = beta;
-////	transposition_entry_t::flag_t flag = transposition_entry_t::LOWER;
-//
-//	const transposition_entry_t& entry = t_table[node];
-//	if (entry.hash() == node.hash())
-//	{
-//		if (entry.depth() >= depth)
-//		{
-//			const score_t score = entry.score();
-//			switch (entry.flag())
-//			{
-//			case transposition_entry_t::EXACT:
-//				return score;
-//			case transposition_entry_t::LOWER:
-//				if (score > search_alpha)
-//					search_alpha = score;
-//				break;
-//			case transposition_entry_t::UPPER:
-//				if (score < search_beta)
-//					search_beta = score;
-//				break;
-//			default:
-//				break;
-//			}
-//			if (search_alpha >= search_beta)
-//				return search_beta;
-//		}
-//		best_move = entry.move();
-////		flag = entry.flag();
-//	}
-//
-//	//if (tt_depth >= depth - R - 1 && tt_score < beta && tt_type & UPPER) skip_null(); // If a plain reduced search without nullmove won't produce a cutoff...
-//
-//	const std::uint_fast8_t reduction = 3 + (depth > 6);
-//	const bool skip = entry.hash() == node.hash() && entry.depth() >= depth - reduction && entry.score() < search_beta && entry.flag() == transposition_entry_t::UPPER;
-//
-//	if (depth >= reduction && moved != move_t {} && !check && try_null(node) && !skip)
-//	{
-//		const square_t en_passant = const_cast<node_t&>(node).flip(0);
-//		const score_t score = -search(node, -search_beta, -search_beta + 1, depth - reduction, height + 1, move_t());
-//		const_cast<node_t&>(node).flip(en_passant);
-//		if (score >= search_beta)
-//			return search_beta;
-//	}
-//
-//	if (best_move == move_t {} && depth > 2)
-//	{
-//		search(node, search_alpha, search_beta, depth - 2, height + 1, best_move);
-//		const transposition_entry_t& entry = t_table[node];
-//		if (entry.hash() == node.hash())
-//			best_move = entry.move();
-//	}
-//
-//	std::atomic_int_fast32_t legal(0);
-//	score_t best_score = search_alpha;
-//
-//	if (best_move != move_t {})
-//	{
-//		try
-//		{
-//			const node_t succ(node, best_move);
-//			if (!test_check(succ, node.color()))
-//			{
-//				legal++;
-//				b_table.put(node, best_move);
-//				const score_t score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, best_move);
-//				if (score > best_score)
-//				{
-//					if (score >= search_beta)
-//					{
-//						t_table.put(node, best_move, search_beta, transposition_entry_t::LOWER, depth);
-//						h_table.put(node, best_move);
-//						k_table.put(node, best_move, height);
-//						return search_beta;
-//					}
-//					best_score = score;
-//				}
-//			}
-//		}
-//		catch (...)
-//		{
-//			// Illegal move detected. Could come from type-1 collision in TT. Discard "best" move.
-//			best_move = move_t {};
-//		}
-//	}
-//
-//	bool prune = false;
-//	score_t scoreX = 0;
-//	const score_t scoreM = node.score() * node.color();
-//	switch (depth)
-//	{
-//	case 3:
-//		if (!check && scoreM + 900 <= best_score)
-//			depth -= 1;
-//		break;
-//	case 2:
-//		scoreX = scoreM + 500;
-//		if (scoreX <= best_score)
-//			prune = true;
-//		break;
-//	case 1:
-//		scoreX = scoreM + 333;
-//		if (scoreX <= best_score)
-//			prune = true;
-//		break;
-//	}
-//
-////	constexpr std::array<score_t, 5> promotion
-////	{
-////		0,
-////		score_of[N] - score_of[P],
-////		score_of[B] - score_of[P],
-////		score_of[R] - score_of[P],
-////		score_of[Q] - score_of[P]
-////	};
-//
-//	const move_generator<all_tag> moves(node, h_table, b_table, k_table[height], k_table[height + 2]);
-//
-//	if (!check && depth > 3 && moves.size() > 8)// && flag != transposition_entry_t::LOWER)
-//	{
-//		tbb::task_group group;
-//		const auto work = [&](const node_t& succ, const move_t move)
-//		{
-//			score_t score;
-//			if (group.is_canceling())
-//				return;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//			if (group.is_canceling())
-//				return;
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//			if (group.is_canceling())
-//				return;
-//			if (score > best_score)
-//			{
-//				best_score = score;
-//				best_move = move;
-//				if (score >= search_beta)
-//				{
-//					group.cancel();
-//					t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-//					h_table.put(node, move);
-//					k_table.put(node, move, height);
-//				}
-//			}
-//		};
-//
-//		const auto work2 = [&](const node_t& succ, const move_t move)
-//		{
-//			const score_t score = -search(succ, -best_score - 1, -best_score, depth - 2, height + 1, move);
-//			if (score <= best_score)
-//				return;
-//			if (group.is_canceling())
-//				return;
-//			work(succ, move);
-//		};
-//
-////		++count1;
-////		bool erfbherje = false;
-//		for (auto move : moves)
-//		{
-//			if (group.is_canceling())
-//				break;
-//			if (move == best_move)
-//				continue;
-//			const node_t succ(node, move);
-//			if (test_check(succ, node.color()))
-//				continue;
-//			legal++;
-//			b_table.put(node, move);
-//
-//			const score_t mscore = moves[move];
-//			move.index = test_check(succ, succ.color());
-//			if (!check && !move.index && prune && mscore + scoreX <= best_score)
-//				continue;
-//
-//			if (group.is_canceling())
-//				break;
-//			if (legal > 4 && depth > 3 && node[move.to] == no_piece && node[move.promotion] == 0 && !check && !move.index)
-//				group.run(std::bind(work2, succ, move));
-//			else if (legal > 2)
-//				group.run(std::bind(work, succ, move));
-//			else
-//				work(succ, move);
-//
-////			if (legal > 2)
-////			{
-//////				erfbherje = true;
-////			}
-////			else
-////			{
-////				work(succ, move);
-////			}
-//		}
-//
-//		group.wait();
-//
-////		count2 += erfbherje;
-//
-//		if (best_score >= search_beta)
-//			return search_beta;
-//	}
-//	else
-//	{
-//		for (auto move : moves)
-//		{
-//			if (move == best_move)
-//				continue;
-//			const node_t succ(node, move);
-//			if (test_check(succ, node.color()))
-//				continue;
-//			legal++;
-//			b_table.put(node, move);
-//
-//			const score_t mscore = moves[move];
-//			move.index = test_check(succ, succ.color());
-//			if (!check && !move.index && prune && mscore + scoreX <= best_score)
-//				continue;
-//
-//			if (legal > 4 && depth > 3 && node[move.to] == no_piece && node[move.promotion] == 0 && !check && !move.index)
-//			{
-//				const score_t score = -search(succ, -best_score - 1, -best_score, depth - 2, height + 1, move);
-//				if (score <= best_score)
-//					continue;
-//			}
-//
-//			score_t score;
-//			score = -search(succ, -best_score - 1, -best_score, depth - 1, height + 1, move); // todo
-//			if (score > best_score && score < search_beta)
-//				score = -search(succ, -search_beta, -best_score, depth - 1, height + 1, move);
-//			if (score > best_score)
-//			{
-//				if (score >= search_beta)
-//				{
-//					t_table.put(node, move, search_beta, transposition_entry_t::LOWER, depth);
-//					h_table.put(node, move);
-//					k_table.put(node, move, height);
-//					return search_beta;
-//				}
-//				best_score = score;
-//				best_move = move;
-//			}
-//		}
-//	}
-//
-//	if (!legal)
-//	{
-//		const score_t score = check ? -30000 + height : 0;
-//		t_table.put(node, move_t {}, score, transposition_entry_t::EXACT, depth);
-//		return score;
-//	}
-//
-//	if (best_score > alpha)
-//	{
-//		t_table.put(node, best_move, best_score, transposition_entry_t::EXACT, depth);
-//		h_table.put(node, best_move);
-//	}
-//	else
-//		t_table.put(node, best_move, best_score, transposition_entry_t::UPPER, depth);
-//
-//	return best_score;
-//}
-//
-////const auto report_output = [](const std::uint_fast8_t iteration, const std::uint_fast8_t max_height, const score_t score, const auto duration, const std::size_t count, const move_t move)//, const iterative_deepening::PV::const_iterator pv_begin, const iterative_deepening::PV::const_iterator pv_end)
 const auto report_output = [](const std::uint_fast8_t iteration, const std::uint_fast8_t max_height, const score_t score, const auto duration, const std::size_t count, const std::string& pv)
 {
 	const auto dt = std::chrono::duration_cast<std::chrono::duration<float, std::ratio<1>>>(duration);
@@ -1027,61 +41,99 @@ const auto report_output = [](const std::uint_fast8_t iteration, const std::uint
 
 	std::cout << pv << std::endl;
 };
-//
-//const auto now = std::chrono::high_resolution_clock::now;
-//
-//void search(const node_t& node, const int depth, const std::chrono::high_resolution_clock::time_point t0)
-//{
-//	score_t score = 0;
-//	for (int iteration = 1; iteration <= depth; ++iteration)
-//	{
-////		const score_t alpha = score - 25;
-////		const score_t beta = score + 25;
-////		score = search(node, alpha, beta, iteration, 0, move_t {});
-////
-////		if (score <= alpha)
-////			score = search(node, -30000, beta, iteration, 0, move_t {});
-////		else if (score >= beta)
-////			score = search(node, alpha, +30000, iteration, 0, move_t {});
-//
-//		score = search(node, -30000, +30000, iteration, 0, move_t {});
-//
-//		report_output(iteration, max_height, score, now() - t0, count, node);
-//
-//		if (-30000 + 100 > score || score > +30000 - 100)
-//			break;
-//	}
-//	std::cout << std::endl;
-//}
-//
-//void test(const node_t& node, const int depth)
-//{
-//	search(node, depth, now());
-//	t_table.clear();
-//	h_table.clear();
-//	b_table.clear();
-//	count = 0;
-//	count1 = 0;
-//	count2 = 0;
-//	max_height = 0;
-//}
 
-void test(transposition_table_t & t_table, const node_t& node, const int depth)
+void test(transposition_table_t & t_table, const node_t& node, const unsigned depth)
 {
 	searcher search(t_table, report_output);
-	const auto x = [&search](const node_t& node, const int depth) {search(node, depth);};
-	const std::future<void> work = std::async(std::launch::async, x, node, 255);//depth);
-	const std::future_status status = work.wait_for(std::chrono::seconds(90));
+	search(node, depth);
+	t_table.clear();
+}
+
+void test(transposition_table_t & t_table, const node_t& node, const std::chrono::seconds& time)
+{
+	searcher search(t_table, report_output);
+	const std::future<void> work = std::async
+	(
+		std::launch::async,
+		[&]() {search(node, 255);}
+	);
+	const std::future_status status = work.wait_for(time);
 	if (status == std::future_status::timeout)
 		search.stop();
 	work.wait();
 	t_table.clear();
-//	std::cout << std::endl;
 }
 
-void foo()
+typedef const std::initializer_list<std::pair<std::string, std::string>> test_suite;
+
+clock::duration
+run_test_suite(transposition_table_t & t_table, const test_suite& suite, const std::chrono::seconds& max_duration)
 {
-	static const std::initializer_list<std::pair<std::string, std::string>> bt2630
+	std::deque<std::pair<bool, clock::duration>> collection;
+
+	clock::duration sum(0);
+
+	const auto run_test = [&collection, &sum, &t_table, &max_duration](const std::string& fen, const std::string& solution)
+	{
+		std::cout << "Solution = " << solution << std::endl;
+
+		const report_t report = [&collection, &solution](const std::uint_fast8_t iteration, const std::uint_fast8_t max_height, const score_t score, const clock::duration duration, const std::size_t count, const std::string& pv)
+		{
+			report_output(iteration, max_height, score, duration, count, pv);
+			collection.emplace_front(pv.find(solution) == 0, duration);
+		};
+
+		const node_t node(fen);
+		clock::duration min = max_duration;
+
+		try
+		{
+			searcher search(t_table, report);
+			const std::future<void> work = std::async
+			(
+				std::launch::async,
+				[&]() {search(node, 255);}
+			);
+			const std::future_status status = work.wait_for(max_duration);
+			if (status == std::future_status::timeout)
+				search.stop();
+			work.wait();
+
+			for (const auto& element : collection)
+			{
+				if (!element.first)
+					break;
+
+				min = element.second;
+			}
+
+			sum += min;
+		}
+		catch (const std::exception& exception)
+		{
+			std::cerr << "Error: " << exception.what() << std::endl;
+		}
+		catch (...)
+		{
+			std::cerr << "Error: Unknown" << std::endl;
+		}
+
+		std::cout << "Result = " << std::chrono::duration_cast<std::chrono::seconds>(min).count() << std::endl;
+		std::cout << "-------------------------------------------------------------------" << std::endl;
+
+		t_table.clear();
+		collection.clear();
+	};
+
+	for (const auto& test : suite)
+		run_test(test.first, test.second);
+
+	return sum;
+}
+
+void run_bt2630(transposition_table_t& t_table)
+{
+	static const test_suite bt2630
 	{
 		{"rq2r1k1/5pp1/p7/4bNP1/1p2P2P/5Q2/PP4K1/5R1R w - - 0 1",					"Nf5xg7"},
 		{"6k1/2b2p1p/ppP3p1/4p3/PP1B4/5PP1/7P/7K w - - 0 1",						"Bd4xb6"},
@@ -1115,49 +167,152 @@ void foo()
 		{"2k5/2p3Rp/p1pb4/1p2p3/4P3/PN1P1P2/1P2KP1r/8 w - - 0 1",					"Pf3-f4"}
 	};
 
-	transposition_table_t t_table(24UL << 30);
-	for (const std::pair<std::string, std::string>& x : bt2630)
-	{
-		std::cout << "Solution = " << x.second << std::endl;
-		test(t_table, node_t(x.first), 14);
-		std::cout << std::endl;
-	}
+	const auto sum = run_test_suite(t_table, bt2630, 90s);
+	const auto elo = 2630 - std::chrono::duration_cast<std::chrono::seconds>(sum / 30).count();
+
+//	BT = 2.630 - Gesamtzeit / 30 (Zeit in Sekunden)
+
+	std::cout << "GZ = " << std::chrono::duration_cast<std::chrono::seconds>(sum).count() << std::endl;
+	std::cout << "Elo = " << elo << std::endl;
+
+//	for (const std::pair<std::string, std::string>& x : bt2630)
+//	{
+//		std::cout << "Solution = " << x.second << std::endl;
+//		test(t_table, node_t(x.first));
+//		std::cout << std::endl;
+//	}
 }
+
+void
+run_bs2830(transposition_table_t& t_table)
+{
+	static const test_suite bs2830
+	{
+		{"4r1k1/p1pb1ppp/Qbp1r3/8/1P6/2Pq1B2/R2P1PPP/2B2RK1 b - - 0 1",				"qd3xf3"},
+		{"7r/2qpkp2/p3p3/6P1/1p2b2r/7P/PPP2QP1/R2N1RK1 b - - 0 1",					"pf7-f5"},
+		{"r1bq1rk1/pp4bp/2np4/2p1p1p1/P1N1P3/1P1P1NP1/1BP1QPKP/1R3R2 b - - 0 1",	"bc8-h3+"},
+		{"8/2kPR3/5q2/5N2/8/1p1P4/1p6/1K6 w - - 0 1",								"Nf5-d4"},
+		{"2r1r3/p3bk1p/1pnqpppB/3n4/3P2Q1/PB3N2/1P3PPP/3RR1K1 w - - 0 1",			"Re1xe6"},
+		{"8/2p5/7p/pP2k1pP/5pP1/8/1P2PPK1/8 w - - 0 1",								"Pf2-f3"},
+		{"8/5p1p/1p2pPk1/p1p1P3/P1P1K2b/4B3/1P5P/8 w - - 0 1",						"Pb2-b4"},
+		{"rn2r1k1/pp3ppp/8/1qNp4/3BnQb1/5N2/PPP2PPP/2KR3R b - - 0 1",				"bg4-h5"},
+		{"r3kb1r/1p1b1p2/p1nppp2/7p/4PP2/qNN5/P1PQB1PP/R4R1K w qk - 0 1",			"Nc3-b1"},
+		{"r3r1k1/pp1bp2p/1n2q1P1/6b1/1B2B3/5Q2/5PPP/1R3RK1 w - - 0 1",				"Bb4-d2"},
+		{"r3k2r/pb3pp1/2p1qnnp/1pp1P3/Q1N4B/2PB1P2/P5PP/R4RK1 w qk - 0 1",			"Pe5xf6"},
+		{"r1b1r1k1/ppp2ppp/2nb1q2/8/2B5/1P1Q1N2/P1PP1PPP/R1B2RK1 w - - 0 1",		"Bc1-b2"},
+		{"rnb1kb1r/1p3ppp/p5q1/4p3/3N4/4BB2/PPPQ1P1P/R3K2R w qkQK - 0 1",			"Ke1-c1"},
+		{"r1bqr1k1/pp1n1ppp/5b2/4N1B1/3p3P/8/PPPQ1PP1/2K1RB1R w - - 0 1",			"Ne5xf7"},
+		{"2r2rk1/1bpR1p2/1pq1pQp1/p3P2p/P1PR3P/5N2/2P2PPK/8 w - - 0 1",				"Kh2-g3"},
+		{"8/pR4pk/1b6/2p5/N1p5/8/PP1r2PP/6K1 b - - 0 1",							"rd2xb2"},
+		{"r1b1qrk1/ppBnppb1/2n4p/1NN1P1p1/3p4/8/PPP1BPPP/R2Q1R1K w - - 0 1",		"Nc5-e6"},
+		{"8/8/4b1p1/2Bp3p/5P1P/1pK1Pk2/8/8 b - - 0 1",								"pg6-g5"},
+		{"r3k2r/pp1n1ppp/1qpnp3/3bN1PP/3P2Q1/2B1R3/PPP2P2/2KR1B2 w qk - 0 1",		"Bc3-e1"},
+		{"r1bqk2r/pppp1Npp/8/2bnP3/8/6K1/PB4PP/RN1Q3R b qk - 0 1",					"ke8-g8"},
+		{"r4r1k/pbnq1ppp/np3b2/3p1N2/5B2/2N3PB/PP3P1P/R2QR1K1 w - - 0 1",			"Nc3-e4"},
+		{"r2qr2k/pbp3pp/1p2Bb2/2p5/2P2P2/3R2P1/PP2Q1NP/5RK1 b - - 0 1",				"qd8xd3"},
+		{"5r2/1p4r1/3kp1b1/1Pp1p2p/2PpP3/q2B1PP1/3Q2K1/1R5R b - - 0 1",				"rf8xf3"},
+		{"8/7p/8/7P/1p6/1p5P/1P2Q1pk/1K6 w - - 0 1",								"Kb1-a1"},
+		{"r5k1/p4n1p/6p1/2qPp3/2p1P1Q1/8/1rB3PP/R4R1K b - - 0 1",					"ra8-f8"},
+		{"1r4k1/1q2pN1p/3pPnp1/8/2pQ4/P5PP/5P2/3R2K1 b - - 0 1",					"qb7-d5"},
+		{"2rq1rk1/pb3ppp/1p2pn2/4N3/1b1PPB2/4R1P1/P4PBP/R2Q2K1 w - - 0 1",			"Pd4-d5"}
+	};
+
+	const auto sum = run_test_suite(t_table, bs2830, 90s);
+	const auto elo = 2830 - std::chrono::duration_cast<std::chrono::seconds>(sum / 90).count() - std::chrono::duration_cast<std::chrono::seconds>(sum / 1320).count() * std::chrono::duration_cast<std::chrono::seconds>(sum / 1320).count();
+
+//	BS = 2.830 - Gesamtzeit / 1,5 - (Gesamtzeit x Gesamtzeit) / (22 * 22) (Zeit in Minuten)
+
+	std::cout << "GZ = " << std::chrono::duration_cast<std::chrono::seconds>(sum).count() << std::endl;
+	std::cout << "Elo = " << elo << std::endl;
+}
+
+void
+run_gs2930(transposition_table_t& t_table)
+{
+	static const test_suite gs2930
+	{
+		{"r3k2r/pp1qn1pp/2p2p2/8/3P4/5N2/PP2QPPP/2R1R1K1 w kq - 0 1",			"Pd4-d5"},
+		{"r1b1kb1r/1p4pp/p2ppn2/8/2qNP3/2N1B3/PPP3PP/R2Q1RK1 w kq - 0 1",		"Rf1xf6"},
+		{"5k2/p1p4R/1pr5/3p1pP1/P2P1P2/2P2K2/8/8 w - - 0 1",					"Kf3-g3"},
+		{"r1bk1n1r/pp1n1q1p/2p2p1R/3p4/3PpN2/2NB2Q1/PPP2PP1/2K1R3 w - - 0 1",	"Bd3xe4"},
+		{"r1b1n2r/1p2q3/1Qp1npk1/4p1p1/P1B1P3/2P1BNP1/1P3PK1/R3R3 b - - 0 1",	"ne6-f4+"},
+		{"1nr3k1/p4pbp/1n1Rp1p1/2p5/4bB2/P4NPB/1P3P1P/R5K1 w - - 0 1",			"Nf3-g5"},
+		{"2rq1rk1/pb3p1p/1p2pbp1/3p3R/2PP4/PP5R/1B3PPP/3Q1BK1 b - - 0 1",		"pd5xc4"},
+		{"r1b2rn1/1ppn3k/p4q1p/3P1p2/1p3Q2/1NNB4/P5PP/4RRK1 w - - 0 1",			"Re1-e6"},
+		{"4k3/7p/1pr1np2/p1p1pNpP/P1P1K1P1/1P2P3/3R1P2/8 w - - 0 1",			"Rd2-d6"},
+		{"2kr3r/1p1b1pp1/p1nRpn1p/q7/5P1B/2N5/PPP3PP/2K1QB1R w - - 0 1",		"Rd6-d1"},
+		{"2r5/R6p/5p2/1k2p1p1/1b1pP1P1/3K1P2/4N2P/8 b - - 0 1",					"bb4-a5"},
+		{"8/4kpbn/p1p3p1/Pp2p2p/1P2Pn2/N1P1BP2/5P1P/5BK1 w - - 0 1",			"Na3xb5"},
+		{"2r2rk1/p1q1bpp1/1p6/n2R4/8/P4N2/1B2QPPP/5RK1 w - - 0 1",				"Bb2xg7"},
+		{"r1b2rk1/p2nbqpp/p3p3/2ppPpB1/N2P1N1P/8/PPP2PP1/R2Q1RK1 w - - 0 1",	"Pc2-c4"}
+	};
+
+	const auto sum = run_test_suite(t_table, gs2930, 120s);
+	const auto elo = 2930 - std::chrono::duration_cast<std::chrono::seconds>(sum / 90).count();
+
+//	BS = 2.830 - Gesamtzeit / 1,5 - (Gesamtzeit x Gesamtzeit) / (22 * 22) (Zeit in Minuten)
+
+	std::cout << "GZ = " << std::chrono::duration_cast<std::chrono::seconds>(sum).count() << std::endl;
+	std::cout << "Elo = " << elo << std::endl;
+}
+
+#include "attacker.hpp"
 
 int main()
 {
 	try
 	{
-//		environment_t environment(24UL << 30);
-		foo();
-/*
-		const node_t node0("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 1 1");
-		const node_t node1("rq2r1k1/5pp1/p7/4bNP1/1p2P2P/5Q2/PP4K1/5R1R w - - 0 1"); // "Nf5xg7"
-		const node_t node2("6k1/2b2p1p/ppP3p1/4p3/PP1B4/5PP1/7P/7K w - - 0 1"); // Bd4xb6
-		const node_t node3("4r1k1/p1pb1ppp/Qbp1r3/8/1P6/2Pq1B2/R2P1PPP/2B2RK1 b - - 0 1");	// "qd3xf3"
-		const node_t node4("7r/2qpkp2/p3p3/6P1/1p2b2r/7P/PPP2QP1/R2N1RK1 b - - 0 1"); // "pf7-f5"
-		const node_t node5("r3kb1r/1p1b1p2/p1nppp2/7p/4PP2/qNN5/P1PQB1PP/R4R1K w qk - 0 1"); // "Nc3-b1"
-		const node_t node6("2b1kb2/8/8/8/8/8/8/4K3 b - - 0 1"); // "..."
-		const node_t node7("4r3/p1p1pPp1/P1P1P1P1/5K2/3p2P1/7p/3P1ppr/3R1nkq w - - 0 1"); // fxe8=N
-		const node_t node8("7K/2p1p1p1/2PpP1Pk/6pP/Pp4P1/8/1P1P4/8 w - - 0 1"); // a5
-		const node_t node9("n1QBq1k1/5p1p/5KP1/p7/8/8/8/8 w - - 0 1"); // Bc7
-		const node_t nodea("r1bq1rk1/pp4bp/2np4/2p1p1p1/P1N1P3/1P1P1NP1/1BP1QPKP/1R3R2 b - - 0 1");//	"bc8-h3+"
-		const node_t nodeb("8/2kPR3/5q2/5N2/8/1p1P4/1p6/1K6 w - - 0 1");//	"Nf5-d4"
-		const node_t nodec("k7/7R/8/8/8/8/8/1R5K w - - 0 1");//	patt
-		test(environment, node0, 14);
-		test(environment, node1, 12);
-		test(environment, node2, 20);
-		test(environment, node3, 14);
-		test(environment, node4, 14);
+		transposition_table_t t_table(16_GB);
+//		transposition_table_t t_table(24_GB);
+//		transposition_table_t t_table(256_MB); // 16GB
+//		run_bt2630(t_table);
+		run_bs2830(t_table);
+//		run_gs2930(t_table);
+
+//		const node_t nodex("r3r1k1/pp1bp2p/1n2q1P1/6b1/1B2B3/5Q2/5PPP/1R3RK1 w - - 0 1");//,				"Bb4-d2"},
+
+//		const node_t node0("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 1 1");
+//		const node_t node1("rq2r1k1/5pp1/p7/4bNP1/1p2P2P/5Q2/PP4K1/5R1R w - - 0 1"); // "Nf5xg7"
+//		const node_t node2("6k1/2b2p1p/ppP3p1/4p3/PP1B4/5PP1/7P/7K w - - 0 1"); // Bd4xb6
+//		const node_t node3("4r1k1/p1pb1ppp/Qbp1r3/8/1P6/2Pq1B2/R2P1PPP/2B2RK1 b - - 0 1");	// "qd3xf3"
+//		const node_t node4("7r/2qpkp2/p3p3/6P1/1p2b2r/7P/PPP2QP1/R2N1RK1 b - - 0 1"); // "pf7-f5"
+//		const node_t node4a("7r/2qp1k2/p3pP2/8/1p2b2r/7P/PPP2QP1/R2N1RK1 w - - 1 3");
+//		const node_t node5("r3kb1r/1p1b1p2/p1nppp2/7p/4PP2/qNN5/P1PQB1PP/R4R1K w qk - 0 1"); // "Nc3-b1"
+//		const node_t node6("2b1kb2/8/8/8/8/8/8/4K3 w - - 0 1"); // "..."
+//		const node_t node7("4r3/p1p1pPp1/P1P1P1P1/5K2/3p2P1/7p/3P1ppr/3R1nkq w - - 0 1"); // fxe8=N
+//		const node_t node8("7K/2p1p1p1/2PpP1Pk/6pP/Pp4P1/8/1P1P4/8 w - - 0 1"); // a5
+//		const node_t node9("n1QBq1k1/5p1p/5KP1/p7/8/8/8/8 w - - 0 1"); // Bc7
+//		const node_t nodea("r1bq1rk1/pp4bp/2np4/2p1p1p1/P1N1P3/1P1P1NP1/1BP1QPKP/1R3R2 b - - 0 1");//	"bc8-h3+"
+//		const node_t nodeb("8/2kPR3/5q2/5N2/8/1p1P4/1p6/1K6 w - - 0 1");//	"Nf5-d4"
+//		const node_t nodec("k7/7R/8/8/8/8/8/1R5K w - - 0 1");//	patt
+//		const node_t noded("r3k2r/pp1n1ppp/1qpnp3/3bN1PP/3P2Q1/2B1R3/PPP2P2/2KR1B2 w kq - 0 1");
+//		const node_t nodee("q2n2k1/1b3rpp/p4n2/3P2B1/8/2P5/4QPPP/3RR1K1 w - - 0 28");
+//		test(t_table, nodex, 120s);//, 14);
+//		test(t_table, nodee, 120s);//, 14);
+//		test(t_table, node1);//, 12);
+//		test(t_table, node2);//, 20);
+//		test(t_table, node3);//, 14);
+//		test(t_table, node4, 120s);//, 14);
+//		test(t_table, node4a, 120s);//, 14);
+//		test(t_table, noded, 120s);//, 14);
 //		test(node5, 14);
 //		test(node6, 50);
 //		test(node7, 30);
 //		test(node8, 30);
 //		test(node9, 30);
 //		test(nodea, 30);
-		test(environment, nodeb, 30);
+//		test(t_table, nodeb);//, 30);
 //		test(environment, nodec, 30);
- */
+
+//		init_tablebases("/home/mike/Downloads/syzygy");
+//		std::cout << TBlargest << std::endl;
+//
+//		int success = 1;
+//		int ret = probe_wdl_table(nodec, &success);
+//
+//		std::cout << success << std::endl;
+//		std::cout << ret << std::endl;
+
 	}
 	catch(const std::exception& exception)
 	{
