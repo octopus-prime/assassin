@@ -1,9 +1,9 @@
-docker rm -f json &>/dev/null || true
-docker run -d -it --name json --privileged octopusprime/test
-docker exec json mkdir json
-docker cp . json:/json
-docker exec json bash -c "
-	cd json; 
+docker rm -f assassin &>/dev/null || true
+docker run -d -it --name assassin --privileged octopusprime/test
+docker exec assassin mkdir assassin
+docker cp . assassin:/assassin
+docker exec assassin bash -c "
+	cd assassin; 
 	bjam toolset=$1 debug -j$2
 "
-docker cp json:/json/bin .
+docker cp assassin:/assassin/bin .
