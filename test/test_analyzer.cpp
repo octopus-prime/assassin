@@ -310,6 +310,104 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(test_backwarded)
+
+BOOST_AUTO_TEST_SUITE(test_white)
+
+const std::initializer_list<node_t> nodes
+{
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/5p2/6p1/p1p3P1/P1P5/7P/1P6/4K3 w - - 0 1"),
+	node_t("4k3/5p2/6p1/p1p3P1/P1P5/7P/1P6/4K3 w - - 0 1"),
+	node_t("4k3/5p2/6p1/p1p3P1/P1P5/7P/1P6/4K3 w - - 0 1"),
+	node_t("4k3/5p2/6p1/p1p3P1/P1P5/7P/1P6/4K3 w - - 0 1"),
+	node_t("4k3/5p2/6p1/p1p3P1/P1P5/7P/1P6/4K3 w - - 0 1"),
+};
+
+const std::initializer_list<bool> backwardeds
+{
+	true,
+	false,
+	false,
+	false,
+	true,
+	false,
+	false,
+	true,
+};
+
+const std::initializer_list<square> squares
+{
+	d3,
+	e4,
+	g3,
+	a4,
+	b2,
+	c4,
+	g5,
+	h3,
+};
+
+BOOST_DATA_TEST_CASE(test, nodes ^ squares ^ backwardeds, node, square, backwarded)
+{
+	typedef detail::pawn_analyser_t<white_tag> analyzer_t;
+	const analyzer_t analyze(node);
+	BOOST_CHECK_EQUAL(analyzer_t::is_backwarded(analyze(square)), backwarded);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(test_black)
+
+const std::initializer_list<node_t> nodes
+{
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/8/3p4/4p1p1/4P1P1/3P4/8/4K3 w - - 0 1"),
+	node_t("4k3/1p6/7p/p1p5/P1P3p1/6P1/5P2/4K3 w - - 0 1"),
+	node_t("4k3/1p6/7p/p1p5/P1P3p1/6P1/5P2/4K3 w - - 0 1"),
+	node_t("4k3/1p6/7p/p1p5/P1P3p1/6P1/5P2/4K3 w - - 0 1"),
+	node_t("4k3/1p6/7p/p1p5/P1P3p1/6P1/5P2/4K3 w - - 0 1"),
+	node_t("4k3/1p6/7p/p1p5/P1P3p1/6P1/5P2/4K3 w - - 0 1"),
+};
+
+const std::initializer_list<bool> backwardeds
+{
+	true,
+	false,
+	false,
+	false,
+	true,
+	false,
+	false,
+	true,
+};
+
+const std::initializer_list<square> squares
+{
+	d6,
+	e5,
+	g5,
+	a5,
+	b7,
+	c5,
+	g4,
+	h6,
+};
+
+BOOST_DATA_TEST_CASE(test, nodes ^ squares ^ backwardeds, node, square, backwarded)
+{
+	typedef detail::pawn_analyser_t<black_tag> analyzer_t;
+	const analyzer_t analyze(node);
+	BOOST_CHECK_EQUAL(analyzer_t::is_backwarded(analyze(square)), backwarded);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }
