@@ -3,7 +3,7 @@
 #
 branches:
   only:
-  - c++17
+  - master
 dist: trusty
 language: cpp
 install:
