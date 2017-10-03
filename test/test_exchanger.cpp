@@ -35,6 +35,9 @@ const std::initializer_list<node_t> nodes
 	node_t("k7/7P/8/8/8/8/8/K7 w - - 0 1"),
 	node_t("kr6/7P/8/8/8/8/8/K7 w - - 0 1"),
 	node_t("kr4r1/7P/8/8/8/8/8/K7 w - - 0 1"),
+
+	node_t("8/8/8/8/8/8/2kpK3/7R b - - 0 1"),
+	node_t("8/8/3r4/8/8/8/2kpK3/7R b - - 0 1"),
 };
 
 const std::initializer_list<move_t> moves
@@ -56,6 +59,9 @@ const std::initializer_list<move_t> moves
 	move_t {h7, h8, 1},
 	move_t {h7, h8, 4},
 	move_t {h7, g8, 4},
+
+	move_t {d2, d1, 4},
+	move_t {d2, d1, 4},
 };
 
 const std::initializer_list<score_t> scores
@@ -75,6 +81,9 @@ const std::initializer_list<score_t> scores
 
 	1_Q - 1_P,
 	1_N - 1_P,
+	-1_P,
+	1_R - 1_P,
+
 	-1_P,
 	1_R - 1_P,
 };
