@@ -9,6 +9,8 @@ project assassin
 		<define>BOOST_ALL_DYN_LINK
 #		<cxxflags>-pg
 #        <cxxflags>-fopenmp
+        <variant>debug:<cxxflags>--coverage
+        <variant>debug:<linkflags>--coverage
 	;
 
 obj hash : source/hash.cpp ;
