@@ -132,8 +132,8 @@ struct generator<pawn_tag, color_tag> {
   static moves_t::iterator generate_promotions(
       const square_t from, const square_t to,
       moves_t::iterator moves) noexcept {
-    for (std::uint8_t promotion = 4; promotion > 0; --promotion)
-      *moves++ = move_t{from, to, promotion};
+    for (std::uint8_t promotion = move_t::Q; promotion > move_t::no; --promotion)
+      *moves++ = move_t{from, to, move_t::promotion_t(promotion)};
     return moves;
   }
 };

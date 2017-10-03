@@ -55,13 +55,13 @@ const std::initializer_list<move_t> moves
 	move_t {g5, f5},
 	move_t {g5, h5},
 
-	move_t {h7, h8, 4},
-	move_t {h7, h8, 1},
-	move_t {h7, h8, 4},
-	move_t {h7, g8, 4},
+	move_t {h7, h8, move_t::Q},
+	move_t {h7, h8, move_t::N},
+	move_t {h7, h8, move_t::Q},
+	move_t {h7, g8, move_t::Q},
 
-	move_t {d2, d1, 4},
-	move_t {d2, d1, 4},
+	move_t {d2, d1, move_t::Q},
+	move_t {d2, d1, move_t::Q},
 };
 
 const std::initializer_list<score_t> scores

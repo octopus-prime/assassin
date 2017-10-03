@@ -64,8 +64,8 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 	{{e2, d3}, {e2, f3}},
 	{{e5, d6}, {e5, f6}},
 	{{e5, d6}, {e5, f6}},
-	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}, {e7, e8, 4}, {e7, e8, 3}, {e7, e8, 2}, {e7, e8, 1}},
-	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}},
+	{{e7, d8, move_t::Q}, {e7, d8, move_t::R}, {e7, d8, move_t::B}, {e7, d8, move_t::N}, {e7, f8, move_t::Q}, {e7, f8, move_t::R}, {e7, f8, move_t::B}, {e7, f8, move_t::N}, {e7, e8, move_t::Q}, {e7, e8, move_t::R}, {e7, e8, move_t::B}, {e7, e8, move_t::N}},
+	{{e7, d8, move_t::Q}, {e7, d8, move_t::R}, {e7, d8, move_t::B}, {e7, d8, move_t::N}, {e7, f8, move_t::Q}, {e7, f8, move_t::R}, {e7, f8, move_t::B}, {e7, f8, move_t::N}},
 
 	{{e7, f6}, {e7, d6}},
 	{{e7, f6}, {e7, d6}},
@@ -113,8 +113,8 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 	{{e2, d3}, {e2, f3}, {e2, e3}},
 	{{e5, d6}, {e5, f6}, {e5, e6}},
 	{{e5, d6}, {e5, f6}},
-	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}, {e7, e8, 4}, {e7, e8, 3}, {e7, e8, 2}, {e7, e8, 1}},
-	{{e7, d8, 4}, {e7, d8, 3}, {e7, d8, 2}, {e7, d8, 1}, {e7, f8, 4}, {e7, f8, 3}, {e7, f8, 2}, {e7, f8, 1}},
+	{{e7, d8, move_t::Q}, {e7, d8, move_t::R}, {e7, d8, move_t::B}, {e7, d8, move_t::N}, {e7, f8, move_t::Q}, {e7, f8, move_t::R}, {e7, f8, move_t::B}, {e7, f8, move_t::N}, {e7, e8, move_t::Q}, {e7, e8, move_t::R}, {e7, e8, move_t::B}, {e7, e8, move_t::N}},
+	{{e7, d8, move_t::Q}, {e7, d8, move_t::R}, {e7, d8, move_t::B}, {e7, d8, move_t::N}, {e7, f8, move_t::Q}, {e7, f8, move_t::R}, {e7, f8, move_t::B}, {e7, f8, move_t::N}},
 
 	{{e7, f6}, {e7, d6}, {e7, e6}, {e7, e5}},
 	{{e7, f6}, {e7, d6}},

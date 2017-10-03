@@ -12,9 +12,11 @@
 namespace chess {
 
 struct move_t {
+  enum promotion_t : std::uint8_t {no, N, B, R, Q};
+
   square_t from;
   square_t to;
-  std::uint8_t promotion;
+  promotion_t promotion;
   union {
     std::uint8_t index;
     std::uint8_t check;
