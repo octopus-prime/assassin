@@ -48,6 +48,22 @@ const std::initializer_list<node_t> nodes
 	node_t("8/4p3/3PPP2/8/8/8/8/8 b - - 0 1"),
 	node_t("8/4p3/3P1P2/4P3/8/8/8/8 b - - 0 1"),
 	node_t("8/8/8/8/3Pp3/5P2/8/8 b - d3 0 1"),
+
+	// rochade
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/R3Kn1R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/R3K1nR w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/R2nK2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/R1n1K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPP1P/Rn2K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1b/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1n/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppb1p/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/p2ppp1p/P2PPPnP/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/3b4/p2ppp1p/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/n2ppp1p/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/8/b2ppp1p/P2PPP1P/R3K2R w KQ - 0 1"),
+	node_t("4k3/8/8/8/b7/p2ppp1p/P2PPP1P/R3K2R w KQ - 0 1"),
 };
 
 BOOST_AUTO_TEST_SUITE(test_active)
@@ -71,6 +87,22 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 	{{e7, f6}, {e7, d6}},
 	{{e7, f6}, {e7, d6}},
 	{{e4, f3}, {e4, d3}},
+
+	// rochade
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, f1}, {h1, f1}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {h1, g1}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, d1}, {a1, d1}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {a1, c1}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {a1, b1}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
 };
 
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
@@ -120,6 +152,22 @@ const std::initializer_list<std::initializer_list<move_t>> movess
 	{{e7, f6}, {e7, d6}},
 	{{e7, f6}, {e7, d6}, {e7, e6}},
 	{{e4, f3}, {e4, d3}, {e4, e3}},
+
+	// rochade
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, g1}},
+	{{e1, d1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, c1}, {e1, g1}},
+	{{e1, d1}, {e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, g1}},
+	{{e1, f1}, {a1, b1}, {a1, c1}, {a1, d1}, {h1, g1}, {h1, f1}, {d2, e3}, {e2, d3}, {e2, f3}, {f2, e3}, {e1, g1}},
 };
 
 BOOST_DATA_TEST_CASE(test, nodes ^ movess, node, moves)
