@@ -65,7 +65,12 @@ public:
 	square_t flip(const square_t en_passant) noexcept;
 
 	bool is_3fold_repetition() const noexcept;
-	bool is_50_moves() const noexcept;
+	constexpr bool is_50_moves() const noexcept;
+
+	template <typename color_tag>
+	constexpr bool is_quiet() const noexcept;
+
+	constexpr bool is_quiet() const noexcept;
 
 private:
 	const node_t* _parent;
@@ -303,9 +308,26 @@ node_t::is_3fold_repetition() const noexcept {
   return count >= 3;
 }
 
-inline bool
+constexpr bool
 node_t::is_50_moves() const noexcept {
 	return _half_moves >= 100;
+}
+
+template <>
+constexpr bool
+node_t::is_quiet<white_tag>() const noexcept {
+	return !(attack<white_tag>() & occupy<black_tag>()) && !(occupy<pawn_tag, white_tag>() & R7);
+}
+
+template <>
+constexpr bool
+node_t::is_quiet<black_tag>() const noexcept {
+	return !(attack<black_tag>() & occupy<white_tag>()) && !(occupy<pawn_tag, black_tag>() & R2);
+}
+
+constexpr bool
+node_t::is_quiet() const noexcept {
+	return color() == white ? is_quiet<white_tag>() : is_quiet<black_tag>();
 }
 
 }  // namespace chess

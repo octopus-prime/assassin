@@ -169,7 +169,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
         default:
           break;
       }
-      if (search_alpha >= search_beta) return search_beta;
+      if (search_alpha >= search_beta) return search_alpha;
     }
     best_move = entry->move;
   }
@@ -207,7 +207,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
     const score_t score = -search(node, -search_beta, -search_beta + 1,
                                   depth - reduction, height + 1, move_t());
     const_cast<node_t&>(node).flip(en_passant);
-    if (score >= search_beta) return search_beta;
+    if (score >= search_beta) return score;
   }
 
   if (best_move == move_t{} && depth > 2 * PLY) {
@@ -237,7 +237,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
                          transposition_table_t::LOWER, depth + ext);
             _h_table.put(node, best_move);
             _k_table.put(node, best_move, height);
-            return search_beta;
+            return score;
           }
           best_score = score;
         }
@@ -353,7 +353,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
 
     group.wait();
 
-    if (best_score >= search_beta) return search_beta;
+    if (best_score >= search_beta) return best_score;
   } else {
     for (auto move : moves) {
       if (move == best_move) continue;
@@ -403,7 +403,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
                        depth + ext);
           _h_table.put(node, move);
           _k_table.put(node, move, height);
-          return search_beta;
+          return score;
         }
         best_score = score;
         best_move = move;
@@ -449,8 +449,12 @@ score_t searcher::search(const node_t& node, const score_t alpha,
   score_t best_score = alpha;
 
   const score_t score = evaluator::evaluate(node);
+
+  if (node.is_quiet())
+	  return score;
+
   if (score > best_score) {
-    if (score >= beta) return beta;
+    if (score >= beta) return score;
     best_score = score;
   }
 
@@ -470,7 +474,7 @@ score_t searcher::search(const node_t& node, const score_t alpha,
     if (test_check(succ, node.color())) continue;
     const score_t score = -search(succ, -beta, -best_score);
     if (score > best_score) {
-      if (score >= beta) return beta;
+      if (score >= beta) return score;
       best_score = score;
     }
   }
