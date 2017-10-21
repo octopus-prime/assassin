@@ -25,22 +25,40 @@ obj analyzer : source/analyzer.cpp ;
 #obj tbprobe : source/tbprobe.cpp ;
 
 exe assassin
-	:
-		hash
-		io
-		node_creator
-		node_executor
-		move_generator
-		exchanger
-		evaluator
-		searcher
-		analyzer
-#		tbprobe
-		source/engine.cpp
-		/site-config//tbb
+    :
+        hash
+        io
+        node_creator
+        node_executor
+        move_generator
+        exchanger
+        evaluator
+        searcher
+        analyzer
+#       tbprobe
+        source/engine.cpp
+        /site-config//tbb
         /site-config//pthread
 #        /site-config//gomp
-	;
+    ;
+
+exe learn
+    :
+        hash
+        io
+        node_creator
+        node_executor
+        move_generator
+        exchanger
+        evaluator
+        searcher
+        analyzer
+#       tbprobe
+        source/learn.cpp
+        /site-config//tbb
+        /site-config//pthread
+#        /site-config//gomp
+    ;
 
 unit-test assassin-test
 	:
